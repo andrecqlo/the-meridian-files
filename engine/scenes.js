@@ -8,7 +8,28 @@ import { load as loadInteraction } from './registry.js';
 /* ---------- documents ---------- */
 
 function renderBlock(block) {
+  if (block.p && block.highlight) {
+    /* The one pre-marked passage in the game: Sam's highlighter, already on
+       the page. It marks where to start digging, never the answer. */
+    const node = el('p');
+    const at = block.p.indexOf(block.highlight);
+    if (at < 0) return el('p', { text: block.p });
+    append(node, block.p.slice(0, at));
+    append(node, el('mark', { class: 'hl', text: block.highlight }));
+    append(node, block.p.slice(at + block.highlight.length));
+    return node;
+  }
   if (block.p) return el('p', { text: block.p });
+  if (block.signature) return el('p', { class: 'doc__signature', text: block.signature });
+  if (block.table) {
+    const table = el('table', { class: 'doc__table' });
+    if (block.table.head) {
+      append(table, el('thead', {}, el('tr', {}, block.table.head.map((cell) => el('th', { scope: 'col', text: cell })))));
+    }
+    append(table, el('tbody', {}, block.table.rows.map((cells) => el('tr', {},
+      cells.map((cell, index) => el(index === 0 ? 'th' : 'td', index === 0 ? { scope: 'row', text: cell } : { text: cell }))))));
+    return table;
+  }
   if (block.small) return el('p', { class: 'doc__small', text: block.small });
   if (block.mono) return el('p', { class: 'doc__meta', text: block.mono });
   if (block.quote) return el('blockquote', { class: 'tally-item__quote', text: block.quote });
@@ -30,9 +51,12 @@ export function renderDocument(doc, ctx) {
     'data-doc-id': doc.id,
   });
 
+  if (doc.stamp) {
+    node.dataset.stamped = '1';
+    append(node, el('span', { class: 'doc__stamp', text: doc.stamp }));
+  }
   append(node, el('h3', { class: 'doc__title', text: doc.title }));
   if (doc.meta) append(node, el('p', { class: 'doc__meta', text: doc.meta }));
-  if (doc.stamp) append(node, el('span', { class: 'doc__stamp', text: doc.stamp }));
 
   const body = el('div', { class: 'doc__body' });
   const annotations = doc.annotations || [];
@@ -277,7 +301,7 @@ export function renderDesk(main, ctx) {
 /* ---------- challenge scenes ---------- */
 
 export async function renderChallenge(main, scene, ctx) {
-  append(main, sceneHead(`Case 01 · ${scene.title}`, scene.subtitle || scene.title, null));
+  append(main, sceneHead(`Case 01 · ${scene.title}`, scene.title, scene.subtitle));
 
   const docs = el('div', { class: 'stack' });
   (scene.documents || []).forEach((doc) => append(docs, renderDocument(doc, ctx)));
@@ -292,7 +316,7 @@ export async function renderChallenge(main, scene, ctx) {
 
   const mounted = [];
   for (const config of scene.interactions || []) {
-    const host = el('div', { class: 'card', 'data-interaction': config.type });
+    const host = el('div', { class: 'interaction', 'data-interaction': config.type });
     append(work, host);
     /* eslint-disable no-await-in-loop */
     const mod = await loadInteraction(config.type);
