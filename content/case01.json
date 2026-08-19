@@ -1,0 +1,50 @@
+{
+  "id": "case01",
+  "number": "01",
+  "title": "The Evidence",
+  "teaser": "A senior analyst resigned overnight. The board signs off in 15 minutes.",
+  "locked": false,
+  "durationSeconds": 900,
+  "intro": {
+    "heading": "Case 01: The Evidence",
+    "lines": [
+      "Last night Sam Okafor, the senior analyst behind the Digital First recommendation, resigned. Sam had asked to delay sign-off to re-examine the evidence.",
+      "The programme sponsor refused: “We are not reopening the evidence base the night before the board.”",
+      "Rather than present a case Sam couldn’t stand behind, Sam left.",
+      "This morning there is one email in the team inbox: “I found five problems. I wasn’t allowed to raise them — so I’ve locked them in the attached file. The passphrase is what the evidence is hiding.”",
+      "Attached: READ_BEFORE_SIGNOFF.",
+      "The board meets in 15 minutes."
+    ],
+    "cta": "Open Sam’s desk",
+    "timerNote": "The countdown starts when you open the desk."
+  },
+  "torch": {
+    "drawerLabel": "Desk drawer",
+    "drawerHint": "Something heavy rolls when you pull it open.",
+    "pickUp": "Take the UV torch",
+    "taken": "UV torch",
+    "description": "Sam wrote in ultraviolet ink. Drag the torch across a document, or use Inspect on any document to read what is underneath.",
+    "toggleOn": "Switch torch on",
+    "toggleOff": "Switch torch off",
+    "inspectOn": "Inspect under UV",
+    "inspectOff": "Stop inspecting",
+    "firstUse": "Violet light. Handwriting comes up out of the paper."
+  },
+  "desk": {
+    "title": "Sam’s desk",
+    "subtitle": "Fourth floor, north side. Nobody has touched it.",
+    "objects": [],
+    "file": {
+      "name": "READ_BEFORE_SIGNOFF",
+      "locked": "Three words, stamped one at a time. The evidence has them.",
+      "ready": "Three words. All stamped. Open it.",
+      "route": "case01/file",
+      "slots": [
+        { "word": "V0hP", "track": "c1" },
+        { "word": "SVM=", "track": "c2" },
+        { "word": "TUlTU0lORw==", "track": "c3" }
+      ]
+    }
+  },
+  "scenes": []
+}

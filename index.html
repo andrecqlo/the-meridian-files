@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Meridian Files</title>
+<meta name="description" content="An investigation game for teams. One screen, 15 minutes.">
+<meta name="colour-scheme" content="dark">
+<meta name="color-scheme" content="dark">
+<link rel="stylesheet" href="assets/app.css">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="chrome" id="chrome" hidden>
+  <div class="chrome__left">
+    <button class="btn btn--quiet" type="button" id="btn-back" hidden>
+      <span aria-hidden="true">←</span> <span id="btn-back-label">Desk</span>
+    </button>
+    <p class="chrome__case" id="chrome-case">Case 01</p>
+  </div>
+
+  <div class="chrome__timer" id="timer" data-level="calm">
+    <span class="chrome__timer-value" id="timer-value">15:00</span>
+    <span class="chrome__timer-note" id="timer-note">to sign-off</span>
+  </div>
+
+  <div class="chrome__right">
+    <button class="btn btn--torch" type="button" id="btn-torch" hidden aria-pressed="false">
+      <span class="btn__dot" aria-hidden="true"></span> Torch
+    </button>
+    <button class="btn btn--quiet" type="button" id="btn-sound" aria-pressed="false">Sound off</button>
+  </div>
+</header>
+
+<main id="main" tabindex="-1"></main>
+
+<div class="torch-beam" id="torch-beam" hidden aria-hidden="true"></div>
+<p class="visually-hidden" id="live-region" role="status" aria-live="polite"></p>
+<div class="toast-rail" id="toast-rail" aria-hidden="true"></div>
+
+<noscript>
+  <p class="noscript">This is an interactive game and needs JavaScript switched on.</p>
+</noscript>
+
+<script type="module" src="engine/app.js"></script>
+</body>
+</html>
