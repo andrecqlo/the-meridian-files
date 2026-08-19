@@ -1088,5 +1088,164 @@
       "submitLabel": "Send to the board",
       "expiryNote": "The meeting has started. Your answer goes as written."
     }
+  },
+  "debrief": {
+    "title": "Debrief",
+    "untimedNote": "The clock has stopped. This part isn’t timed.",
+    "tally": {
+      "heading": "Sam found five problems.",
+      "scoreTemplate": "You found {n} of 5.",
+      "foundLabel": "Found",
+      "missedLabel": "Missed",
+      "items": [
+        {
+          "id": "frame",
+          "name": "The sampling frame",
+          "found": "The invitation went out by email. 9,214 registered customers were never asked.",
+          "missed": "The invitation went out by email only. 9,214 of 51,214 registered customers had no usable email address, so they were outside the survey before the first question."
+        },
+        {
+          "id": "aggregation",
+          "name": "The aggregation",
+          "found": "81% was true of the pilot’s mix of people and misleading about the service’s.",
+          "missed": "Reweighted to the service’s case-complexity mix, the pilot scores 73% — below the 76% of the service it was going to replace."
+        },
+        {
+          "id": "assumptions",
+          "name": "The unsupported assumptions",
+          "found": "Two claims in the impact assessment rested on nothing.",
+          "missed": "Two claims — removes travel, automated translation — traced back to another assumption and a vendor brochure."
+        },
+        {
+          "id": "prevalence",
+          "name": "The 3%",
+          "found": "7,200 people a year, six times the handling time, higher cost of failure.",
+          "missed": "The 3% is 7,200 people a year, taking six times as long, with more to lose when it fails. Rare is not the same as unimportant."
+        },
+        {
+          "id": "priya",
+          "name": "What happened to Priya",
+          "found": "Her point was rephrased into a question she hadn’t asked, then parked.",
+          "missed": "The one you missed. She raised it in the workshop and the minutes recorded it as “noted and addressed”. Her actual sentence:",
+          "missedQuote": "My concern is the people who have never used the digital service — not the ones using it more."
+        }
+      ],
+      "closingLine": "The sponsor parked Sam. The workshop parked Priya. The first voice parked was Mrs Calder’s letter."
+    },
+    "chain": {
+      "title": "How it happened",
+      "links": [
+        "Email-only invitation",
+        "9,214 never asked",
+        "Pilot recruited from respondents",
+        "Complexity mix 62 / 28 / 10",
+        "81%"
+      ],
+      "caption": "Nobody falsified anything. One distribution decision did all of this."
+    },
+    "reveal": {
+      "heading": "What you just did has a name.",
+      "body": "What you just did has a name. You checked who the evidence represented, whose challenge was heard, what the averages hid, which claims were assumptions, and whether a small group still mattered. That is equity, diversity and inclusion — not as a lens applied after the analysis, but as part of doing rigorous analysis at all. Most training asks people to spot the obvious. You just did the hard version.",
+      "coda": "The gap didn’t run along any protected characteristic. It ran along a contact-preference field — the mundane operational variables are where exclusion usually rides, because they correlate with everything the survey thought it had covered."
+    },
+    "blindSpot": {
+      "title": "The Blind Spot Check",
+      "subtitle": "Five questions for the next set of evidence that lands on your desk.",
+      "questions": [
+        "Who might be missing?",
+        "Whose voices shaped the evidence?",
+        "What might the headline hide?",
+        "Who could experience this differently?",
+        "What are we assuming?"
+      ]
+    },
+    "sectors": {
+      "title": "Where does this live in your world?",
+      "instruction": "Pick the closest. Five minutes of conversation, then take the memo.",
+      "options": [
+        {
+          "id": "engineering",
+          "label": "Engineering",
+          "prompts": [
+            "When did we last ship something tested only on users who could already use the old thing?",
+            "Whose failure cases never reach us because they gave up before anything got logged?",
+            "Which of our defaults quietly assume a device, a connection, or a level of confidence?"
+          ]
+        },
+        {
+          "id": "finance",
+          "label": "Finance",
+          "prompts": [
+            "Which of our headline savings depend on the simplest cases behaving like everyone else?",
+            "What does our business case count as a cost, and whose time is invisible in it?",
+            "When a number improves, do we check whether the population behind it changed?"
+          ]
+        },
+        {
+          "id": "frontline",
+          "label": "Frontline",
+          "prompts": [
+            "Who has stopped coming to us, and would we notice if they had?",
+            "Which problems do we solve so routinely that they never get recorded as problems?",
+            "When we say a change went well, whose experience are we describing?"
+          ]
+        },
+        {
+          "id": "operations",
+          "label": "Operations",
+          "prompts": [
+            "Which parts of our process only work if nothing else in someone’s life goes wrong?",
+            "What do we treat as an edge case that is somebody’s ordinary week?",
+            "Where does an exception take six times as long, and who ends up in that queue?"
+          ]
+        },
+        {
+          "id": "other",
+          "label": "Other",
+          "prompts": [
+            "What was the last decision where the evidence described a narrower group than the decision affected?",
+            "Whose challenge in a meeting got written up as agreement?",
+            "Which of our confident numbers would move if we asked who was not counted?"
+          ]
+        }
+      ]
+    },
+    "memo": {
+      "title": "Your decision memo",
+      "instruction": "One page, generated from what you found. Take it into the real meeting.",
+      "copyLabel": "Copy memo",
+      "copiedLabel": "Copied",
+      "downloadLabel": "Download .md",
+      "filename": "meridian-case01-decision-memo.md",
+      "heading": "Meridian — Case 01 decision memo",
+      "sections": {
+        "sampling": "Sampling frame",
+        "aggregation": "Aggregation",
+        "claims": "Claims flagged as unsupported",
+        "recommendation": "Recommendation",
+        "justification": "Justification, as written in the room",
+        "blindSpot": "The Blind Spot Check",
+        "prompts": "Discussion prompts"
+      },
+      "lines": {
+        "sampling": {
+          "found": "The survey invitation was distributed by email only, to the 42,000 registered users with an email address on file. 9,214 of 51,214 registered customers had no usable email address and were never invited.",
+          "missed": "Not established during the investigation."
+        },
+        "aggregation": {
+          "found": "Reported pilot satisfaction 81%. Reweighted to the service’s case-complexity mix (35 / 40 / 25) using the same per-segment scores, the pilot scores 73%. The current service scores 76%.",
+          "missed": "Not established during the investigation."
+        },
+        "claimsNone": "None flagged.",
+        "recommendationNone": "No recommendation recorded.",
+        "justificationNone": "No justification recorded.",
+        "revisedNote": "Revised saving after the benefits-model correction: {revised}."
+      },
+      "footer": "Generated during The Meridian Files, Case 01. Figures are from the case materials."
+    },
+    "next": {
+      "title": "Case 02 — coming soon",
+      "text": "The Replay. Someone just resigned. The record wipes at midnight."
+    }
   }
 }
