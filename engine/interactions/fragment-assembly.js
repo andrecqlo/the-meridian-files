@@ -145,11 +145,11 @@ export function mount(host, config, ctx) {
         renderSolved();
         return;
       }
-      wrongCount += 1;
       ctx.audio.play('wrong');
       ctx.hints.stumble(config.track);
       feedback.dataset.tone = 'bad';
       feedback.textContent = config.wrongResponses[wrongCount % config.wrongResponses.length];
+      wrongCount += 1;
     });
     append(workHost, el('div', { class: 'fragment-actions' }, [submit, feedback]));
   }

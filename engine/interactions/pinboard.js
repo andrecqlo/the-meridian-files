@@ -225,11 +225,11 @@ export function mount(host, config, ctx) {
     const claim = config.claims.find((entry) => entry.id === claimId);
     if (!claim) return;
     if (claim.evidence !== evidenceId) {
-      wrongCount += 1;
       ctx.audio.play('wrong');
       ctx.hints.stumble(config.track);
       const pool = config.wrongLinkResponses;
       say(pool[wrongCount % pool.length], 'bad');
+      wrongCount += 1;
       return;
     }
     links[claimId] = evidenceId;

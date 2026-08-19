@@ -1008,5 +1008,85 @@
         "Read the minutes again. Under the light."
       ]
     }
-  ]
+  ],
+  "final": {
+    "lock": {
+      "title": "READ_BEFORE_SIGNOFF",
+      "subtitle": "Encrypted. Three words.",
+      "prompt": "Enter the passphrase",
+      "placeholder": "Three words",
+      "submitLabel": "Unlock",
+      "help": "Spacing, hyphens and capitals don’t matter.",
+      "incomplete": "The lock won’t turn until all three words are stamped.",
+      "answerDigest": "1467f6f16e424c425e577f726ef59619e382f0eed872059c2a135b1c213b5848",
+      "stampWrong": "NOT YET",
+      "wrongResponses": [
+        "The lock holds.",
+        "Three words. You stamped them yourself.",
+        "They’re on the front of the file."
+      ]
+    },
+    "memo": {
+      "title": "Unsent — draft",
+      "meta": "From: S. Okafor · To: the team · Never sent",
+      "paragraphs": [
+        "I won’t be in the room, so this is the last useful thing I can do.",
+        "The survey is good work about the wrong frame. 4,812 people answered honestly. The invitation went out by email, to the 42,000 registered users with an email address on file — so 9,214 customers were outside it before the first question. The confidence interval is real. It is an interval around the wrong population.",
+        "The pilot’s 81% is also real. The pilot was recruited from people who answered that survey and then opted in, so it is a true statement about a population weighted heavily towards the simplest cases. Put our actual mix of case complexity through the same per-group scores and the figure lands at 73 — under the service it was going to replace. Age doesn’t do this. We already weighted for age. Complexity was never on the list.",
+        "The impact assessment makes five claims. Two of them are assumptions in a suit. One leads to another assumption. One leads to a brochure.",
+        "And the 3% we keep calling minor is 7,200 people a year, taking six times as long, usually because more than one thing is going wrong at once.",
+        "One customer wrote to us about this. One. Most people who are left out never write in.",
+        "— S.O."
+      ]
+    },
+    "decision": {
+      "title": "DECISION REQUIRED",
+      "instruction": "The board needs one recommendation. Nothing here is marked correct.",
+      "options": [
+        {
+          "id": "A",
+          "title": "Proceed nationally with Digital First",
+          "detail": "Projected saving £4.2m. Evidence gaps remain.",
+          "saving": 4200000,
+          "assisted": false
+        },
+        {
+          "id": "B",
+          "title": "Extend the pilot six months",
+          "detail": "Cost £1.1m. Better evidence, delayed benefits.",
+          "saving": -1100000,
+          "assisted": false
+        },
+        {
+          "id": "C",
+          "title": "Digital First with assisted channels maintained",
+          "detail": "Projected saving £2.9m.",
+          "saving": 2900000,
+          "assisted": true
+        },
+        {
+          "id": "D",
+          "title": "Segment the operating model",
+          "detail": "Digital-first where evidenced; assisted pathway for identified higher-complexity needs. Projected saving £3.4m. Needs further design.",
+          "saving": 3400000,
+          "assisted": true
+        }
+      ]
+    },
+    "twist": {
+      "banner": "NEW INFORMATION RECEIVED",
+      "body": "Finance has found an error in the benefits model. Any option maintaining an assisted pathway saves a further £900,000 less.",
+      "adjustment": -900000,
+      "seconds": 90,
+      "clockLabel": "before the board is called to order",
+      "holdLabel": "Holding",
+      "switchLabel": "Switch to this option",
+      "revisedLabel": "Revised saving",
+      "question": "Why are you holding or changing?",
+      "placeholder": "One sentence.",
+      "note": "Recorded as written. Nobody marks this.",
+      "submitLabel": "Send to the board",
+      "expiryNote": "The meeting has started. Your answer goes as written."
+    }
+  }
 }
