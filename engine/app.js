@@ -160,19 +160,33 @@ function boot(series) {
   /* Sam's notes surface here. Tiers 1 and 2 arrive as marginalia that need the
      torch; tier 3 is plain text, because by then nobody should be stuck. */
   ctx.mountHints = function mountHints(scene, host) {
-    const tracks = [scene.track].concat(scene.trackSecondary ? [scene.trackSecondary] : []);
-    ctx.activeTracks = tracks.filter(Boolean);
     const sets = {
       [scene.track]: scene.hints || [],
       [scene.trackSecondary]: scene.hintsSecondary || [],
     };
-    ctx.activeTracks.forEach((track) => {
+
+    function begin(track) {
+      if (!track || ctx.activeTracks.indexOf(track) >= 0) return;
+      ctx.activeTracks.push(track);
       hints.begin(track, (tier) => {
         const text = (sets[track] || [])[tier - 1];
         if (!text) return;
         renderHint(host, track, tier, text, ctx);
       });
-    });
+    }
+
+    ctx.activeTracks = [];
+    begin(scene.track);
+
+    /* A second track only opens once its gate is met, so hints for a hidden
+       thread never point at it before the player could have reached it. */
+    ctx.startSecondaryHints = () => {
+      if (!scene.trackSecondary) return;
+      const gate = scene.trackSecondaryWhen;
+      if (gate && store.get('progress', {})[gate] !== true) return;
+      begin(scene.trackSecondary);
+    };
+    ctx.startSecondaryHints();
   };
 
   ctx.render = function render() {

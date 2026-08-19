@@ -1035,3 +1035,18 @@ mark.hl {
   text-transform: uppercase; color: var(--muted); margin: 0 0 2px;
 }
 .doc--note-card .uv-note { margin: 6px 0 0; }
+
+/* ---------- pinboard extras ---------- */
+
+.board__head {
+  font-family: var(--mono); font-size: 0.7em; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--muted); margin: 18px 0 12px;
+}
+.claim__linked { font-family: var(--mono); font-size: 0.72em; color: var(--muted-ink); }
+.claim__actions { margin: -4px 0 6px; }
+.samnote--claim { color: var(--uv-text); margin: -2px 0 10px; font-size: 0.82em; }
+.evidence__wrap { margin: -6px 0 4px; display: grid; justify-items: start; gap: 4px; }
+.board__string--supported { stroke: var(--ok-text); }
+.board__string--plausible { stroke: var(--manila); stroke-dasharray: 7 5; }
+.board__string--unsupported { stroke: var(--stamp); stroke-dasharray: 3 6; }
+.fragment-actions { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }

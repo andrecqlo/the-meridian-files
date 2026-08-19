@@ -59,6 +59,15 @@
         "route": "case01/pilot",
         "track": "c2",
         "stamps": "IS"
+      },
+      {
+        "id": "pinboard",
+        "icon": "pinboard",
+        "label": "Pinboard",
+        "caption": "The impact assessment, pinned up.",
+        "route": "case01/pinboard",
+        "track": "c3",
+        "stamps": "MISSING"
       }
     ],
     "file": {
@@ -791,6 +800,212 @@
         "The pilot’s 81% isn’t wrong. Ask who was in the pilot.",
         "Three dimensions. Two of them are already handled — check what the survey said it weighted for.",
         "Case complexity. Drag the mix to the service reference and read the big figure."
+      ]
+    },
+    {
+      "id": "pinboard",
+      "route": "case01/pinboard",
+      "kind": "challenge",
+      "title": "Pinboard",
+      "subtitle": "Digital First — impact assessment",
+      "track": "c3",
+      "trackSecondary": "c3b",
+      "trackSecondaryWhen": "c3",
+      "documents": [],
+      "interactions": [
+        {
+          "type": "pinboard",
+          "id": "board",
+          "track": "c3",
+          "findings": [
+            "assumptions",
+            "prevalence"
+          ],
+          "title": "Impact assessment — claims and evidence",
+          "instruction": "Run a string from each claim to whatever holds it up. Select a claim, then select a piece of evidence. Then flag anything that isn’t supported.",
+          "claimsLabel": "Claims on the board",
+          "evidenceLabel": "Evidence tray",
+          "unstrungLabel": "No string yet",
+          "moreLabel": "Open",
+          "lessLabel": "Close",
+          "flagLabel": "Flag: not supported",
+          "flaggedLabel": "Flagged: not supported",
+          "linkedResponse": "Strung.",
+          "flagPromptResponse": "All five strung. Now say which ones don’t hold.",
+          "flagWrongResponse": "That one has something behind it. Look for the two that don’t.",
+          "verdicts": {
+            "supported": "Supported",
+            "plausible": "Plausible — needs testing",
+            "unsupported": "Not supported"
+          },
+          "claims": [
+            {
+              "id": "cl-confidence",
+              "text": "Low digital confidence users — negative impact, support required",
+              "evidence": "ev-tickets",
+              "verdict": "supported",
+              "note": "This one holds. Somebody did the work here."
+            },
+            {
+              "id": "cl-rural",
+              "text": "Rural users — neutral (96% broadband coverage)",
+              "evidence": "ev-coverage",
+              "verdict": "plausible",
+              "note": "Coverage is what’s available. Not what’s affordable, reachable, or switched on."
+            },
+            {
+              "id": "cl-disabled",
+              "text": "Disabled users — positive (removes travel)",
+              "evidence": "ev-assume-travel",
+              "verdict": "unsupported",
+              "note": "An assumption, sitting on another assumption, sitting on nothing."
+            },
+            {
+              "id": "cl-language",
+              "text": "Non-English speakers — positive (automated translation)",
+              "evidence": "ev-brochure",
+              "verdict": "unsupported",
+              "note": "That’s a sales brochure. Nobody tested whether anyone could use it."
+            },
+            {
+              "id": "cl-volume",
+              "text": "97% of transactions complete digitally — assisted service is minor",
+              "evidence": "ev-assisted",
+              "verdict": "supported",
+              "note": "The number is right and the word ‘minor’ is doing a lot of work. Open the analysis."
+            }
+          ],
+          "evidence": [
+            {
+              "id": "ev-tickets",
+              "label": "Pilot support tickets, weeks 1–14",
+              "detail": "412 tickets from 612 pilot users. 68% came from people who described themselves as not confident online. Resolution needed a phone call in 71% of cases."
+            },
+            {
+              "id": "ev-coverage",
+              "label": "Broadband coverage map, 2025",
+              "detail": "96% of premises have a connection available at the postcode.",
+              "annotation": "Available at the postcode. Not in the house, not affordable, not switched on."
+            },
+            {
+              "id": "ev-assume-travel",
+              "label": "Assumption: travel is the main barrier",
+              "detail": "Source: workshop discussion, item 3.",
+              "behind": "ev-assume-access",
+              "behindNote": "There’s another card pinned behind this one."
+            },
+            {
+              "id": "ev-assume-access",
+              "label": "Assumption: the online forms work with assistive technology",
+              "detail": "Source: not stated.",
+              "hidden": true,
+              "terminal": true,
+              "behindNote": "Nothing behind this one. That’s the wall."
+            },
+            {
+              "id": "ev-brochure",
+              "label": "Vendor brochure — automated translation module",
+              "detail": "“Supports 40 languages.” Marketing material. No usability testing referenced anywhere in the pack."
+            },
+            {
+              "id": "ev-assisted",
+              "label": "Assisted service volume analysis",
+              "finding": "prevalence",
+              "detail": "7,200 people a year. Average handling time is six times the digital equivalent. Most present with more than one barrier at once, and the cost of failure to them is higher — missed deadlines, repeat visits, escalation."
+            },
+            {
+              "id": "ev-business-case",
+              "label": "Digital First outline business case",
+              "detail": "Financial appraisal. Contains no user evidence."
+            },
+            {
+              "id": "ev-staff-survey",
+              "label": "Staff engagement survey, Q3",
+              "detail": "Staff sentiment about the change programme. Not about service users."
+            }
+          ],
+          "wrongLinkResponses": [
+            "That doesn’t hold this claim up.",
+            "Wrong string. Read what the claim actually promises.",
+            "That’s a different question again."
+          ],
+          "successTitle": "MISSING",
+          "successBody": "Five claims strung, two of them resting on nothing. Board pack page 11, signed off by four people.",
+          "successNote": "Prevalence is not materiality."
+        },
+        {
+          "type": "fragment-assembly",
+          "id": "minutes",
+          "track": "c3b",
+          "finding": "priya",
+          "gatedBy": "c3",
+          "title": "Workshop minutes",
+          "gatedNote": "Pinned in the corner, behind the board. Finish the board first.",
+          "lockedNote": "One paragraph. Put the light on it.",
+          "instruction": "Select a fragment, then select the slot it belongs in. Select a filled slot to clear it.",
+          "document": {
+            "id": "minutes",
+            "kind": "paper",
+            "title": "Digital access workshop — minutes (extract)",
+            "meta": "Item 4 · 22 Oct 2025",
+            "blocks": [
+              {
+                "p": "Item 4. Concerns regarding digital access were noted and addressed. The group agreed to proceed."
+              }
+            ],
+            "annotations": [
+              {
+                "id": "a-minutes",
+                "after": 0,
+                "reveals": "fragments:open",
+                "text": "Not what happened. P. interrupted twice. Tom rephrased her point into a question she hadn’t asked, then answered that one. “Parked.” Her actual words, before it got tidied:"
+              }
+            ]
+          },
+          "fragments": [
+            {
+              "id": "f4",
+              "text": "— not the ones"
+            },
+            {
+              "id": "f1",
+              "text": "My concern is the people"
+            },
+            {
+              "id": "f5",
+              "text": "using it more."
+            },
+            {
+              "id": "f3",
+              "text": "the digital service"
+            },
+            {
+              "id": "f2",
+              "text": "who have never used"
+            }
+          ],
+          "submitLabel": "That’s what she said",
+          "incompleteNote": "Every slot needs a fragment.",
+          "answerDigest": "c9f7d2bf06bb449a79650b90c9a3c6e05eaddc13f868733283a536af3911eb7b",
+          "wrongResponses": [
+            "Not her words. Read it back out loud.",
+            "Close. She was talking about people who aren’t there at all.",
+            "Try again. It turns on one word: never."
+          ],
+          "sentenceDisplay": "My concern is the people who have never used the digital service — not the ones using it more.",
+          "successTitle": "Her sentence, restored",
+          "successNote": "‘Noted’ is not ‘heard’."
+        }
+      ],
+      "hints": [
+        "Every claim on that board is a promise that something backs it up.",
+        "Two strings don’t reach anything. Follow the travel claim, and the translation one.",
+        "Flag ‘removes travel’ and ‘automated translation’. One leads to another assumption; the other leads to a brochure."
+      ],
+      "hintsSecondary": [
+        "",
+        "",
+        "Read the minutes again. Under the light."
       ]
     }
   ]
