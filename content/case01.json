@@ -50,6 +50,15 @@
         "route": "case01/laptop",
         "track": "c1",
         "stamps": "WHO"
+      },
+      {
+        "id": "pilot",
+        "icon": "folder",
+        "label": "Pilot data pack",
+        "caption": "Bound, tabbed, left open at the summary.",
+        "route": "case01/pilot",
+        "track": "c2",
+        "stamps": "IS"
       }
     ],
     "file": {
@@ -537,6 +546,251 @@
         "Start with the letter. She’s telling you what to check.",
         "Compare what the survey says it covered with the four things her file says about her.",
         "She prefers post. Find who the invitation was actually sent to — then select everyone the email could never reach."
+      ]
+    },
+    {
+      "id": "pilot",
+      "route": "case01/pilot",
+      "kind": "challenge",
+      "title": "Pilot data pack",
+      "subtitle": "Evaluation summary and reweighting workbench",
+      "track": "c2",
+      "documents": [
+        {
+          "id": "pilot-pack",
+          "kind": "paper",
+          "title": "Digital First pilot — evaluation summary",
+          "meta": "Three regions · 14 weeks · reported 06 Feb 2026",
+          "stamp": "EVIDENCE",
+          "blocks": [
+            {
+              "stats": [
+                {
+                  "value": "76%",
+                  "label": "current service satisfaction"
+                },
+                {
+                  "value": "81%",
+                  "label": "digital pilot satisfaction"
+                }
+              ]
+            },
+            {
+              "p": "Recommendation: proceed to national rollout on the strength of the pilot result."
+            },
+            {
+              "small": "Pilot cohort recruited from survey respondents who opted in (n = 612)."
+            }
+          ],
+          "annotations": [
+            {
+              "id": "a-optin",
+              "after": 2,
+              "text": "Two filters. The door they weren’t shown, and the door they didn’t walk through."
+            }
+          ]
+        }
+      ],
+      "interactions": [
+        {
+          "type": "reweight-workbench",
+          "id": "workbench",
+          "track": "c2",
+          "title": "Reweighting workbench",
+          "instruction": "The pilot’s population differs from the service’s. Find where — and what it’s worth. Satisfaction per group is fixed; the only thing you can move is the mix.",
+          "tabsLabel": "Population dimensions",
+          "readoutLabel": "Recomputed pilot satisfaction",
+          "headline": {
+            "current": 76,
+            "currentLabel": "Current service",
+            "pilot": 81,
+            "pilotLabel": "Digital pilot"
+          },
+          "annotation": {
+            "id": "a-workbench",
+            "text": "You already know which one. The 9,214 told you.",
+            "title": "Workbench — margin"
+          },
+          "tabs": [
+            {
+              "id": "region",
+              "label": "Region",
+              "kind": "static",
+              "columns": [
+                "Region",
+                "Pilot mix",
+                "Service mix",
+                "Pilot satisfaction"
+              ],
+              "rows": [
+                [
+                  "North",
+                  "33%",
+                  "32%",
+                  "81%"
+                ],
+                [
+                  "Central",
+                  "44%",
+                  "45%",
+                  "82%"
+                ],
+                [
+                  "South",
+                  "23%",
+                  "23%",
+                  "80%"
+                ]
+              ],
+              "note": "No imbalance to correct."
+            },
+            {
+              "id": "age",
+              "label": "Age",
+              "kind": "reweight",
+              "fixedLabel": "Pilot satisfaction",
+              "resetLabel": "Reset to the pilot mix",
+              "segments": [
+                {
+                  "id": "a1",
+                  "label": "18–39",
+                  "description": "",
+                  "satisfaction": 82,
+                  "pilotMix": 44,
+                  "realMix": 31
+                },
+                {
+                  "id": "a2",
+                  "label": "40–59",
+                  "description": "",
+                  "satisfaction": 81,
+                  "pilotMix": 37,
+                  "realMix": 41
+                },
+                {
+                  "id": "a3",
+                  "label": "60 and over",
+                  "description": "",
+                  "satisfaction": 79,
+                  "pilotMix": 19,
+                  "realMix": 28
+                }
+              ],
+              "reference": {
+                "title": "Service mix",
+                "source": "Registered users, operational profile"
+              },
+              "pilotReference": {
+                "title": "Pilot mix",
+                "source": "Pilot cohort, n = 612"
+              },
+              "anchors": [
+                {
+                  "id": "age-pilot",
+                  "at": "pilot",
+                  "value": 81
+                },
+                {
+                  "id": "age-real",
+                  "at": "real",
+                  "value": 81,
+                  "note": "Read the tin. Age is on the weighting list. Complexity never was."
+                }
+              ]
+            },
+            {
+              "id": "complexity",
+              "label": "Case complexity",
+              "kind": "reweight",
+              "fixedLabel": "Pilot satisfaction",
+              "resetLabel": "Reset to the pilot mix",
+              "segments": [
+                {
+                  "id": "low",
+                  "label": "Low complexity",
+                  "description": "One straightforward transaction. No support needed.",
+                  "satisfaction": 88,
+                  "pilotMix": 62,
+                  "realMix": 35
+                },
+                {
+                  "id": "medium",
+                  "label": "Medium complexity",
+                  "description": "Several interactions. Occasional support.",
+                  "satisfaction": 73,
+                  "pilotMix": 28,
+                  "realMix": 40
+                },
+                {
+                  "id": "high",
+                  "label": "High complexity",
+                  "description": "Multiple interacting needs. Support expected.",
+                  "satisfaction": 51,
+                  "pilotMix": 10,
+                  "realMix": 25
+                }
+              ],
+              "reference": {
+                "title": "Service mix",
+                "source": "Registered users, operational profile"
+              },
+              "pilotReference": {
+                "title": "Pilot mix",
+                "source": "Pilot cohort, n = 612"
+              },
+              "anchors": [
+                {
+                  "id": "cx-pilot",
+                  "at": "pilot",
+                  "value": 81
+                },
+                {
+                  "id": "cx-real",
+                  "at": "real",
+                  "value": 73,
+                  "finding": "aggregation",
+                  "note": "Now you know why the pilot looked easy. The invitation did the sampling."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "code-entry",
+          "id": "c2-code",
+          "track": "c2",
+          "finding": "aggregation",
+          "label": "Data pack — margin note",
+          "device": "paper",
+          "prompt": "Write the recomputed figure in the margin.",
+          "inputMode": "numeric",
+          "placeholder": "Figure",
+          "submitLabel": "Write it",
+          "answerDigest": "96061e92f58e4bdcdee73df36183fe3ac64747c81c26f6c83aada8d2aabb1864",
+          "targetedResponses": [
+            {
+              "digest": "5316ca1c5ddca8e6ceccfce58f3b8540e540ee22f6180fb89492904051b3d531",
+              "text": "That’s their number. Move the mix."
+            },
+            {
+              "digest": "f74efabef12ea619e30b79bddef89cffa9dda494761681ca862cff2871a85980",
+              "text": "That’s what we have now. I want what we’d get."
+            }
+          ],
+          "wrongResponses": [
+            "You’re still averaging their world, not ours.",
+            "Not that. Match the service mix and read the big figure.",
+            "Three tabs. Only one of them moves the number."
+          ],
+          "successTitle": "IS",
+          "successNote": "81 is true. It’s just not about our customers.",
+          "successBody": "Same pilot, same satisfaction per group. Our mix of people, and the figure lands under the service it was going to replace."
+        }
+      ],
+      "hints": [
+        "The pilot’s 81% isn’t wrong. Ask who was in the pilot.",
+        "Three dimensions. Two of them are already handled — check what the survey said it weighted for.",
+        "Case complexity. Drag the mix to the service reference and read the big figure."
       ]
     }
   ]

@@ -995,3 +995,43 @@ mark.hl {
 .interaction { display: block; }
 .stack > .btn, .interaction > .btn { justify-self: start; }
 .doc[data-stamped] .doc__title, .doc[data-stamped] .doc__meta { padding-right: 130px; }
+
+/* ---------- reweighting workbench ---------- */
+
+.headline {
+  display: flex; align-items: center; gap: clamp(18px, 4vw, 48px);
+  flex-wrap: wrap; margin: 18px 0 6px;
+}
+.headline__pair { display: grid; }
+.headline__value {
+  font-family: var(--mono); font-size: clamp(30px, 3.4vw, 44px); line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.headline__label {
+  font-family: var(--mono); font-size: 0.66em; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted); margin-top: 6px;
+}
+.headline__vs { color: var(--muted); font-family: var(--mono); }
+
+.workbench__panel { padding-top: 20px; }
+.workbench__panel:focus-visible { outline-offset: 6px; }
+.workbench__verdict {
+  font-family: var(--mono); font-size: 1.05em; color: var(--uv-text);
+  border-left: 2px solid var(--uv); padding-left: 14px; margin-top: 16px;
+}
+.doc__table--dark { color: var(--paper); }
+.doc__table--dark th, .doc__table--dark td { border-bottom-color: var(--ink-3); }
+.refcards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 20px; }
+.refcard--quiet {
+  background: transparent; color: var(--muted);
+  border: 1px dashed var(--ink-3);
+}
+.refcard--quiet .refcard__source, .refcard--quiet .refcard__title { color: var(--muted); }
+
+.doc--note-card { padding: 14px 18px; }
+.doc--note-card.doc--has-notes { padding-bottom: 46px; }
+.doc--note-card .doc__title {
+  font-family: var(--mono); font-size: 0.7em; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--muted); margin: 0 0 2px;
+}
+.doc--note-card .uv-note { margin: 6px 0 0; }

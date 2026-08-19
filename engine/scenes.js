@@ -104,6 +104,23 @@ function renderAnnotation(note) {
   });
 }
 
+/* A compact card carrying nothing but marginalia — used for Sam's hint notes
+   and for annotations that belong to an interaction rather than a document.
+   It gets the same Inspect control as a full document, so the torch is never
+   the only way to read what is on it. */
+export function renderNoteCard(title, notes, ctx) {
+  const node = el('article', { class: 'doc doc--screen doc--note-card doc--has-notes' });
+  append(node, el('h4', { class: 'doc__title', text: title }));
+  notes.forEach((note) => append(node, renderAnnotation(note)));
+  append(node, el('span', { class: 'uv-flicker' }));
+  if (ctx.torch.held) append(node, inspectButton(node, ctx));
+  else notes.forEach((note) => {
+    const written = node.querySelector(`[data-note-id="${note.id}"]`);
+    if (written) written.dataset.inspect = '1';
+  });
+  return node;
+}
+
 function inspectButton(docNode, ctx) {
   const button = el('button', {
     type: 'button',

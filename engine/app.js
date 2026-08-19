@@ -278,29 +278,23 @@ async function renderSpecial(path, main, ctx) {
 }
 
 function renderHint(host, track, tier, text, ctx) {
-  const existing = host.querySelector(`[data-hint="${track}-${tier}"]`);
-  if (existing) return;
-  const plain = tier >= 3 || !ctx.torch.held;
-  const doc = el('article', {
-    class: 'doc doc--screen doc--has-notes',
-    'data-hint': `${track}-${tier}`,
-  }, [
-    el('h3', { class: 'doc__title', text: 'A note in the margin' }),
-  ]);
+  if (host.querySelector(`[data-hint="${track}-${tier}"]`)) return;
+  /* Tiers 1 and 2 arrive as marginalia to be found. Tier 3 is plain text:
+     by then nobody should still be stuck. */
+  const plain = tier >= 3;
+  let node;
   if (plain) {
-    append(doc, el('p', { class: 'samnote', text: text }));
+    node = el('article', { class: 'doc doc--screen doc--note-card' }, [
+      el('h4', { class: 'doc__title', text: 'A note in the margin' }),
+      el('p', { class: 'samnote', style: 'margin:0', text }),
+    ]);
   } else {
-    append(doc, el('span', {
-      class: 'uv-note',
-      'data-note-id': `hint-${track}-${tier}`,
-      'data-lit': '0',
-      'data-inspect': '0',
-      text,
-    }));
-    append(doc, el('span', { class: 'uv-flicker' }));
-    doc.dataset.newNote = '1';
+    node = scenes.renderNoteCard('A note in the margin',
+      [{ id: `hint-${track}-${tier}`, text }], ctx);
+    node.dataset.newNote = '1';
   }
-  append(host, doc);
+  node.dataset.hint = `${track}-${tier}`;
+  append(host, node);
   ctx.torch.refresh();
   announce(plain ? `Sam left a note. ${text}` : 'Sam left a note in the margin.');
 }
