@@ -1131,3 +1131,12 @@ mark.hl {
   .desk-object, .scale__fill, .scale__pin, .chain__link, .dot { transition-duration: 200ms; }
   .unlock, .door-open, .memo-open { animation-duration: 260ms; }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .slot--stamping { animation: fade-in 260ms ease-out; }
+}
+
+.doc--bare {
+  background: transparent; border: 0; padding: 0; margin-top: 14px;
+}
+.doc--bare.doc--has-notes { padding-bottom: 46px; }

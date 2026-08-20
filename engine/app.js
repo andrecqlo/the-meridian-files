@@ -169,6 +169,14 @@ function boot(series) {
     }, 6000);
   };
 
+  /* Anything mounted for the current scene, so window listeners and intervals
+     go away when the route does. */
+  ctx.mounted = [];
+  ctx.track = function track(instance) {
+    if (instance && typeof instance.unmount === 'function') ctx.mounted.push(instance);
+    return instance;
+  };
+
   ctx.progress = function progress() {
     if (ctx.activeTracks) ctx.activeTracks.forEach((track) => hints.progress(track));
   };
@@ -235,6 +243,8 @@ function boot(series) {
   /* ---- routing ---- */
 
   const router = createRouter(async (route) => {
+    ctx.mounted.forEach((instance) => instance.unmount());
+    ctx.mounted = [];
     bus.reset();
     hints.endAll();
     ctx.activeTracks = [];
@@ -326,7 +336,7 @@ async function renderSpecial(path, main, ctx) {
   const mod = await load(type);
   const host = el('div', { 'data-interaction': type });
   append(main, host);
-  mod.mount(host, ctx.content.final || {}, ctx);
+  ctx.track(mod.mount(host, ctx.content.final || {}, ctx));
   return true;
 }
 

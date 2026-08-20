@@ -79,15 +79,21 @@ export function renderDocument(doc, ctx) {
   }
 
   if (doc.collapsed) {
+    /* Behind a disclosure: the paper card is the wrapper, so the document
+       inside it drops its own background and padding. */
+    node.classList.add('doc--bare');
+    /* The disclosure summary is already the document's title. */
+    const innerTitle = node.querySelector('.doc__title');
+    if (innerTitle) innerTitle.classList.add('visually-hidden');
     const details = el('details', {}, [
       el('summary', { text: doc.openLabel || doc.title }),
+      node,
     ]);
     details.addEventListener('toggle', () => {
       if (details.open) ctx.progress();
       ctx.torch.refresh();
     });
-    append(details, node);
-    return el('div', { class: 'doc', 'data-wrapper': doc.id }, details);
+    return el('div', { class: `doc doc--${doc.kind || 'paper'}`, 'data-wrapper': doc.id }, details);
   }
 
   return node;
@@ -267,11 +273,19 @@ export function renderDesk(main, ctx) {
   });
 
   /* The locked file: three word slots, stamped as each challenge lands. */
+  /* A word earned since the player was last at the desk lands with a thud;
+     one they have already seen is simply there. */
+  const seen = ctx.store.get('stampsSeen', []) || [];
   const stamped = desk.file.slots.map((slot) => ({
     word: ctx.decode(slot.word),
     filled: progress[slot.track] === true,
+    fresh: progress[slot.track] === true && seen.indexOf(slot.track) < 0,
   }));
   const allStamped = stamped.every((slot) => slot.filled);
+  const nowSeen = desk.file.slots
+    .filter((slot) => progress[slot.track] === true)
+    .map((slot) => slot.track);
+  if (nowSeen.length !== seen.length) ctx.store.set('stampsSeen', nowSeen);
   const fileNode = el('button', {
     type: 'button',
     class: 'desk-file',
@@ -279,7 +293,7 @@ export function renderDesk(main, ctx) {
   }, [
     el('p', { class: 'desk-file__name', text: desk.file.name }),
     el('div', { class: 'slots' }, stamped.map((slot) => el('span', {
-      class: 'slot',
+      class: `slot${slot.fresh ? ' slot--stamping' : ''}`,
       'data-filled': slot.filled ? '1' : '0',
       text: slot.filled ? slot.word : '— — —',
     }))),
@@ -331,19 +345,16 @@ export async function renderChallenge(main, scene, ctx) {
     : el('div', { class: 'stack' }, [work, hintHost]);
   append(main, layout);
 
-  const mounted = [];
   for (const config of scene.interactions || []) {
     const host = el('div', { class: 'interaction', 'data-interaction': config.type });
     append(work, host);
     /* eslint-disable no-await-in-loop */
     const mod = await loadInteraction(config.type);
-    const instance = mod.mount(host, config, Object.assign({}, ctx, { scene, host }));
-    mounted.push(instance);
+    ctx.track(mod.mount(host, config, Object.assign({}, ctx, { scene, host })));
   }
 
   ctx.mountHints(scene, hintHost);
   ctx.torch.refresh();
-  return mounted;
 }
 
 export { sceneHead, formatNumber, clear, focusFirst, announce };

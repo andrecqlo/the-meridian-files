@@ -108,6 +108,11 @@ export function createDnD(options) {
       return node;
     },
     dropzone(node, config) {
+      /* Interactions re-render their zones; drop the ones no longer on the
+         page so the list does not grow for the length of the session. */
+      for (let i = zones.length - 1; i >= 0; i -= 1) {
+        if (!zones[i].node.isConnected) zones.splice(i, 1);
+      }
       const zone = {
         node,
         accepts: config.accepts || (() => true),
