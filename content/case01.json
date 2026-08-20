@@ -222,7 +222,8 @@
                 "record": "Polish",
                 "base": "6% of the customer base has a primary language other than English",
                 "methodology": "“Survey available in six languages, including Polish.”",
-                "unlockNote": "Six languages. Zero letters."
+                "unlockNote": "Six languages. Zero letters.",
+                "unlockNoteTitle": "Added later"
               },
               {
                 "id": "contact",
@@ -551,7 +552,7 @@
             "The operations summary has it in three rows."
           ],
           "successTitle": "WHO",
-          "successNote": "Most exclusions never write in.",
+          "successNote": "Weighting can’t reach people who were never invited.",
           "successBody": "9,214 registered customers were outside the invitation before the survey started.",
           "reward": {
             "cards": [
@@ -652,7 +653,8 @@
           "annotation": {
             "id": "a-workbench",
             "text": "You already know which one. The 9,214 told you.",
-            "title": "Workbench — margin"
+            "title": "Workbench — margin",
+            "retireOn": "cx-real"
           },
           "tabs": [
             {
@@ -1037,9 +1039,9 @@
         "Flag ‘removes travel’ and ‘automated translation’. One leads to another assumption; the other leads to a brochure."
       ],
       "hintsSecondary": [
+        "Read the minutes again. Under the light.",
         "",
-        "",
-        "Read the minutes again. Under the light."
+        ""
       ]
     }
   ],

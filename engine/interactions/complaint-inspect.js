@@ -7,7 +7,7 @@
    matters is the challenge; a chip that answered it would be the challenge. */
 
 import { el, append, clear, announce } from '../dom.js';
-import { renderDocument } from '../scenes.js';
+import { renderDocument, renderNoteCard } from '../scenes.js';
 
 export function mount(host, config, ctx) {
   host.classList.add('stack');
@@ -69,10 +69,13 @@ function renderChip(chip, ctx) {
     row('Methodology', chip.methodology),
   ]);
 
-  const solvedNote = chip.unlockNote && ctx.store.get('progress', {}).c1 === true
-    ? el('p', { class: 'samnote samnote--paper', text: chip.unlockNote })
-    : null;
-  if (solvedNote) append(body, solvedNote);
+  /* One chip earns a note once the challenge is solved. It is Sam's, so it
+     arrives under the light like the rest of them. */
+  if (chip.unlockNote && ctx.store.get('progress', {}).c1 === true) {
+    append(body, renderNoteCard(chip.unlockNoteTitle, [
+      { id: `chip-note-${chip.id}`, text: chip.unlockNote },
+    ], ctx));
+  }
 
   const button = el('button', {
     type: 'button',

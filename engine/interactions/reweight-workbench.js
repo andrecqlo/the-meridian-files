@@ -60,7 +60,10 @@ export function mount(host, config, ctx) {
     ]),
   ]));
 
-  if (config.annotation) {
+  /* A nudge towards the dimension that matters. Once the team has found it,
+     the note has done its job and comes down. */
+  const diagnosed = (ctx.store.get('workbenchSeen', {}) || {})[config.annotation && config.annotation.retireOn];
+  if (config.annotation && !diagnosed) {
     append(host, renderNoteCard(config.annotation.title, [config.annotation], ctx));
   }
 
