@@ -1140,3 +1140,9 @@ mark.hl {
   background: transparent; border: 0; padding: 0; margin-top: 14px;
 }
 .doc--bare.doc--has-notes { padding-bottom: 46px; }
+
+.insecure-banner {
+  border: 1px solid var(--stamp); border-left-width: 4px;
+  border-radius: var(--r-card); padding: 14px 18px; margin: 0 0 var(--gap);
+  color: var(--stamp-text); font-family: var(--mono); font-size: 0.86em;
+}

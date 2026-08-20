@@ -43,7 +43,14 @@ export function mount(host, final, ctx) {
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
       if (!ctx.normalise(input.value)) return;
-      if (await ctx.verify(input.value, final.lock.answerDigest)) {
+      const result = await ctx.verify(input.value, final.lock.answerDigest);
+      if (result === null) {
+        clear(feedback);
+        feedback.dataset.tone = 'bad';
+        feedback.textContent = ctx.checkerMessage;
+        return;
+      }
+      if (result) {
         ctx.store.set('unlocked', true);
         ctx.audio.play('door');
         announce('The file opens.');

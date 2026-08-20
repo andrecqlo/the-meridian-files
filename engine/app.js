@@ -9,7 +9,7 @@ import { createPace } from './pace.js';
 import { createRouter } from './router.js';
 import { createTorch } from './interactions/torch.js';
 import { audio } from './audio.js';
-import { verify, normalise, decode } from './verify.js';
+import { verify, normalise, decode, checkerAvailable, CHECKER_UNAVAILABLE } from './verify.js';
 import { el, append, clear, announce, focusFirst } from './dom.js';
 import * as scenes from './scenes.js';
 
@@ -61,6 +61,7 @@ function boot(series) {
       teaser: entry.teaser, locked: entry.locked === true,
     })),
     store, timer, hints, bus, audio, verify, normalise, decode,
+    checkerAvailable, checkerMessage: CHECKER_UNAVAILABLE,
     router: null,
     torch: null,
   };
@@ -314,6 +315,12 @@ function boot(series) {
 
   function finish() {
     ctx.torch.refresh();
+    if (!checkerAvailable()) {
+      main.insertBefore(
+        el('p', { class: 'insecure-banner', role: 'alert', text: CHECKER_UNAVAILABLE }),
+        main.firstChild,
+      );
+    }
     focusFirst(main);
   }
 

@@ -73,7 +73,13 @@ export function mount(host, config, ctx) {
     const value = input.value;
     if (!ctx.normalise(value)) return;
 
-    if (await ctx.verify(value, config.answerDigest)) {
+    const result = await ctx.verify(value, config.answerDigest);
+    if (result === null) {
+      feedback.dataset.tone = 'bad';
+      feedback.textContent = ctx.checkerMessage;
+      return;
+    }
+    if (result) {
       ctx.audio.play('unlock');
       ctx.completeTrack(config.track);
       if (config.finding) ctx.recordFinding(config.finding);

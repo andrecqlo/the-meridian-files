@@ -137,7 +137,13 @@ export function mount(host, config, ctx) {
       const sentence = placed
         .map((id) => config.fragments.find((entry) => entry.id === id).text)
         .join(' ');
-      if (await ctx.verify(sentence, config.answerDigest)) {
+      const result = await ctx.verify(sentence, config.answerDigest);
+      if (result === null) {
+        feedback.dataset.tone = 'bad';
+        feedback.textContent = ctx.checkerMessage;
+        return;
+      }
+      if (result) {
         ctx.audio.play('unlock');
         ctx.completeTrack(config.track);
         ctx.recordFinding(config.finding);
