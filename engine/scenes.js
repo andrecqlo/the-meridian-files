@@ -28,7 +28,7 @@ function renderBlock(block) {
     }
     append(table, el('tbody', {}, block.table.rows.map((cells) => el('tr', {},
       cells.map((cell, index) => el(index === 0 ? 'th' : 'td', index === 0 ? { scope: 'row', text: cell } : { text: cell }))))));
-    return table;
+    return el('div', { class: 'table-scroll' }, table);
   }
   if (block.small) return el('p', { class: 'doc__small', text: block.small });
   if (block.mono) return el('p', { class: 'doc__meta', text: block.mono });

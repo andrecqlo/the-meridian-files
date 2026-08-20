@@ -5,6 +5,7 @@
 import { createStore, prefs } from './state.js';
 import { createTimer, formatClock } from './timer.js';
 import { createHints } from './hints.js';
+import { createPace } from './pace.js';
 import { createRouter } from './router.js';
 import { createTorch } from './interactions/torch.js';
 import { audio } from './audio.js';
@@ -47,6 +48,7 @@ function boot(series) {
   const store = createStore(CASE_ID);
   const timer = createTimer(store, content.durationSeconds);
   const hints = createHints(store);
+  const pace = createPace(store, timer, content.pace.milestones);
   const bus = createBus();
   const main = document.getElementById('main');
   const chrome = document.getElementById('chrome');
@@ -64,6 +66,8 @@ function boot(series) {
   };
 
   ctx.torch = createTorch(ctx);
+  ctx.pace = pace;
+  hints.setPace(() => pace.factor());
 
   /* ---- chrome ---- */
 
@@ -88,6 +92,39 @@ function boot(series) {
         ? `${formatClock(state.remaining)} past the board meeting`
         : `${formatClock(state.remaining)} remaining`);
   });
+
+  /* Pace escalations. Each one fires once, on the way down. */
+  pace.subscribe((level) => {
+    document.body.dataset.paceLevel = String(level);
+    if (level >= 2) hints.forceNextTier();
+    if (level >= 3) ctx.openLatestNote();
+    if (level > 0) store.patch('paceSeen', { [`level${level}`]: true });
+  });
+  timer.subscribe(() => {
+    if (timer.isStarted()) pace.evaluate();
+  });
+
+  /* The last surfaced note, opened once and then dismissible. Used only when a
+     team is more than three minutes behind the line. */
+  ctx.openLatestNote = function openLatestNote() {
+    const notes = document.querySelectorAll('[data-hint] .uv-note');
+    const note = notes[notes.length - 1];
+    if (!note || note.dataset.autoOpened === '1') return;
+    note.dataset.autoOpened = '1';
+    note.dataset.inspect = '1';
+    const card = note.closest('.doc');
+    if (!card || card.querySelector('.note-dismiss')) return;
+    card.dataset.newNote = '0';
+    const dismiss = el('button', {
+      type: 'button', class: 'btn btn--quiet note-dismiss', text: 'Put it back',
+    });
+    dismiss.addEventListener('click', () => {
+      note.dataset.inspect = '0';
+      dismiss.remove();
+    });
+    append(card, dismiss);
+    announce(`Sam left a note. ${note.textContent}`);
+  };
 
   torchButton.addEventListener('click', () => {
     ctx.torch.toggle();

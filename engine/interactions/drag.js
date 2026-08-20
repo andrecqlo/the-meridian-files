@@ -86,6 +86,9 @@ export function createDnD(options) {
     /* node must be a <button> so keyboard activation and ARIA come free. */
     draggable(node, item, config) {
       const cfg = config || {};
+      /* The item carries its node so selection state can be reflected back
+         onto the control — a keyboard user needs to hear that it is selected. */
+      item.node = node;
       node.setAttribute('aria-pressed', 'false');
       node.addEventListener('pointerdown', (event) => {
         if (cfg.disabled && cfg.disabled()) return;

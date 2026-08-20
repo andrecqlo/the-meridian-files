@@ -3,7 +3,7 @@
    does not silently eat the case. */
 
 const THRESHOLDS = [
-  { at: 10 * 60, level: 'pulse', note: '' },
+  { at: 10 * 60, level: 'pulse', note: 'Ten minutes to sign-off' },
   { at: 5 * 60, level: 'large', note: 'Five minutes to sign-off' },
   { at: 2 * 60, level: 'urgent', note: 'Sign-off imminent' },
   { at: 0, level: 'over', note: 'The meeting has started — finish your investigation.' },

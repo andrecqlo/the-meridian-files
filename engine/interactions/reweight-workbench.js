@@ -118,11 +118,11 @@ export function mount(host, config, ctx) {
   }
 
   function renderStatic(tab) {
-    append(panel, el('table', { class: 'doc__table doc__table--dark' }, [
+    append(panel, el('div', { class: 'table-scroll' }, el('table', { class: 'doc__table doc__table--dark' }, [
       el('thead', {}, el('tr', {}, tab.columns.map((c) => el('th', { scope: 'col', text: c })))),
       el('tbody', {}, tab.rows.map((row) => el('tr', {}, row.map((cell, i) =>
         el(i === 0 ? 'th' : 'td', i === 0 ? { scope: 'row', text: cell } : { text: cell }))))),
-    ]));
+    ])));
     append(panel, el('p', { class: 'workbench__verdict', text: tab.note }));
   }
 
@@ -207,6 +207,8 @@ export function mount(host, config, ctx) {
 
     let announceHandle = null;
     let lastAnchor = null;
+    let snapped = null;
+    let released = null;
 
     function near(kind) {
       return tab.segments.every((segment) => {
@@ -224,16 +226,30 @@ export function mount(host, config, ctx) {
     }
 
     function update(fromInput) {
-      /* Snapping keeps the reference mixes exact, so the headline figure never
-         wobbles by a point between two roundings of the same population. */
+      /* Snapping keeps the reference mixes exact, so the figure never wobbles
+         by a point between two roundings of the same population. Moving a
+         slider releases the snap, and the same anchor will not grab again
+         until the mix has left its zone — otherwise a keyboard user pressing
+         an arrow key would be pulled straight back and could never leave. */
+      if (fromInput && snapped) {
+        released = snapped;
+        snapped = null;
+      }
       let anchor = null;
-      (tab.anchors || []).forEach((entry) => {
-        if (anchor) return;
-        if (near(entry.at)) {
-          if (fromInput) snapTo(entry.at);
-          anchor = entry;
+      if (snapped) {
+        anchor = (tab.anchors || []).find((entry) => entry.id === snapped) || null;
+      } else {
+        const candidate = (tab.anchors || []).find((entry) => entry.id !== released && near(entry.at));
+        if (candidate) {
+          if (fromInput) snapTo(candidate.at);
+          snapped = candidate.id;
+          anchor = candidate;
         }
-      });
+      }
+      if (released) {
+        const previous = (tab.anchors || []).find((entry) => entry.id === released);
+        if (!previous || !near(previous.at)) released = null;
+      }
 
       const total = tab.segments.reduce((sum, segment) => sum + mix[segment.id], 0);
       const weighted = tab.segments.reduce((sum, segment) => sum + (mix[segment.id] * segment.satisfaction), 0);

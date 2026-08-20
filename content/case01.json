@@ -5,6 +5,40 @@
   "teaser": "A senior analyst resigned overnight. The board signs off in 15 minutes.",
   "locked": false,
   "durationSeconds": 900,
+  "pace": {
+    "milestones": [
+      {
+        "id": "letter",
+        "at": 810,
+        "progress": "c1letter"
+      },
+      {
+        "id": "challenge1",
+        "at": 660,
+        "progress": "c1"
+      },
+      {
+        "id": "challenge2",
+        "at": 450,
+        "progress": "c2"
+      },
+      {
+        "id": "pinboard",
+        "at": 300,
+        "progress": "c3"
+      },
+      {
+        "id": "passphrase",
+        "at": 240,
+        "key": "unlocked"
+      },
+      {
+        "id": "decision",
+        "at": 90,
+        "key": "decision"
+      }
+    ]
+  },
   "intro": {
     "heading": "Case 01: The Evidence",
     "lines": [

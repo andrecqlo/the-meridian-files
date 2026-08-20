@@ -8,6 +8,7 @@ const STEP_MS = 60000;
 
 export function createHints(store) {
   const tracks = new Map();
+  let paceFactor = () => 1;
 
   function stored() {
     return store.get('hints', {}) || {};
@@ -32,7 +33,7 @@ export function createHints(store) {
     window.clearTimeout(track.handle);
     const current = tierOf(trackId);
     if (current >= 3) return;
-    const wait = current === 0 ? FIRST_MS : STEP_MS;
+    const wait = (current === 0 ? FIRST_MS : STEP_MS) * paceFactor();
     track.handle = window.setTimeout(() => {
       setTier(trackId, tierOf(trackId) + 1);
       schedule(trackId);
@@ -40,6 +41,17 @@ export function createHints(store) {
   }
 
   return {
+    /* Pacing can halve the intervals; it can never skip a step for the player. */
+    setPace(factor) { paceFactor = factor; },
+    /* Bring the next tier forward now, for a team well behind the line. */
+    forceNextTier() {
+      tracks.forEach((track, trackId) => {
+        const current = tierOf(trackId);
+        if (current >= 3) return;
+        setTier(trackId, current + 1);
+        schedule(trackId);
+      });
+    },
     /* Called on entering a challenge. Replays any tier already earned, so a
        refresh does not take Sam's notes away again. */
     begin(trackId, onTier) {
