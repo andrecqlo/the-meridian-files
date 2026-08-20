@@ -188,8 +188,10 @@ function boot(series) {
   ctx.resetCase = function resetCase() {
     hints.endAll();
     timer.stop();
-    store.reset();
+    /* Put the torch away before the wipe, or switching it off writes a key
+       straight back into the namespace we just cleared. */
     ctx.torch.setOn(false);
+    store.reset();
     window.location.hash = '#/';
     window.location.reload();
   };
