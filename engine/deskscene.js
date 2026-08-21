@@ -98,6 +98,8 @@ export function renderDeskScene(host, ctx, objects) {
     status.textContent = text;
     announce(text);
   }
+  /* While the room is on screen it owns the status channel. */
+  ctx.sayStatus = say;
 
   objects.forEach((object) => {
     const hit = object.hit || object.at;

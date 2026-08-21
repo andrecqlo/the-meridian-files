@@ -1338,12 +1338,17 @@ mark.hl {
 .hotspot[data-state="blocked"]:hover, .hotspot[data-state="blocked"]:focus-visible {
   border-color: var(--stamp);
 }
-.hotspot[data-state="done"]::after {
-  content: "";
-  position: absolute; top: 4px; right: 4px;
-  width: 10px; height: 10px;
-  background: var(--ok-text);
+.hotspot[data-state="done"]::after,
+.hotspot[data-state="taken"]::after {
+  content: "READ";
+  position: absolute; top: 2px; right: 2px;
+  font-family: var(--pixel); font-size: 10px; line-height: 1;
+  color: var(--ok-text);
+  background: var(--tone-0);
+  border: 1px solid var(--ok);
+  padding: 3px 4px;
 }
+.hotspot[data-state="taken"]::after { content: "TAKEN"; }
 
 .room__status {
   font-family: var(--pixel);
@@ -1377,4 +1382,57 @@ mark.hl {
 @media (max-width: 700px) {
   .hotspot__name { font-size: 12px; transform: translateY(60%); }
   .room__status { font-size: 14px; padding: 10px 12px; }
+}
+
+/* ---------- what you are carrying ---------- */
+
+body[data-tray="on"] main { padding-bottom: 170px; }
+
+.inventory {
+  position: fixed;
+  left: 12px;
+  bottom: 12px;
+  z-index: 36;
+  background: var(--tone-0);
+  border: 2px solid var(--tone-1);
+  padding: 8px 10px 10px;
+  max-width: min(420px, calc(100vw - 24px));
+}
+.inventory__label {
+  font-family: var(--pixel);
+  font-size: 12px;
+  color: var(--tone-2);
+  margin: 0 0 6px;
+}
+.inventory__row { display: flex; gap: 8px; flex-wrap: wrap; }
+.item {
+  font: inherit;
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  padding: 6px 8px;
+  min-width: 66px;
+  background: var(--tone-1);
+  border: 2px solid var(--tone-2);
+  color: var(--tone-3);
+  cursor: pointer;
+}
+.item:hover { border-color: var(--uv); }
+.item[aria-pressed="true"] {
+  border-color: var(--uv);
+  background: #2B2140;
+  box-shadow: inset 0 0 0 2px var(--uv);
+}
+.item__art { display: block; height: 34px; width: auto; image-rendering: pixelated; }
+.item__name { font-family: var(--pixel); font-size: 12px; line-height: 1.2; text-align: center; }
+.item:focus-visible { outline: 2px solid var(--uv-text); outline-offset: 2px; }
+
+@media (max-width: 700px) {
+  .inventory {
+    left: 0; right: 0; bottom: 0; max-width: none;
+    border-left: 0; border-right: 0; border-bottom: 0;
+  }
+  main { padding-bottom: 130px; }
+  .item { min-width: 58px; }
+  .item__art { height: 26px; }
 }

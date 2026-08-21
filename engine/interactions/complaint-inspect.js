@@ -12,6 +12,8 @@ import { renderDocument, renderNoteCard } from '../scenes.js';
 export function mount(host, config, ctx) {
   host.classList.add('stack');
   ctx.store.patch('progress', { c1letter: true });
+  /* Once you have read it, you carry it — it is worth re-reading later. */
+  if (ctx.inventory) ctx.inventory.add('letter');
 
   append(host, el('h3', { text: config.title }));
   if (config.instruction) {

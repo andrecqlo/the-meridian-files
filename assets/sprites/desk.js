@@ -209,3 +209,39 @@ export const REPORT = {
     '.kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk.',
   ],
 };
+
+export const STRING = {
+  w: 20, h: 18, map: MAP,
+  rows: [
+    '.....kkkkkkkk.......',
+    '...kkllllllllkk.....',
+    '..klldddddddlllk....',
+    '..kldkkkkkkkkdlk....',
+    '..kldkllllllkdlk....',
+    '..kldkllllllkdlk....',
+    '..kldkkkkkkkkdlk....',
+    '..klldddddddlllk....',
+    '...kkllllllllkk.....',
+    '.....kkkkkkkk.......',
+    '.......k...k........',
+    '......k.....k.......',
+  ],
+};
+
+export const LETTER = {
+  w: 22, h: 16, map: MAP,
+  rows: [
+    'kkkkkkkkkkkkkkkkkkkk..',
+    'kllllllllllllllllllk..',
+    'klkdlllllllllllldkllk.',
+    'kllkdlllllllllldkkllk.',
+    'klllkdlllllllldkklllk.',
+    'kllllkdllllllkdlllllk.',
+    'klllllkdllllkdllllllk.',
+    'kllllllkddddkdlllllllk',
+    'klllllllllllllllllllk.',
+    'kllldddddddddllllllllk',
+    'klllllllllllllllllllk.',
+    'kkkkkkkkkkkkkkkkkkkkk.',
+  ],
+};

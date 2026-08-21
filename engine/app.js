@@ -8,6 +8,7 @@ import { createHints } from './hints.js';
 import { createPace } from './pace.js';
 import { createRouter } from './router.js';
 import { createTorch } from './interactions/torch.js';
+import { createInventory } from './inventory.js';
 import { audio } from './audio.js';
 import { verify, normalise, decode, checkerAvailable, CHECKER_UNAVAILABLE } from './verify.js';
 import { el, append, clear, announce, focusFirst } from './dom.js';
@@ -52,6 +53,7 @@ function boot(series) {
   const bus = createBus();
   const main = document.getElementById('main');
   const chrome = document.getElementById('chrome');
+  const tray = document.getElementById('inventory');
 
   const ctx = {
     caseId: CASE_ID,
@@ -67,6 +69,8 @@ function boot(series) {
   };
 
   ctx.torch = createTorch(ctx);
+  ctx.inventory = createInventory(ctx);
+  ctx.inventory.mount(tray);
   ctx.pace = pace;
   hints.setPace(() => pace.factor());
 
@@ -160,6 +164,13 @@ function boot(series) {
 
   /* ---- shared context helpers ---- */
 
+  /* The room's status bar when there is one, a toast everywhere else. */
+  ctx.status = function status(text) {
+    if (!text) return;
+    if (ctx.sayStatus) ctx.sayStatus(text);
+    else ctx.toast(text);
+  };
+
   ctx.toast = function toast(text, tone) {
     const rail = document.getElementById('toast-rail');
     const node = el('div', { class: 'toast', 'data-tone': tone || 'uv', text });
@@ -218,18 +229,30 @@ function boot(series) {
 
   ctx.deskActivate = function deskActivate(object, say) {
     const responses = object.responses || {};
+    /* Re-rendering the room rebuilds the status bar, so anything worth saying
+       has to survive the redraw. */
     if (object.action === 'takeTorch') {
       if (ctx.torch.held) { say(responses.taken); return; }
       ctx.torch.pickUp();
+      ctx.inventory.add('torch');
       audio.play('unlock');
+      ctx.pendingStatus = responses.taken;
       ctx.render();
       return;
     }
-    if (object.action === 'drawer') {
-      say(responses.locked);
+    if (object.gives) {
+      if (ctx.inventory.has(object.gives)) { say(responses.empty || responses.look); return; }
+      ctx.inventory.add(object.gives);
+      audio.play('unlock');
+      ctx.pendingStatus = responses.taken;
+      ctx.render();
       return;
     }
     if (object.route) {
+      if (object.requiresItem && ctx.inventory.armed === object.requiresItem) {
+        ctx.inventory.disarm();
+        say(responses.used);
+      }
       router.go(object.route);
       return;
     }
@@ -297,7 +320,14 @@ function boot(series) {
     const isLanding = path === '' || path === 'index.html';
 
     chrome.hidden = isLanding;
+    ctx.sayStatus = null;
     document.body.dataset.route = path || 'landing';
+    /* Nothing you are carrying is usable once the file is open, and the twist
+       is a timed decision — the tray must not sit over the controls. */
+    const trayRoutes = [`${CASE_ID}/file`, `${CASE_ID}/twist`, `${CASE_ID}/debrief`];
+    tray.hidden = isLanding || path === CASE_ID || trayRoutes.indexOf(path) >= 0;
+    if (!tray.hidden) ctx.inventory.render();
+    document.body.dataset.tray = tray.hidden || !(store.get('inventory', []) || []).length ? 'off' : 'on';
 
     if (isLanding) {
       scenes.renderLanding(main, ctx);

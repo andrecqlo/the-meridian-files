@@ -172,7 +172,8 @@
         "responses": {
           "look": "A UV torch, lying where it was put down.",
           "taken": "Violet light. Sam wrote in ultraviolet ink — move it across a page and the handwriting comes up."
-        }
+        },
+        "gives": "torch"
       },
       {
         "id": "drawer",
@@ -190,10 +191,14 @@
           "h": 20
         },
         "responses": {
-          "look": "Stuck. Something's shifted inside it.",
-          "locked": "Stuck. Something's shifted inside it."
+          "look": "Stuck. Something has shifted inside it.",
+          "locked": "Stuck. You put your weight into it and it doesn't move.",
+          "taken": "It gives all at once. Pens, a stapler, and a ball of string.",
+          "empty": "Pens and a stapler. Nothing else you need."
         },
-        "grounded": false
+        "grounded": false,
+        "unlockedBy": "c2",
+        "gives": "string"
       },
       {
         "id": "pinboard",
@@ -212,12 +217,13 @@
           "w": 70,
           "h": 34
         },
-        "unlockedBy": "c2",
         "responses": {
           "look": "Five index cards and a lot of confident handwriting.",
-          "locked": "Claims pinned up with nothing to test them against yet."
+          "noItem": "The claims are pinned up, but there's nothing to run between them. Looks like you need some string.",
+          "used": "You run string from each claim to whatever is supposed to hold it up."
         },
-        "grounded": false
+        "grounded": false,
+        "requiresItem": "string"
       }
     ],
     "file": {
@@ -1439,5 +1445,32 @@
       "title": "Case 02 — coming soon",
       "text": "The Replay. Someone just resigned. The record wipes at midnight."
     }
-  }
+  },
+  "inventoryLabel": "Carrying",
+  "items": [
+    {
+      "id": "torch",
+      "label": "UV torch",
+      "sprite": "DESK_TORCH",
+      "action": "torch",
+      "hint": "Switches the light on and off.",
+      "onText": "Torch on. Move the light across a page.",
+      "offText": "Torch off."
+    },
+    {
+      "id": "letter",
+      "label": "Mrs Calder's letter",
+      "sprite": "LETTER",
+      "route": "case01/tray",
+      "hint": "Opens it to read again."
+    },
+    {
+      "id": "string",
+      "label": "Ball of string",
+      "sprite": "STRING",
+      "hint": "Select it, then choose what to use it on.",
+      "armedText": "String in hand. Now find something to run it between.",
+      "disarmedText": "String back in your pocket."
+    }
+  ]
 }
