@@ -1,10 +1,26 @@
+@font-face {
+  font-family: "Silkscreen";
+  src: url("fonts/silkscreen-400.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Silkscreen";
+  src: url("fonts/silkscreen-700.woff2") format("woff2");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Caveat";
+  src: url("fonts/caveat-var.woff2") format("woff2");
+  font-weight: 400 700; font-style: normal; font-display: swap;
+}
+
 /* The Meridian Files — a case file under a UV lamp.
    Dark chrome, paper documents, manila tags, one violet light. */
 
 :root {
-  --ink: #191C22;
-  --ink-2: #22262F;
-  --ink-3: #2E323C;
+  --ink: #14110E;
+  --ink-2: #221E19;
+  --ink-3: #34302A;
   --paper: #EDE7DC;
   --paper-2: #E1D9C9;
   --paper-rule: #C9BFAA;
@@ -16,12 +32,24 @@
   --stamp-text: #E8776B;
   --ok: #2F6446;
   --ok-text: #6FBF8E;
-  --muted: #A9AEBA;
+  --muted: #A9A399;
   --muted-ink: #555A66;
+
+  /* The room is rendered in a four-tone ramp — the Game Boy spec applied to a
+     case file. tone-0 is warmed slightly off --ink so the desk reads as
+     lamplight at night rather than moonlight. Violet is the only chromatic
+     colour that exists in this world. */
+  --tone-0: #14110E;
+  --tone-1: #3A3630;
+  --tone-2: #8B857A;
+  --tone-3: #EDE7DC;
 
   --ui: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --mono: ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, monospace;
   --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  /* Pixel face for chrome, handwriting for Sam. Prose never uses either. */
+  --pixel: "Silkscreen", ui-monospace, "Cascadia Code", monospace;
+  --hand: "Caveat", "Segoe Script", "Bradley Hand", cursive;
 
   --r-block: 0;
   --r-card: 8px;
@@ -1145,4 +1173,88 @@ mark.hl {
   border: 1px solid var(--stamp); border-left-width: 4px;
   border-radius: var(--r-card); padding: 14px 18px; margin: 0 0 var(--gap);
   color: var(--stamp-text); font-family: var(--mono); font-size: 0.86em;
+}
+
+/* ---------------------------------------------------------------------------
+   Pixel chrome
+
+   Silkscreen is drawn on an 8px grid, so chrome type is set at fixed sizes on
+   that grid rather than in em — off-grid sizes render soft and lose the point.
+   Nothing below 16px, so it still carries to the back of a room.
+   --------------------------------------------------------------------------- */
+
+:root {
+  --px-sm: 16px;
+  --px-md: 24px;
+  --px-lg: 32px;
+  --px-xl: 48px;
+}
+
+.chrome__case,
+.chrome__timer-note,
+.scene__eyebrow,
+.landing__brand,
+.landing__meta,
+.code-entry__label,
+.stat__label,
+.cohort__count-label,
+.refcard__title,
+.board__head,
+.doc__stamp,
+.tag,
+.tab,
+.btn,
+.chip__key,
+.twist-banner__label,
+.decision__title {
+  font-family: var(--pixel);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.chrome__case, .scene__eyebrow, .stat__label, .cohort__count-label,
+.refcard__title, .board__head, .chip__key, .code-entry__label, .doc__stamp,
+.tag, .chrome__timer-note {
+  font-size: var(--px-sm);
+}
+.btn, .tab { font-size: var(--px-sm); }
+.btn--primary { font-size: var(--px-md); padding: 14px 24px; }
+.landing__brand, .landing__meta { font-size: var(--px-md); letter-spacing: 0; }
+.decision__title, .twist-banner__label { font-size: var(--px-md); }
+
+/* Tabular figures matter more than the grid for the clock, so the timer and
+   the big readouts keep the monospace face and gain pixel-flavoured framing. */
+.chrome__timer-value { font-family: var(--pixel); font-size: var(--px-lg); }
+.chrome__timer[data-level="large"] .chrome__timer-value,
+.chrome__timer[data-level="urgent"] .chrome__timer-value,
+.chrome__timer[data-level="over"] .chrome__timer-value { font-size: var(--px-xl); }
+
+.tally__score, .cohort__count, .readout__figure, .subclock,
+.stat__value, .headline__value, .segment__value, .unlock__word,
+.lockplate__slot, .slot, .option__id, .refcard__mix {
+  font-family: var(--mono);
+}
+
+/* Hard-edged chrome: square corners on interface furniture, a chunky border,
+   and a hard offset instead of a soft shadow. */
+.btn, .tab, .tag, .field, .chip, .cohort__option label {
+  border-radius: 0;
+}
+.btn {
+  border-width: 2px;
+  border-color: var(--tone-2);
+  box-shadow: 3px 3px 0 #090705;
+}
+.btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 #090705; }
+.btn--quiet { border-color: transparent; box-shadow: none; }
+.btn--quiet:hover { border-color: var(--tone-2); }
+.btn--primary { border-color: var(--uv); box-shadow: 3px 3px 0 #4C1D95; }
+@media (prefers-reduced-motion: reduce) {
+  .btn:active { transform: none; }
+}
+
+/* Documents stay warm paper — the one thing in the room with real colour
+   besides the light you are carrying. */
+.doc, .card--paper, .desk-file, .refcard, .option, .segment, .claim, .chip {
+  image-rendering: auto;
 }
