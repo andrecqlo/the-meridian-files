@@ -58,25 +58,35 @@ export function renderDocument(doc, ctx) {
   append(node, el('h3', { class: 'doc__title', text: doc.title }));
   if (doc.meta) append(node, el('p', { class: 'doc__meta', text: doc.meta }));
 
+  /* Every block gets a row, and its annotation sits in the row's margin —
+     physically beside the line it is about, the way a note written on paper
+     would be. The gutter is always there, so revealing a note never reflows
+     the page. */
   const body = el('div', { class: 'doc__body' });
   const annotations = doc.annotations || [];
-  (doc.blocks || []).forEach((block, index) => {
-    append(body, renderBlock(block));
-    annotations
-      .filter((note) => Number(note.after) === index)
-      .forEach((note) => append(body, renderAnnotation(note)));
-  });
-  annotations
-    .filter((note) => note.after === undefined || Number(note.after) >= (doc.blocks || []).length)
-    .forEach((note) => append(body, renderAnnotation(note)));
+  const blocks = doc.blocks || [];
+
+  function row(block, notes) {
+    return el('div', { class: 'doc__row' }, [
+      el('div', { class: 'doc__col' }, block),
+      el('aside', { class: 'doc__margin' }, notes.map(renderAnnotation)),
+    ]);
+  }
+
+  if (!annotations.length) {
+    /* Nothing written on this one, so it does not need a margin reserved. */
+    blocks.forEach((block) => append(body, renderBlock(block)));
+  } else {
+    blocks.forEach((block, index) => {
+      append(body, row(renderBlock(block), annotations.filter((note) => Number(note.after) === index)));
+    });
+    const trailing = annotations
+      .filter((note) => note.after === undefined || Number(note.after) >= blocks.length);
+    if (trailing.length) append(body, row(null, trailing));
+  }
 
   append(node, body);
-
-  if (annotations.length) {
-    node.classList.add('doc--has-notes');
-    append(node, el('span', { class: 'uv-flicker' }));
-    if (ctx.torch.held) append(node, inspectButton(node, ctx));
-  }
+  if (annotations.length) node.classList.add('doc--has-notes');
 
   if (doc.collapsed) {
     /* Behind a disclosure: the paper card is the wrapper, so the document
@@ -99,6 +109,13 @@ export function renderDocument(doc, ctx) {
   return node;
 }
 
+/* A small deterministic tilt per note, so no two look typeset. */
+function tiltFor(id) {
+  let hash = 0;
+  for (let i = 0; i < String(id).length; i += 1) hash = (hash * 31 + String(id).charCodeAt(i)) % 1000;
+  return ((hash % 7) - 3) * 0.7;
+}
+
 function renderAnnotation(note) {
   return el('span', {
     class: 'uv-note',
@@ -106,6 +123,7 @@ function renderAnnotation(note) {
     'data-lit': '0',
     'data-inspect': '0',
     'data-reveals': note.reveals || '',
+    style: `--tilt:${tiltFor(note.id).toFixed(2)}deg`,
     text: note.text,
   });
 }
@@ -118,30 +136,14 @@ export function renderNoteCard(title, notes, ctx) {
   const node = el('article', { class: 'doc doc--screen doc--note-card doc--has-notes' });
   append(node, el('h4', { class: 'doc__title', text: title }));
   notes.forEach((note) => append(node, renderAnnotation(note)));
-  append(node, el('span', { class: 'uv-flicker' }));
-  if (ctx.torch.held) append(node, inspectButton(node, ctx));
-  else notes.forEach((note) => {
-    const written = node.querySelector(`[data-note-id="${note.id}"]`);
-    if (written) written.dataset.inspect = '1';
-  });
+  /* Without the torch there is no way to sweep it, so the note simply reads. */
+  if (!ctx.torch.held) {
+    notes.forEach((note) => {
+      const written = node.querySelector(`[data-note-id="${note.id}"]`);
+      if (written) written.dataset.inspect = '1';
+    });
+  }
   return node;
-}
-
-function inspectButton(docNode, ctx) {
-  const button = el('button', {
-    type: 'button',
-    class: 'doc__inspect',
-    'aria-pressed': 'false',
-    text: ctx.content.torch.inspectOn,
-  });
-  button.addEventListener('click', () => {
-    const next = button.getAttribute('aria-pressed') !== 'true';
-    button.setAttribute('aria-pressed', next ? 'true' : 'false');
-    button.textContent = next ? ctx.content.torch.inspectOff : ctx.content.torch.inspectOn;
-    ctx.torch.inspect(docNode, next);
-    if (next) ctx.progress();
-  });
-  return button;
 }
 
 /* ---------- scene chrome ---------- */

@@ -57,12 +57,11 @@
     "drawerHint": "Something heavy rolls when you pull it open.",
     "pickUp": "Take the UV torch",
     "taken": "UV torch",
-    "description": "Sam wrote in ultraviolet ink. Drag the torch across a document, or use Inspect on any document to read what is underneath.",
-    "toggleOn": "Switch torch on",
-    "toggleOff": "Switch torch off",
-    "inspectOn": "Inspect under UV",
-    "inspectOff": "Stop inspecting",
-    "firstUse": "Violet light. Handwriting comes up out of the paper."
+    "description": "Sam wrote in ultraviolet ink. Switch the torch on and move the light across a page — you’ll only read what’s under the beam.",
+    "toggleOn": "Switch the torch on",
+    "toggleOff": "Switch the torch off",
+    "firstUse": "Violet light. Handwriting comes up out of the paper wherever you point it.",
+    "keyboardHint": "Arrow keys move the light. N jumps to the next thing worth reading. Escape puts it out."
   },
   "desk": {
     "title": "Sam’s desk",

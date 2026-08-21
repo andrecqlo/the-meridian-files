@@ -273,41 +273,61 @@ main:focus { outline: none; }
 }
 .doc--screen .stat__label { color: var(--muted); }
 
-/* ---------- Sam's UV annotations ---------- */
+/* ---------- Sam's hand, in the margin ---------- */
+
+/* Every document body is a text column and a margin. Annotations live in the
+   margin of the line they annotate and always occupy their space, so putting
+   the light on one never reflows the page. */
+.doc__body { display: grid; gap: 0; }
+.doc__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(130px, 24%, 230px);
+  gap: clamp(12px, 2vw, 26px);
+  align-items: start;
+}
+.doc__col { min-width: 0; }
+.doc__margin { min-width: 0; display: grid; gap: 10px; align-content: start; }
 
 .uv-note {
   display: block;
-  font-family: var(--mono);
-  font-size: 0.82em;
-  line-height: 1.45;
+  font-family: var(--hand);
+  font-size: 1.42em;
+  line-height: 1.15;
   color: var(--uv-ink);
-  border-left: 2px solid var(--uv);
-  padding: 8px 0 8px 12px;
-  margin: 12px 0;
+  transform: rotate(var(--tilt, -1.5deg));
+  transform-origin: left top;
   opacity: 0;
-  transition: opacity 180ms linear;
-  min-height: 2.4em;
+  transition: opacity 160ms linear;
 }
 .doc--screen .uv-note, .on-dark .uv-note { color: var(--uv-text); }
-.uv-note[data-lit="1"], .uv-note[data-inspect="1"] { opacity: 1; }
-.uv-note::before {
-  content: "Sam’s hand — ";
-  opacity: 0.62;
-  font-style: italic;
+
+/* The light is stepped, not feathered — four bands, like everything else in
+   this world — and it masks the words themselves, so a note is read by moving
+   the torch along it rather than by switching the line on. */
+.uv-note[data-lit="1"] {
+  opacity: 1;
+  -webkit-mask-image: radial-gradient(circle 92px at var(--uv-x, 50%) var(--uv-y, 50%),
+    #000 0 38%, rgba(0, 0, 0, 0.62) 38% 58%, rgba(0, 0, 0, 0.24) 58% 78%, transparent 78%);
+          mask-image: radial-gradient(circle 92px at var(--uv-x, 50%) var(--uv-y, 50%),
+    #000 0 38%, rgba(0, 0, 0, 0.62) 38% 58%, rgba(0, 0, 0, 0.24) 58% 78%, transparent 78%);
+}
+.uv-note[data-inspect="1"] {
+  opacity: 1;
+  -webkit-mask-image: none;
+          mask-image: none;
+}
+@supports not (mask-image: radial-gradient(#000, transparent)) {
+  .uv-note[data-lit="1"] { -webkit-mask-image: none; mask-image: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .uv-note { transition: none; }
 }
 
-.doc__inspect {
-  position: absolute; right: 12px; bottom: 12px;
-  font: inherit; font-size: 0.7em; letter-spacing: 0.06em;
-  padding: 6px 12px; border-radius: var(--r-btn); cursor: pointer;
-  background: transparent; color: var(--uv-ink); border: 1px solid var(--uv);
+@media (max-width: 760px) {
+  .doc__row { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .doc__margin { padding: 4px 0 12px; }
+  .uv-note { transform: rotate(calc(var(--tilt, -1.5deg) * 0.4)); }
 }
-.doc--screen .doc__inspect { color: var(--uv-text); }
-.doc__inspect[aria-pressed="true"] { background: var(--uv); color: #fff; border-color: var(--uv); }
-.doc--has-notes { padding-bottom: 54px; }
 
 .uv-flicker {
   position: absolute; inset: 0; border-radius: var(--r-card); pointer-events: none;
@@ -323,30 +343,42 @@ main:focus { outline: none; }
 
 .torch-beam {
   position: fixed;
-  width: 300px; height: 300px;
-  margin: -150px 0 0 -150px;
+  width: 190px; height: 190px;
+  margin: -95px 0 0 -95px;
   border-radius: 50%;
   pointer-events: none;
   z-index: 30;
   background: radial-gradient(circle closest-side,
-    rgba(139, 92, 246, 0.40) 0%,
-    rgba(139, 92, 246, 0.22) 46%,
-    rgba(139, 92, 246, 0.07) 74%,
-    rgba(139, 92, 246, 0) 100%);
+    rgba(139, 92, 246, 0.34) 0 38%,
+    rgba(139, 92, 246, 0.20) 38% 58%,
+    rgba(139, 92, 246, 0.09) 58% 78%,
+    rgba(139, 92, 246, 0) 78% 100%);
   mix-blend-mode: screen;
-  border: 1px solid rgba(183, 156, 251, 0.5);
 }
-.torch-beam[data-grab="1"] { border-color: rgba(183, 156, 251, 0.95); }
-body[data-torch="on"] { cursor: crosshair; }
 
+.torch-body {
+  position: fixed;
+  z-index: 31;
+  pointer-events: none;
+  image-rendering: pixelated;
+}
+
+/* The beam is focusable so a keyboard player steers the light directly.
+   It must never take pointer events: it tracks the cursor, so anything
+   clickable would otherwise be permanently behind it. Keyboard focus is
+   unaffected by pointer-events. */
 .torch-handle {
-  position: fixed; z-index: 31;
-  width: 300px; height: 300px; margin: -150px 0 0 -150px;
+  position: fixed; z-index: 32;
+  width: 190px; height: 190px; margin: -95px 0 0 -95px;
   border-radius: 50%;
   background: transparent; border: 0; padding: 0;
-  cursor: grab;
+  pointer-events: none;
 }
-.torch-handle:active { cursor: grabbing; }
+.torch-handle:focus-visible { outline: 2px dashed var(--uv-text); outline-offset: -8px; }
+
+/* The torch replaces the pointer rather than sitting beside it. */
+body[data-torch="on"], body[data-torch="on"] * { cursor: none; }
+body[data-torch="on"] .doc { touch-action: none; }
 
 /* ---------- cards, tags, stamps ---------- */
 
@@ -911,7 +943,7 @@ input[type="range"]:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 4px var(
 .doc--letter {
   font-family: var(--serif);
   padding: clamp(24px, 3.2vw, 44px);
-  max-width: 62ch;
+  max-width: min(100%, 940px);
   border-left: 6px solid var(--manila);
 }
 .doc--letter .doc__body { font-size: 1.06em; line-height: 1.62; }
@@ -919,7 +951,7 @@ input[type="range"]:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 4px var(
   font-family: var(--serif); font-style: italic; font-size: 1.1em; margin-top: 18px;
 }
 .doc--slip {
-  max-width: 46ch;
+  max-width: min(100%, 660px);
   background: #F6F2E9;
   border: 1px dashed var(--paper-rule);
   font-size: 0.92em;
@@ -1057,7 +1089,6 @@ mark.hl {
 .refcard--quiet .refcard__source, .refcard--quiet .refcard__title { color: var(--muted); }
 
 .doc--note-card { padding: 14px 18px; }
-.doc--note-card.doc--has-notes { padding-bottom: 46px; }
 .doc--note-card .doc__title {
   font-family: var(--mono); font-size: 0.7em; letter-spacing: 0.14em;
   text-transform: uppercase; color: var(--muted); margin: 0 0 2px;
@@ -1167,7 +1198,6 @@ mark.hl {
 .doc--bare {
   background: transparent; border: 0; padding: 0; margin-top: 14px;
 }
-.doc--bare.doc--has-notes { padding-bottom: 46px; }
 
 .insecure-banner {
   border: 1px solid var(--stamp); border-left-width: 4px;
