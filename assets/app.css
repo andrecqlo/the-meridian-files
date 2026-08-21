@@ -1288,3 +1288,93 @@ mark.hl {
 .doc, .card--paper, .desk-file, .refcard, .option, .segment, .claim, .chip {
   image-rendering: auto;
 }
+
+/* ---------- the room ---------- */
+
+.room {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  border: 2px solid var(--tone-1);
+  background: var(--tone-0);
+  overflow: hidden;
+}
+.room__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+.room__layer { position: absolute; inset: 0; }
+
+.hotspot {
+  position: absolute;
+  margin: 0; padding: 0;
+  background: transparent;
+  border: 2px solid transparent;
+  cursor: pointer;
+  display: grid;
+  align-content: end;
+  justify-items: center;
+}
+.hotspot__name {
+  font-family: var(--pixel);
+  font-size: 14px;
+  color: var(--tone-3);
+  background: var(--tone-0);
+  border: 1px solid var(--tone-2);
+  padding: 3px 7px;
+  transform: translateY(70%);
+  opacity: 0;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.hotspot:hover .hotspot__name,
+.hotspot:focus-visible .hotspot__name { opacity: 1; }
+.hotspot:hover, .hotspot:focus-visible { border-color: var(--uv); }
+.hotspot:focus-visible { outline: 2px dashed var(--uv-text); outline-offset: 3px; }
+.hotspot[data-state="blocked"]:hover, .hotspot[data-state="blocked"]:focus-visible {
+  border-color: var(--stamp);
+}
+.hotspot[data-state="done"]::after {
+  content: "";
+  position: absolute; top: 4px; right: 4px;
+  width: 10px; height: 10px;
+  background: var(--ok-text);
+}
+
+.room__status {
+  font-family: var(--pixel);
+  font-size: var(--px-sm);
+  line-height: 1.5;
+  color: var(--uv-text);
+  background: var(--tone-0);
+  border: 2px solid var(--tone-1);
+  border-top: 0;
+  max-width: 1200px;
+  margin: 0 auto var(--gap);
+  padding: 14px 18px;
+  min-height: 4em;
+}
+
+.filestrip {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: var(--manila);
+  color: var(--ink);
+  border: 2px solid #C3AF7E;
+  padding: 14px 18px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 20px;
+}
+.filestrip__name { font-family: var(--pixel); font-size: var(--px-sm); margin: 0; }
+.filestrip__caption { margin: 0; font-size: 0.86em; color: #4A4231; flex: 1 1 240px; }
+
+@media (max-width: 700px) {
+  .hotspot__name { font-size: 12px; transform: translateY(60%); }
+  .room__status { font-size: 14px; padding: 10px 12px; }
+}

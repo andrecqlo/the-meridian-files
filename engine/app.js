@@ -194,6 +194,48 @@ function boot(series) {
     store.set('findings', found);
   };
 
+  /* What the room does when you click something, and what it says when you
+     click something you cannot use yet. Progress gates the sections; an item
+     gate is handled the same way, so a hotspot only ever has one blocker. */
+  ctx.deskState = function deskState(object) {
+    const progress = store.get('progress', {}) || {};
+    const responses = object.responses || {};
+    const inventory = store.get('inventory', []) || [];
+    if (object.unlockedBy && progress[object.unlockedBy] !== true) {
+      return { kind: 'blocked', response: responses.locked, label: `${object.label}. ${responses.locked || 'Not yet.'}` };
+    }
+    if (object.requiresItem && inventory.indexOf(object.requiresItem) < 0) {
+      return { kind: 'blocked', response: responses.noItem, label: `${object.label}. ${responses.noItem || 'Not yet.'}` };
+    }
+    if (object.id === 'torch' && ctx.torch.held) {
+      return { kind: 'taken', response: responses.taken, label: `${object.label} — taken` };
+    }
+    if (object.track && progress[object.track] === true) {
+      return { kind: 'done', response: responses.look, label: `${object.label} — read` };
+    }
+    return { kind: 'open', response: responses.look, label: object.label };
+  };
+
+  ctx.deskActivate = function deskActivate(object, say) {
+    const responses = object.responses || {};
+    if (object.action === 'takeTorch') {
+      if (ctx.torch.held) { say(responses.taken); return; }
+      ctx.torch.pickUp();
+      audio.play('unlock');
+      ctx.render();
+      return;
+    }
+    if (object.action === 'drawer') {
+      say(responses.locked);
+      return;
+    }
+    if (object.route) {
+      router.go(object.route);
+      return;
+    }
+    say(responses.look);
+  };
+
   ctx.resetCase = function resetCase() {
     hints.endAll();
     timer.stop();
@@ -296,6 +338,18 @@ function boot(series) {
     backButton.hidden = false;
     backLabel.textContent = 'Desk';
     backButton.onclick = () => router.go(`${CASE_ID}/desk`);
+
+    /* A gated object cannot be reached by deep link either: bounce back to the
+       desk and let the room say why. */
+    const owner = (content.desk.objects || []).find((object) => object.route === path);
+    if (owner) {
+      const state = ctx.deskState(owner);
+      if (state.kind === 'blocked') {
+        ctx.pendingStatus = state.response;
+        router.replace(`${CASE_ID}/desk`);
+        return;
+      }
+    }
 
     const scene = (content.scenes || []).find((entry) => entry.route === path);
     if (scene) {

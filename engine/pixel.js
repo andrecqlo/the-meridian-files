@@ -49,16 +49,28 @@ export function spriteToDataURL(sprite, scale) {
   return spriteToCanvas(sprite, scale).toDataURL('image/png');
 }
 
-/* Cross-hatch dither between two tones, for shading a flat area without a
-   gradient. density 1 = every other pixel, 2 = every fourth, and so on. */
+/* Dither a rectangle in one tone over whatever is under it, so an area can be
+   shaded without a gradient. All coordinates are logical pixels.
+
+   Patterns rather than diagonals: diagonal hatching moires badly at scale and
+   reads as noise. 1 is a 50% checkerboard, 2 is 25%, 3 is 12.5%. */
 export function dither(ctx2d, x, y, width, height, colour, density, scale) {
   const step = scale || 1;
-  const n = density || 1;
+  const level = density || 1;
   ctx2d.fillStyle = colour;
+  /* The pattern is keyed to absolute position, not to the rectangle being
+     filled — otherwise adjacent calls phase against each other and the
+     texture breaks into stripes. */
   for (let row = 0; row < height; row += 1) {
+    const py = y + row;
     for (let col = 0; col < width; col += 1) {
-      if ((row + col) % (n + 1) !== 0) continue;
-      ctx2d.fillRect(x + col * step, y + row * step, step, step);
+      const pxx = x + col;
+      let on;
+      if (level <= 1) on = (py + pxx) % 2 === 0;
+      else if (level === 2) on = py % 2 === 0 && pxx % 2 === 0;
+      else on = py % 2 === 0 && pxx % 4 === (py % 4 === 0 ? 0 : 2);
+      if (!on) continue;
+      ctx2d.fillRect(pxx * step, py * step, step, step);
     }
   }
 }

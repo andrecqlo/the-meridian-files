@@ -69,38 +69,155 @@
     "objects": [
       {
         "id": "tray",
-        "icon": "tray",
         "label": "Paper tray",
-        "caption": "One letter on top, addressed by hand.",
         "route": "case01/tray",
-        "track": "c1letter"
+        "track": "c1letter",
+        "sprite": "PAPER_TRAY",
+        "at": {
+          "x": 10,
+          "y": 66
+        },
+        "hit": {
+          "x": 6,
+          "y": 60,
+          "w": 52,
+          "h": 28
+        },
+        "responses": {
+          "look": "A letter on top, addressed by hand. Everything under it is printed."
+        }
       },
       {
         "id": "laptop",
-        "icon": "laptop",
         "label": "Laptop",
-        "caption": "The research dashboard is still open.",
         "route": "case01/laptop",
         "track": "c1",
-        "stamps": "WHO"
+        "stamps": "WHO",
+        "sprite": "LAPTOP",
+        "at": {
+          "x": 60,
+          "y": 60
+        },
+        "hit": {
+          "x": 56,
+          "y": 54,
+          "w": 58,
+          "h": 34
+        },
+        "unlockedBy": "c1letter",
+        "responses": {
+          "look": "Still awake. The research dashboard is open.",
+          "locked": "The screen's asleep and you don't know what you're looking for yet. Start with the tray."
+        }
       },
       {
         "id": "pilot",
-        "icon": "folder",
         "label": "Pilot data pack",
-        "caption": "Bound, tabbed, left open at the summary.",
         "route": "case01/pilot",
         "track": "c2",
-        "stamps": "IS"
+        "stamps": "IS",
+        "sprite": "REPORT",
+        "at": {
+          "x": 120,
+          "y": 71
+        },
+        "hit": {
+          "x": 116,
+          "y": 66,
+          "w": 44,
+          "h": 22
+        },
+        "unlockedBy": "c1",
+        "responses": {
+          "look": "Bound, tabbed, left open at the summary.",
+          "locked": "Numbers about a pilot. Nothing to weigh them against yet."
+        }
+      },
+      {
+        "id": "file",
+        "label": "READ_BEFORE_SIGNOFF",
+        "route": "case01/file",
+        "sprite": "CASE_FILE",
+        "at": {
+          "x": 164,
+          "y": 70
+        },
+        "hit": {
+          "x": 160,
+          "y": 64,
+          "w": 48,
+          "h": 24
+        },
+        "unlockedBy": "c3",
+        "responses": {
+          "look": "Sam's file. Three words stamped on the front.",
+          "locked": "Three word slots on the front, and you haven't stamped them all."
+        }
+      },
+      {
+        "id": "torch",
+        "label": "UV torch",
+        "action": "takeTorch",
+        "sprite": "DESK_TORCH",
+        "at": {
+          "x": 210,
+          "y": 76
+        },
+        "hit": {
+          "x": 206,
+          "y": 70,
+          "w": 38,
+          "h": 18
+        },
+        "responses": {
+          "look": "A UV torch, lying where it was put down.",
+          "taken": "Violet light. Sam wrote in ultraviolet ink — move it across a page and the handwriting comes up."
+        }
+      },
+      {
+        "id": "drawer",
+        "label": "Desk drawer",
+        "action": "drawer",
+        "sprite": "DRAWER",
+        "at": {
+          "x": 22,
+          "y": 94
+        },
+        "hit": {
+          "x": 18,
+          "y": 90,
+          "w": 62,
+          "h": 20
+        },
+        "responses": {
+          "look": "Stuck. Something's shifted inside it.",
+          "locked": "Stuck. Something's shifted inside it."
+        },
+        "grounded": false
       },
       {
         "id": "pinboard",
-        "icon": "pinboard",
         "label": "Pinboard",
-        "caption": "The impact assessment, pinned up.",
         "route": "case01/pinboard",
         "track": "c3",
-        "stamps": "MISSING"
+        "stamps": "MISSING",
+        "sprite": "PINBOARD",
+        "at": {
+          "x": 100,
+          "y": 8
+        },
+        "hit": {
+          "x": 96,
+          "y": 4,
+          "w": 70,
+          "h": 34
+        },
+        "unlockedBy": "c2",
+        "responses": {
+          "look": "Five index cards and a lot of confident handwriting.",
+          "locked": "Claims pinned up with nothing to test them against yet."
+        },
+        "grounded": false
       }
     ],
     "file": {
@@ -122,6 +239,46 @@
           "track": "c3"
         }
       ]
+    },
+    "sceneLabel": "Sam's desk: a paper tray, a laptop, a pilot data pack, a locked file, a torch, a drawer, and a pinboard on the wall.",
+    "scene": {
+      "w": 300,
+      "h": 124,
+      "deskTop": 84,
+      "lamp": {
+        "x": 278,
+        "y": 80
+      },
+      "dressing": [
+        {
+          "sprite": "LAMP",
+          "x": 262,
+          "y": 61
+        },
+        {
+          "sprite": "MUG",
+          "x": 244,
+          "y": 74
+        },
+        {
+          "sprite": "DRAWER",
+          "x": 96,
+          "y": 94
+        },
+        {
+          "sprite": "DRAWER",
+          "x": 170,
+          "y": 94
+        },
+        {
+          "sprite": "DRAWER",
+          "x": 244,
+          "y": 94
+        }
+      ]
+    },
+    "fileStrip": {
+      "name": "READ_BEFORE_SIGNOFF"
     }
   },
   "scenes": [

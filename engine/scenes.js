@@ -4,6 +4,7 @@
 
 import { el, append, clear, icon, announce, focusFirst, formatNumber } from './dom.js';
 import { load as loadInteraction } from './registry.js';
+import { renderDeskScene } from './deskscene.js';
 
 /* ---------- documents ---------- */
 
@@ -251,32 +252,16 @@ export function renderDesk(main, ctx) {
   const progress = ctx.store.get('progress', {});
   append(main, sceneHead('Case 01 · The Evidence', desk.title, desk.subtitle));
 
-  const grid = el('div', { class: 'desk' });
+  /* The room, or a plain list of objects if the canvas cannot be drawn. */
+  let scene = null;
+  try {
+    scene = renderDeskScene(main, ctx, desk.objects);
+  } catch (error) {
+    renderDeskCards(main, ctx, desk.objects);
+  }
 
-  desk.objects.forEach((object) => {
-    const done = progress[object.track] === true;
-    const node = el('button', {
-      type: 'button',
-      class: 'desk-object',
-      'data-done': done ? '1' : '0',
-      onClick: () => ctx.router.go(object.route),
-    }, [
-      icon(object.icon),
-      el('p', { class: 'desk-object__label', text: object.label }),
-      el('p', { class: 'desk-object__caption', text: object.caption }),
-      el('span', {
-        class: `tag ${done ? 'tag--ok' : ''}`,
-        text: done ? 'Read' : 'Unread',
-        'data-role': 'state',
-      }),
-    ]);
-    node.querySelector('[data-role="state"]').classList.add('desk-object__state');
-    append(grid, node);
-  });
-
-  /* The locked file: three word slots, stamped as each challenge lands. */
-  /* A word earned since the player was last at the desk lands with a thud;
-     one they have already seen is simply there. */
+  /* The file's three word slots live under the room, where the words are
+     legible and the stamp can be announced. */
   const seen = ctx.store.get('stampsSeen', []) || [];
   const stamped = desk.file.slots.map((slot) => ({
     word: ctx.decode(slot.word),
@@ -288,47 +273,38 @@ export function renderDesk(main, ctx) {
     .filter((slot) => progress[slot.track] === true)
     .map((slot) => slot.track);
   if (nowSeen.length !== seen.length) ctx.store.set('stampsSeen', nowSeen);
-  const fileNode = el('button', {
-    type: 'button',
-    class: 'desk-file',
-    onClick: () => ctx.router.go(desk.file.route),
-  }, [
-    el('p', { class: 'desk-file__name', text: desk.file.name }),
+
+  append(main, el('div', { class: 'filestrip' }, [
+    el('p', { class: 'filestrip__name', text: desk.file.name }),
     el('div', { class: 'slots' }, stamped.map((slot) => el('span', {
       class: `slot${slot.fresh ? ' slot--stamping' : ''}`,
       'data-filled': slot.filled ? '1' : '0',
       text: slot.filled ? slot.word : '— — —',
     }))),
-    el('p', { class: 'desk-file__caption', text: allStamped ? desk.file.ready : desk.file.locked }),
-  ]);
-  append(grid, fileNode);
+    el('p', { class: 'filestrip__caption', text: allStamped ? desk.file.ready : desk.file.locked }),
+  ]));
 
-  /* The drawer, and the torch inside it. */
-  const torchHeld = ctx.torch.held;
-  const drawer = el('div', { class: 'drawer' }, [
-    icon('torch'),
-    el('p', { class: 'desk-object__label', text: torchHeld ? ctx.content.torch.taken : desk.file ? ctx.content.torch.drawerLabel : '' }),
-    el('p', { class: 'drawer__note', text: torchHeld ? ctx.content.torch.description : ctx.content.torch.drawerHint }),
-  ]);
-  if (!torchHeld) {
-    append(drawer, el('button', {
-      type: 'button',
-      class: 'btn btn--primary',
-      text: ctx.content.torch.pickUp,
+  if (scene && allStamped) scene.say(desk.file.ready);
+}
+
+/* Fallback for anything that cannot render the room. */
+function renderDeskCards(main, ctx, objects) {
+  const grid = el('div', { class: 'desk' });
+  objects.forEach((object) => {
+    const state = ctx.deskState(object);
+    const node = el('button', {
+      type: 'button', class: 'desk-object', 'data-state': state.kind,
       onClick: () => {
-        ctx.torch.pickUp();
-        ctx.audio.play('unlock');
-        ctx.render();
+        if (state.kind === 'blocked') { ctx.toast(state.response, 'bad'); return; }
+        ctx.deskActivate(object, (text) => ctx.toast(text));
       },
-    }));
-  }
-  append(grid, drawer);
-
+    }, [
+      el('p', { class: 'desk-object__label', text: object.label }),
+      el('p', { class: 'desk-object__caption', text: (object.responses || {}).look || '' }),
+    ]);
+    append(grid, node);
+  });
   append(main, grid);
-
-  if (allStamped) {
-    append(main, el('p', { class: 'samnote', style: 'margin-top:28px', text: 'Three words. Open the file.' }));
-  }
 }
 
 /* ---------- challenge scenes ---------- */
