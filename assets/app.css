@@ -1388,6 +1388,12 @@ mark.hl {
 
 body[data-tray="on"] main { padding-bottom: 170px; }
 
+.inventory[data-compact="on"] { padding: 6px; }
+.inventory[data-compact="on"] .inventory__label { display: none; }
+.inventory[data-compact="on"] .item { min-width: 0; padding: 4px 6px; }
+.inventory[data-compact="on"] .item__name { display: none; }
+.inventory[data-compact="on"] .item__art { height: 26px; }
+
 .inventory {
   position: fixed;
   left: 12px;
@@ -1435,4 +1441,82 @@ body[data-tray="on"] main { padding-bottom: 170px; }
   main { padding-bottom: 130px; }
   .item { min-width: 58px; }
   .item__art { height: 26px; }
+}
+
+/* ---------- notes from Sam, arriving over time ---------- */
+
+.hintstack {
+  position: fixed;
+  top: calc(var(--chrome-h) + 12px);
+  right: 12px;
+  z-index: 37;
+  display: grid;
+  gap: 10px;
+  width: min(320px, calc(100vw - 24px));
+}
+.hintnote {
+  background: #F3EBD2;
+  color: var(--ink);
+  border: 2px solid #C3AF7E;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.45);
+  transform: rotate(-1.2deg);
+}
+/* The unread pulse never moves the note: a bobbing element is a moving click
+   target, which is unfair with a clock running and impossible with a tremor. */
+.hintnote[data-fresh="1"] { border-color: var(--uv); }
+.hintnote[data-fresh="1"] .hintnote__tab::before { animation: note-blink 1.6s steps(1, end) infinite; }
+@keyframes note-blink {
+  0%, 49% { background: var(--uv); }
+  50%, 100% { background: #C3AF7E; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hintnote[data-fresh="1"] .hintnote__tab::before { animation: none; }
+}
+.hintnote[data-open="1"] { animation: none; }
+
+.hintnote__tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  font-family: var(--pixel);
+  font-size: 14px;
+  text-align: left;
+  padding: 10px 12px;
+  background: transparent;
+  border: 0;
+  color: #4A4231;
+  cursor: pointer;
+}
+.hintnote__tab::before {
+  content: "";
+  width: 10px; height: 10px;
+  background: var(--uv);
+  flex: none;
+}
+.hintnote[data-open="1"] .hintnote__tab::before { background: #A9A399; }
+.hintnote__body { padding: 0 14px 12px; }
+.hintnote__text {
+  font-family: var(--hand);
+  font-size: 1.5em;
+  line-height: 1.2;
+  color: var(--uv-ink);
+  margin: 0 0 10px;
+}
+.hintnote__close {
+  font-family: var(--pixel);
+  font-size: 12px;
+  background: transparent;
+  border: 1px solid #C3AF7E;
+  color: #4A4231;
+  padding: 5px 9px;
+  cursor: pointer;
+}
+.hintnote__tab:focus-visible, .hintnote__close:focus-visible {
+  outline: 2px solid var(--uv-ink); outline-offset: 2px;
+}
+
+@media (max-width: 700px) {
+  .hintstack { top: calc(var(--chrome-h) + 8px); right: 8px; width: min(280px, calc(100vw - 16px)); }
+  .hintnote__text { font-size: 1.3em; }
 }

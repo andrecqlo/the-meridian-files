@@ -9,6 +9,7 @@ import { createPace } from './pace.js';
 import { createRouter } from './router.js';
 import { createTorch } from './interactions/torch.js';
 import { createInventory } from './inventory.js';
+import { createHintStack } from './hintnote.js';
 import { audio } from './audio.js';
 import { verify, normalise, decode, checkerAvailable, CHECKER_UNAVAILABLE } from './verify.js';
 import { el, append, clear, announce, focusFirst } from './dom.js';
@@ -71,6 +72,7 @@ function boot(series) {
   ctx.torch = createTorch(ctx);
   ctx.inventory = createInventory(ctx);
   ctx.inventory.mount(tray);
+  ctx.hintStack = createHintStack(ctx);
   ctx.pace = pace;
   hints.setPace(() => pace.factor());
 
@@ -99,37 +101,20 @@ function boot(series) {
   });
 
   /* Pace escalations. Each one fires once, on the way down. */
-  pace.subscribe((level) => {
+  /* Applied both when the level changes and when a challenge mounts — a team
+     already behind the line when they open a scene should not have to wait for
+     the next transition, which may never come. */
+  ctx.applyPace = function applyPace() {
+    const level = pace.level;
     document.body.dataset.paceLevel = String(level);
     if (level >= 2) hints.forceNextTier();
-    if (level >= 3) ctx.openLatestNote();
+    if (level >= 3) ctx.hintStack.openLatest();
     if (level > 0) store.patch('paceSeen', { [`level${level}`]: true });
-  });
+  };
+  pace.subscribe(() => ctx.applyPace());
   timer.subscribe(() => {
     if (timer.isStarted()) pace.evaluate();
   });
-
-  /* The last surfaced note, opened once and then dismissible. Used only when a
-     team is more than three minutes behind the line. */
-  ctx.openLatestNote = function openLatestNote() {
-    const notes = document.querySelectorAll('[data-hint] .uv-note');
-    const note = notes[notes.length - 1];
-    if (!note || note.dataset.autoOpened === '1') return;
-    note.dataset.autoOpened = '1';
-    note.dataset.inspect = '1';
-    const card = note.closest('.doc');
-    if (!card || card.querySelector('.note-dismiss')) return;
-    card.dataset.newNote = '0';
-    const dismiss = el('button', {
-      type: 'button', class: 'btn btn--quiet note-dismiss', text: 'Put it back',
-    });
-    dismiss.addEventListener('click', () => {
-      note.dataset.inspect = '0';
-      dismiss.remove();
-    });
-    append(card, dismiss);
-    announce(`Sam left a note. ${note.textContent}`);
-  };
 
   torchButton.addEventListener('click', () => {
     ctx.torch.toggle();
@@ -272,7 +257,7 @@ function boot(series) {
 
   /* Sam's notes surface here. Tiers 1 and 2 arrive as marginalia that need the
      torch; tier 3 is plain text, because by then nobody should be stuck. */
-  ctx.mountHints = function mountHints(scene, host) {
+  ctx.mountHints = function mountHints(scene) {
     const sets = {
       [scene.track]: scene.hints || [],
       [scene.trackSecondary]: scene.hintsSecondary || [],
@@ -284,7 +269,7 @@ function boot(series) {
       hints.begin(track, (tier) => {
         const text = (sets[track] || [])[tier - 1];
         if (!text) return;
-        renderHint(host, track, tier, text, ctx);
+        ctx.hintStack.add(track, tier, text);
       });
     }
 
@@ -300,6 +285,7 @@ function boot(series) {
       begin(scene.trackSecondary);
     };
     ctx.startSecondaryHints();
+    if (ctx.applyPace) ctx.applyPace();
   };
 
   ctx.render = function render() {
@@ -313,6 +299,7 @@ function boot(series) {
     ctx.mounted = [];
     bus.reset();
     hints.endAll();
+    ctx.hintStack.clear();
     ctx.activeTracks = [];
     clear(main);
 
@@ -326,6 +313,9 @@ function boot(series) {
        is a timed decision — the tray must not sit over the controls. */
     const trayRoutes = [`${CASE_ID}/file`, `${CASE_ID}/twist`, `${CASE_ID}/debrief`];
     tray.hidden = isLanding || path === CASE_ID || trayRoutes.indexOf(path) >= 0;
+    /* Full tray in the room, where items get used; a compact strip elsewhere,
+       so it takes as little of a document scene as possible. */
+    tray.dataset.compact = path === `${CASE_ID}/desk` ? 'off' : 'on';
     if (!tray.hidden) ctx.inventory.render();
     document.body.dataset.tray = tray.hidden || !(store.get('inventory', []) || []).length ? 'off' : 'on';
 
@@ -429,28 +419,6 @@ async function renderSpecial(path, main, ctx) {
   append(main, host);
   ctx.track(mod.mount(host, ctx.content.final || {}, ctx));
   return true;
-}
-
-function renderHint(host, track, tier, text, ctx) {
-  if (host.querySelector(`[data-hint="${track}-${tier}"]`)) return;
-  /* Tiers 1 and 2 arrive as marginalia to be found. Tier 3 is plain text:
-     by then nobody should still be stuck. */
-  const plain = tier >= 3;
-  let node;
-  if (plain) {
-    node = el('article', { class: 'doc doc--screen doc--note-card' }, [
-      el('h4', { class: 'doc__title', text: 'A note in the margin' }),
-      el('p', { class: 'samnote', style: 'margin:0', text }),
-    ]);
-  } else {
-    node = scenes.renderNoteCard('A note in the margin',
-      [{ id: `hint-${track}-${tier}`, text }], ctx);
-    node.dataset.newNote = '1';
-  }
-  node.dataset.hint = `${track}-${tier}`;
-  append(host, node);
-  ctx.torch.refresh();
-  announce(plain ? `Sam left a note. ${text}` : 'Sam left a note in the margin.');
 }
 
 loadContent()

@@ -1472,5 +1472,10 @@
       "armedText": "String in hand. Now find something to run it between.",
       "disarmedText": "String back in your pocket."
     }
-  ]
+  ],
+  "hintNote": {
+    "closedLabel": "Note from Sam",
+    "dismissLabel": "Put it back",
+    "arrival": "Sam left a note in the corner."
+  }
 }

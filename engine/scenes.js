@@ -316,11 +316,10 @@ export async function renderChallenge(main, scene, ctx) {
   (scene.documents || []).forEach((doc) => append(docs, renderDocument(doc, ctx)));
 
   const work = el('div', { class: 'stack' });
-  const hintHost = el('div', { class: 'stack stack--tight', 'data-role': 'hints' });
 
   const layout = (scene.documents || []).length
-    ? el('div', { class: 'columns' }, [el('div', { class: 'stack' }, [docs, hintHost]), work])
-    : el('div', { class: 'stack' }, [work, hintHost]);
+    ? el('div', { class: 'columns' }, [docs, work])
+    : el('div', { class: 'stack' }, work);
   append(main, layout);
 
   for (const config of scene.interactions || []) {
@@ -331,7 +330,7 @@ export async function renderChallenge(main, scene, ctx) {
     ctx.track(mod.mount(host, config, Object.assign({}, ctx, { scene, host })));
   }
 
-  ctx.mountHints(scene, hintHost);
+  ctx.mountHints(scene);
   ctx.torch.refresh();
 }
 
