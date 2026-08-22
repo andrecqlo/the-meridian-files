@@ -278,10 +278,21 @@ export function mount(host, config, ctx) {
   window.requestAnimationFrame(paint);
   const onResize = () => paint();
   window.addEventListener('resize', onResize);
+  ctx.bus.on('panel-shown', () => window.requestAnimationFrame(paint));
+  /* Belt and braces: the canvas may be measured at zero width inside a closed
+     window, so repaint whenever it actually gets a size. */
+  let observer = null;
+  if (typeof ResizeObserver === 'function') {
+    observer = new ResizeObserver(() => paint());
+    observer.observe(canvas);
+  }
 
   if (reducedMotion()) canvas.classList.add('cohort__canvas--still');
 
   return {
-    unmount() { window.removeEventListener('resize', onResize); },
+    unmount() {
+      window.removeEventListener('resize', onResize);
+      if (observer) observer.disconnect();
+    },
   };
 }

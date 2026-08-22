@@ -5,6 +5,7 @@
 import { el, append, clear, icon, announce, focusFirst, formatNumber } from './dom.js';
 import { load as loadInteraction } from './registry.js';
 import { renderDeskScene } from './deskscene.js';
+import { createShell } from './shells.js';
 
 /* ---------- documents ---------- */
 
@@ -312,23 +313,44 @@ function renderDeskCards(main, ctx, objects) {
 export async function renderChallenge(main, scene, ctx) {
   append(main, sceneHead(`Case 01 · ${scene.title}`, scene.title, scene.subtitle));
 
+  const shell = createShell(main, scene, ctx);
+
+  /* Without a shell the scene keeps its two-column reading layout. With one,
+     everything is handed to the shell, which decides how it is framed. */
   const docs = el('div', { class: 'stack' });
-  (scene.documents || []).forEach((doc) => append(docs, renderDocument(doc, ctx)));
-
   const work = el('div', { class: 'stack' });
+  if (!shell) {
+    const layout = (scene.documents || []).length
+      ? el('div', { class: 'columns' }, [docs, work])
+      : el('div', { class: 'stack' }, work);
+    append(main, layout);
+  }
 
-  const layout = (scene.documents || []).length
-    ? el('div', { class: 'columns' }, [docs, work])
-    : el('div', { class: 'stack' }, work);
-  append(main, layout);
+  (scene.documents || []).forEach((doc) => {
+    /* Inside a shell the icon is the disclosure, so the document opens flat. */
+    const node = renderDocument(shell ? Object.assign({}, doc, { collapsed: false }) : doc, ctx);
+    if (shell) shell.add(doc.id, doc.openLabel || doc.title, node, { kind: 'file' });
+    else append(docs, node);
+  });
 
   for (const config of scene.interactions || []) {
     const host = el('div', { class: 'interaction', 'data-interaction': config.type });
-    append(work, host);
+    if (shell) {
+      shell.add(config.id, config.shellLabel || config.title || config.label, host, {
+        kind: config.shellKind || 'app',
+        pin: config.shellPin === true,
+        open: config.shellDefault === true,
+      });
+    }
+    else append(work, host);
     /* eslint-disable no-await-in-loop */
     const mod = await loadInteraction(config.type);
     ctx.track(mod.mount(host, config, Object.assign({}, ctx, { scene, host })));
   }
+
+  (scene.shortcuts || []).forEach((shortcut) => {
+    if (shell) shell.add(shortcut.id, shortcut.label, el('div'), { kind: shortcut.kind || 'folder', route: shortcut.route });
+  });
 
   ctx.mountHints(scene);
   ctx.torch.refresh();

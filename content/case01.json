@@ -404,7 +404,8 @@
         "Start with the letter. She’s telling you what to check.",
         "Compare what the survey says it covered with the four things her file says about her.",
         "She prefers post. Find who the invitation was actually sent to — then select everyone the email could never reach."
-      ]
+      ],
+      "shell": "tray"
     },
     {
       "id": "laptop",
@@ -453,7 +454,8 @@
               "after": 1,
               "text": "You can’t weight your way back to people you never invited."
             }
-          ]
+          ],
+          "openLabel": "Research.doc"
         },
         {
           "id": "operations",
@@ -497,14 +499,15 @@
               }
             }
           ],
-          "annotations": []
+          "annotations": [],
+          "openLabel": "Operations.doc"
         },
         {
           "id": "methodology",
           "kind": "paper",
           "title": "Methodology appendix",
           "collapsed": true,
-          "openLabel": "Methodology appendix",
+          "openLabel": "Methodology.doc",
           "meta": "Appendix B · Sampling and fieldwork",
           "blocks": [
             {
@@ -672,7 +675,10 @@
               "none"
             ],
             "announce": "The cohort outside the email frame is now dimmed across the field."
-          }
+          },
+          "shellLabel": "Cohort diagram",
+          "shellKind": "app",
+          "shellDefault": true
         },
         {
           "type": "code-entry",
@@ -745,13 +751,27 @@
                 "note": "Most exclusions never write in."
               }
             ]
-          }
+          },
+          "shellLabel": "Sampling audit",
+          "shellKind": "lock",
+          "shellPin": true
         }
       ],
       "hints": [
         "Start with the letter. She’s telling you what to check.",
         "Compare what the survey says it covered with the four things her file says about her.",
         "She prefers post. Find who the invitation was actually sent to — then select everyone the email could never reach."
+      ],
+      "shell": "laptop",
+      "shellTitle": "Sam's laptop",
+      "shellLabel": "Open on the laptop",
+      "shortcuts": [
+        {
+          "id": "pilotfolder",
+          "label": "Pilot data",
+          "route": "case01/pilot",
+          "kind": "folder"
+        }
       ]
     },
     {
@@ -998,7 +1018,8 @@
         "The pilot’s 81% isn’t wrong. Ask who was in the pilot.",
         "Three dimensions. Two of them are already handled — check what the survey said it weighted for.",
         "Case complexity. Drag the mix to the service reference and read the big figure."
-      ]
+      ],
+      "shell": "tray"
     },
     {
       "id": "pinboard",
@@ -1204,7 +1225,8 @@
         "Read the minutes again. Under the light.",
         "",
         ""
-      ]
+      ],
+      "shell": "corkboard"
     }
   ],
   "final": {
