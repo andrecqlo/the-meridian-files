@@ -1590,3 +1590,62 @@ body[data-tray="on"] main { padding-bottom: 170px; }
 
 .os__pinned { border-top: 2px solid var(--tone-1); padding-top: 16px; }
 .os__pinned:empty { display: none; }
+
+/* ---------- things pinned to cork ---------- */
+
+.shell--corkboard .shell__screen { background: #6B5A3B; }
+
+/* The interaction sits on the board, not in a panel on top of it. */
+.shell--corkboard .interaction.card {
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+/* The brief and the column labels get a plaque, so text never has to fight
+   the cork for contrast. */
+.shell--corkboard .interaction > h3,
+.shell--corkboard .interaction > .scene__sub {
+  background: var(--tone-0);
+  color: var(--tone-3);
+  margin: 0;
+  padding: 12px 16px;
+}
+.shell--corkboard .interaction > h3 { padding-bottom: 4px; }
+.shell--corkboard .interaction > .scene__sub { padding-top: 0; margin-bottom: 18px; }
+.shell--corkboard .board__head {
+  display: inline-block;
+  background: var(--tone-0);
+  color: var(--tone-3);
+  padding: 5px 10px;
+  margin-bottom: 14px;
+}
+
+/* Evidence is paper on a board, not a dark panel with a hole in it. */
+.shell--corkboard .evidence {
+  background: var(--manila);
+  color: var(--ink);
+  border: 1px solid #A8946A;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.32);
+}
+.shell--corkboard .evidence::before {
+  content: "";
+  position: absolute; top: -6px; left: 50%; transform: translateX(-50%);
+  width: 11px; height: 11px; border-radius: 50%;
+  background: var(--tone-2); border: 2px solid var(--tone-1);
+}
+.shell--corkboard .evidence__detail { color: #4A4231; }
+.shell--corkboard .evidence__more {
+  background: var(--tone-0); color: var(--uv-text); border-color: var(--tone-1);
+}
+.shell--corkboard .evidence[data-used="1"] { border-color: var(--ok); }
+.shell--corkboard .evidence[data-enlarged="1"] { border-color: var(--uv-ink); }
+.shell--corkboard .claim { box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.32); }
+.shell--corkboard .evidence__wrap .uv-note { color: var(--uv-ink); }
+
+/* Sam's remarks and the feedback line need the same plaque treatment. */
+.shell--corkboard .samnote--claim,
+.shell--corkboard .feedback {
+  background: var(--tone-0);
+  padding: 8px 12px;
+}
+.shell--corkboard .fragment-slots { box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.32); }
