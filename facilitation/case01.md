@@ -82,6 +82,30 @@ awarded if the team finds the workshop minutes under the torch and rebuilds
 Priya's sentence. Most teams miss it. That is deliberate: the debrief shows it
 to them as the one they missed, which lands harder than finding it would have.
 
+## How the room works
+
+Case 01 is a point-and-click room. The team clicks objects on Sam's desk, and
+objects open in sequence rather than all at once:
+
+| Object | Opens when |
+|---|---|
+| Paper tray | from the start |
+| UV torch, lying on the desk | from the start |
+| Laptop | the letter has been read |
+| Pilot data — a folder on the laptop | Challenge 1 is solved |
+| Desk drawer | Challenge 2 is solved — it yields a ball of string |
+| Pinboard | the team is carrying the string |
+| READ_BEFORE_SIGNOFF | all three words are stamped |
+
+Clicking something that will not open yet is not a dead end: it puts a line in
+the status bar under the room, in Sam's voice, saying what is missing. Clicking
+the pinboard without the string says so in as many words. **Nothing is ever
+hidden behind a search** — if a team seems stuck, tell them to click things.
+
+The torch is the one object worth pointing at if a team has not picked it up by
+about four minutes in. Sam's annotations are all read by moving its light across
+a page, and a team that never takes it will miss every one of them.
+
 ## Solutions
 
 - **Challenge 1.** The invitation went out by email only. On the cohort
@@ -100,6 +124,8 @@ to them as the one they missed, which lands harder than finding it would have.
   speakers (automated translation)* as not supported. Stamps MISSING.
 - **Passphrase.** The three stamped words: **WHO IS MISSING**. Spacing, hyphens
   and capitals are all forgiven.
+- **The string.** In the desk drawer, which is stuck until Challenge 2 lands.
+  Take it, then click the pinboard.
 - **Priya, optional.** Put the torch over the workshop minutes on the pinboard
   after the board is complete, then reassemble: *"My concern is the people who
   have never used the digital service — not the ones using it more."*

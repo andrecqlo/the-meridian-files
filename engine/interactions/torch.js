@@ -66,8 +66,7 @@ export function createTorch(ctx) {
     handle = document.createElement('button');
     handle.type = 'button';
     handle.className = 'torch-handle';
-    handle.setAttribute('aria-label',
-      'UV torch. Arrow keys move the light, N jumps to the next annotation, Escape switches it off.');
+    handle.setAttribute('aria-label', ctx.content.torch.keyboardHint);
     handle.addEventListener('keydown', onHandleKey);
     document.body.appendChild(handle);
   }
@@ -178,6 +177,11 @@ export function createTorch(ctx) {
     } else {
       schedule();
       if (!options || options.focus !== false) handle.focus({ preventScroll: true });
+      /* Say how to drive it, once, the first time it goes on. */
+      if (!store.get('torchBriefed', false)) {
+        store.set('torchBriefed', true);
+        announce(ctx.content.torch.keyboardHint);
+      }
     }
     store.patch('torch', { on });
     return on;

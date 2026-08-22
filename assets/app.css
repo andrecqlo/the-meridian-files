@@ -1649,3 +1649,15 @@ body[data-tray="on"] main { padding-bottom: 170px; }
   padding: 8px 12px;
 }
 .shell--corkboard .fragment-slots { box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.32); }
+
+.room-scroll { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+
+@media (max-width: 760px) {
+  /* Below this width the room is bigger than the screen and pans sideways.
+     Shrinking it instead would put every target under a fingertip's width. */
+  .room { min-width: 640px; }
+  .room-scroll { -webkit-overflow-scrolling: touch; }
+  .room-scroll::-webkit-scrollbar { height: 10px; }
+  .room-scroll::-webkit-scrollbar-thumb { background: var(--tone-2); }
+  .room-scroll::-webkit-scrollbar-track { background: var(--tone-1); }
+}

@@ -130,7 +130,9 @@ export function renderDeskScene(host, ctx, objects) {
     append(layer, button);
   });
 
-  append(host, room);
+  /* On a narrow screen the room is drawn larger than the viewport and scrolls
+     sideways, rather than shrinking until nothing can be tapped. */
+  append(host, el('div', { class: 'room-scroll' }, room));
   append(host, status);
 
   /* A message left behind by a bounced deep link, or by the object that just

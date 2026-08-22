@@ -53,15 +53,10 @@
     "timerNote": "The countdown starts when you open the desk."
   },
   "torch": {
-    "drawerLabel": "Desk drawer",
-    "drawerHint": "Something heavy rolls when you pull it open.",
-    "pickUp": "Take the UV torch",
-    "taken": "UV torch",
-    "description": "Sam wrote in ultraviolet ink. Switch the torch on and move the light across a page — you’ll only read what’s under the beam.",
     "toggleOn": "Switch the torch on",
     "toggleOff": "Switch the torch off",
     "firstUse": "Violet light. Handwriting comes up out of the paper wherever you point it.",
-    "keyboardHint": "Arrow keys move the light. N jumps to the next thing worth reading. Escape puts it out."
+    "keyboardHint": "UV torch. Move the pointer to move the light. Arrow keys also move it, N jumps to the next thing worth reading, and Escape puts it out."
   },
   "desk": {
     "title": "Sam’s desk",
@@ -79,9 +74,9 @@
         },
         "hit": {
           "x": 6,
-          "y": 60,
+          "y": 58,
           "w": 52,
-          "h": 28
+          "h": 34
         },
         "responses": {
           "look": "A letter on top, addressed by hand. Everything under it is printed."
@@ -100,9 +95,9 @@
         },
         "hit": {
           "x": 56,
-          "y": 54,
+          "y": 52,
           "w": 58,
-          "h": 34
+          "h": 40
         },
         "unlockedBy": "c1letter",
         "responses": {
@@ -123,9 +118,9 @@
         },
         "hit": {
           "x": 116,
-          "y": 66,
+          "y": 60,
           "w": 44,
-          "h": 22
+          "h": 32
         },
         "unlockedBy": "c1",
         "responses": {
@@ -144,9 +139,9 @@
         },
         "hit": {
           "x": 160,
-          "y": 64,
+          "y": 58,
           "w": 48,
-          "h": 24
+          "h": 34
         },
         "unlockedBy": "c3",
         "responses": {
@@ -165,9 +160,9 @@
         },
         "hit": {
           "x": 206,
-          "y": 70,
-          "w": 38,
-          "h": 18
+          "y": 60,
+          "w": 40,
+          "h": 32
         },
         "responses": {
           "look": "A UV torch, lying where it was put down.",
@@ -185,10 +180,10 @@
           "y": 94
         },
         "hit": {
-          "x": 18,
-          "y": 90,
-          "w": 62,
-          "h": 20
+          "x": 16,
+          "y": 93,
+          "w": 66,
+          "h": 26
         },
         "responses": {
           "look": "Stuck. Something has shifted inside it.",
@@ -213,9 +208,9 @@
         },
         "hit": {
           "x": 96,
-          "y": 4,
+          "y": 2,
           "w": 70,
-          "h": 34
+          "h": 40
         },
         "responses": {
           "look": "Five index cards and a lot of confident handwriting.",

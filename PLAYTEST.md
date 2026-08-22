@@ -21,6 +21,24 @@ cohort diagram) 3 minutes · Challenge 2 (workbench) 2.5–3 minutes · Challeng
 
 Watch a real team, not the screen. Record answers as yes/no plus one line.
 
+### The room and the light
+
+- [ ] Does anyone fail to find the torch on the desk? It is the first thing the
+      case needs and nothing else prompts you to pick it up.
+- [ ] Does reading a note by moving the light across it feel like reading, or
+      like fighting the interface? Watch whether people sweep or jab.
+- [ ] Does anyone try to click a document while the torch is on and find the
+      light in the way?
+- [ ] Clicking a locked object gives a clue in the status bar. Does anyone miss
+      it because they were looking at the object rather than the bar?
+- [ ] Does the drawer unsticking after Challenge 2 get noticed, or does the team
+      hunt for the string?
+- [ ] Do the notes that arrive top-right read as Sam, or as a nag? Does anyone
+      fail to notice one arrive?
+- [ ] On the laptop, does anyone lose the cohort count when they switch to
+      another window? The audit lock is pinned below for exactly this reason —
+      check it works.
+
 ### The interactions
 
 - [ ] Does the slider collapse produce a reaction — an audible one, out loud,
@@ -69,4 +87,8 @@ Watch a real team, not the screen. Record answers as yes/no plus one line.
 - [ ] Reset case: does it clear everything and return to the menu?
 - [ ] Play it once with the mouse only, once with touch only, once with the
       keyboard only. All three must complete the case.
-- [ ] Read it at 1080p from the back of the room, and on a 380px phone.
+- [ ] Read it at 1080p from the back of the room, and on a 380px phone. Check
+      the pixel chrome specifically: it is set on an 8px grid and goes soft at
+      off-grid sizes.
+- [ ] Safari and Firefox: the reveal mask and the room canvas are the two things
+      most likely to differ. Only Chromium is covered by the local suite.
