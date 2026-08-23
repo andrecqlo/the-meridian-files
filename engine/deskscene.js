@@ -26,10 +26,11 @@ function paintRoom(ctx2d, scene, scale) {
   dither(ctx2d, 0, 0, W, Math.round(top * 0.62), TONES[0], 2, scale);
   dither(ctx2d, 0, 0, W, Math.round(top * 0.30), TONES[0], 1, scale);
 
-  /* The lamp throws a stepped pool of light up the wall: three arcs, not a
-     gradient, so it bands the way everything else does. */
+  /* A stepped pool of light over the desk: three arcs, not a gradient, so it
+     bands the way everything else does. Wide and shallow, so it reads as the
+     ceiling rather than as a lamp that is not there. */
   const lamp = scene.lamp;
-  [[70, 3], [48, 2], [28, 1]].forEach(([radius, density]) => {
+  [[110, 3], [76, 2], [44, 1]].forEach(([radius, density]) => {
     for (let row = 0; row < top; row += 1) {
       const dy = (lamp.y - row) / 1.35;
       const half = Math.sqrt(Math.max(0, radius * radius - dy * dy));
