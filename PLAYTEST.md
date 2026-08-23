@@ -13,9 +13,10 @@ out of clock is not locked out — the timer counts up in red and everything
 stays playable. The ceiling is held by the hint system and the pace line, not
 by cutting content.
 
-Rough shape of a typical run: intro 60–90 seconds · Challenge 1 (letter, chips,
-cohort diagram) 3 minutes · Challenge 2 (workbench) 2.5–3 minutes · Challenge 3
-(pinboard) 2.5–3 minutes · final sequence 2 minutes · debrief 2 minutes.
+Rough shape of a typical run: intro 60 seconds · Challenge 1 (profile, reply,
+reference sheet, laptop PIN lock) 2 minutes · Challenge 2 (workbench) 2.5–3
+minutes · Challenge 3 (pinboard) 2.5–3 minutes · final sequence 2 minutes ·
+debrief 2 minutes.
 
 ## Checklist
 
@@ -34,13 +35,16 @@ Watch a real team, not the screen. Record answers as yes/no plus one line.
       light in the way?
 - [ ] Clicking a locked object gives a clue in the status bar. Does anyone miss
       it because they were looking at the object rather than the bar?
-- [ ] Does the drawer unsticking after Challenge 2 get noticed, or does the team
-      hunt for the string?
+- [ ] Does the bottom drawer unlocking after Challenge 2 get noticed, or does
+      the team hunt for the string?
 - [ ] Do the notes that arrive top-right read as Sam, or as a nag? Does anyone
       fail to notice one arrive?
-- [ ] On the laptop, does anyone lose the cohort count when they switch to
-      another window? The audit lock is pinned below for exactly this reason —
-      check it works.
+- [ ] Is the laptop's padlock read as "locked, come back" rather than
+      "broken"? Watch for a team that gives up on it rather than trying the
+      other objects first.
+- [ ] Does the "smeared paper" caption on the letter and the reply actually
+      send people to the torch, or does it read as decorative and get
+      ignored?
 
 ### The interactions
 
@@ -48,10 +52,19 @@ Watch a real team, not the screen. Record answers as yes/no plus one line.
       when the figure goes under 76?
 - [ ] Does the letter read aloud on a projector in under 40 seconds?
 - [ ] Does at least one tester reach 9,214 without hints?
-- [ ] Does anyone identify the contact-preference mismatch from the record chips
-      alone, before opening the methodology? If **universally yes**, the chips
-      are verdicting — recheck their copy, they are supposed to state facts and
-      leave the judgement to the player.
+- [ ] Does anyone try the laptop first, before the tray? Does the PIN pad read
+      as a hook to go find the answer, or as a wall?
+- [ ] Does the sticky note's vague clue ("the ones nobody asked") get decoded
+      before anyone types a wrong answer? If it **never** does, the clue is too
+      vague; if it **always** does, it is carrying too much and the sharpened
+      wrong-answer line is never seen.
+- [ ] **Do most teams crack the PIN without opening the drawer?** The profile's
+      "Post only" and the reply's "issued by email" are highlighted as a pair
+      specifically so the two together are decodable without the reference
+      sheet's count. If most teams solve it from the highlights alone, that
+      pairing is doing too much and the profile highlight has lost its point
+      as a *marker* rather than an *answer* — note it, do not add more
+      highlighting to compensate.
 - [ ] Does any team treat the age tab's 81 as a bug rather than a finding? If
       so, strengthen Sam's note on that tab. Never change the arithmetic.
 - [ ] Does the "1 complaint / 9,214 never invited" card get a visible reaction?
@@ -59,11 +72,11 @@ Watch a real team, not the screen. Record answers as yes/no plus one line.
 - [ ] Does anyone find Priya unaided? Most teams will not. That is by design —
       but if *nobody* across several sessions reaches the minutes, check that
       the pinboard's completion is leaving enough clock behind it.
-- [ ] Does any team build the correct 9,214 selection but hesitate to enter it
-      for want of confirmation? If so, sharpen the wording of the lock panel's
-      question. Never add an indicator to the diagram.
-- [ ] If fast teams clear Challenge 1 in under 90 seconds, move the operations
-      summary one interaction deeper — into the drawer. Never add arithmetic.
+- [ ] Does any team work out 9,214 but hesitate to type it for want of
+      confirmation? If so, sharpen the sticky note's wording, not the PIN
+      field itself.
+- [ ] If fast teams clear Challenge 1 in under 60 seconds, that is the
+      redesign working as intended — do not slow it down by adding a document.
 
 ### Pacing and hints
 
