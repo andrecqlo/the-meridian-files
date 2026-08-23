@@ -1,4 +1,9 @@
 @font-face {
+  font-family: "Jersey 25";
+  src: url("fonts/jersey25-400.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
   font-family: "VT323";
   src: url("fonts/vt323-400.woff2") format("woff2");
   font-weight: 400; font-style: normal; font-display: swap;
@@ -39,18 +44,23 @@
   --tone-2: #8B857A;
   --tone-3: #EDE7DC;
 
-  /* One face for the whole world. VT323 is a terminal font: monospaced, so
-     figures line up, and legible at size in a way a true 8px bitmap face is
-     not. It carries roughly a third less cap-height per em than a normal UI
-     face, so every size below is scaled up to compensate — 24px of VT323 reads
-     as 18px of anything else. */
-  --ui: "VT323", ui-monospace, "Cascadia Code", monospace;
-  --mono: "VT323", ui-monospace, "Cascadia Code", monospace;
-  --serif: "VT323", ui-monospace, "Cascadia Code", monospace;
-  --pixel: "VT323", ui-monospace, "Cascadia Code", monospace;
+  /* One rule: words are set in Jersey 25, figures in VT323.
+
+     Compared at matched cap height, Jersey has heavier stems than VT323 and is
+     the easier of the two to read across a paragraph — which matters, because
+     there are about 1,400 words in this case. But its digits are proportional
+     with no tabular feature, so a countdown set in it visibly jitters every
+     second. VT323 is monospaced, so it keeps the clock, the live counts and the
+     data tables still. Both need roughly a third more size than a normal UI
+     face to reach the same cap height, which is what the scale below allows
+     for. */
+  --ui: "Jersey 25", "VT323", ui-monospace, monospace;
+  --mono: "VT323", ui-monospace, "Cascadia Code", monospace;   /* figures only */
+  --serif: "Jersey 25", "VT323", ui-monospace, monospace;
+  --pixel: "Jersey 25", "VT323", ui-monospace, monospace;
   /* Sam writes in a different hand — still pixel, but rounder and wider than
      the terminal face, so marginalia never reads as system output. */
-  --hand: "Pixelify Sans", "VT323", ui-monospace, monospace;
+  --hand: "Pixelify Sans", "Jersey 25", ui-monospace, monospace;
 
   --r-block: 0;
   --r-card: 8px;
@@ -1255,7 +1265,7 @@ mark.hl {
 
 /* Tabular figures matter more than the grid for the clock, so the timer and
    the big readouts keep the monospace face and gain pixel-flavoured framing. */
-.chrome__timer-value { font-family: var(--pixel); font-size: var(--px-lg); }
+.chrome__timer-value { font-family: var(--mono); font-size: var(--px-lg); }
 .chrome__timer[data-level="large"] .chrome__timer-value,
 .chrome__timer[data-level="urgent"] .chrome__timer-value,
 .chrome__timer[data-level="over"] .chrome__timer-value { font-size: var(--px-xl); }

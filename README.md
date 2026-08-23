@@ -90,21 +90,23 @@ in review, with no binaries and no build step. Shading is dithering, never a
 gradient. Violet is the only chromatic colour in the world: everything else is
 the ramp from `--tone-0` to `--tone-3`.
 
-Two typefaces are vendored into `assets/fonts/` rather than fetched from a CDN,
-so the game works on a meeting-room machine with no wifi:
+Three typefaces are vendored into `assets/fonts/` rather than fetched from a
+CDN, so the game works on a meeting-room machine with no wifi:
 
-- **VT323** by Peter Hull — everything: chrome, figures, and document prose.
+- **Jersey 25** by Sarah Cadigan-Fried — words: prose, labels, headings.
+- **VT323** by Peter Hull — figures: the clock, live counts, data tables, codes.
 - **Pixelify Sans** by Eddy Gann and Stefie Justprince — Sam's marginalia and
   the notes that arrive over time.
 
-Both are licensed under the SIL Open Font License 1.1; the full licence is in
-`assets/fonts/OFL.txt`.
+All three are licensed under the SIL Open Font License 1.1; the full licence is
+in `assets/fonts/OFL.txt`.
 
-VT323 is a terminal face: monospaced, so figures line up, and legible at size
-in a way a true 8px bitmap font is not. It carries about a third less
-cap-height per em than a normal UI face, so every size in the stylesheet is
-scaled up to compensate — 24px of VT323 reads as 18px of anything else, and
-nothing is set below 21px.
+The split is one rule — words in Jersey, figures in VT323 — and it exists for a
+measured reason. At matched cap height Jersey has heavier stems and reads more
+easily across a paragraph, which matters over 1,400 words. But its digits are
+proportional with no tabular feature, so a countdown set in it jitters every
+second; VT323 is monospaced and holds still. Both need about a third more size
+than a normal UI face for the same cap height, so nothing is set below 21px.
 
 ## Running a session
 
