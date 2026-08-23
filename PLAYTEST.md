@@ -25,6 +25,9 @@ Watch a real team, not the screen. Record answers as yes/no plus one line.
 
 - [ ] Does anyone fail to find the torch on the desk? It is the first thing the
       case needs and nothing else prompts you to pick it up.
+- [ ] Taking something removes it from the desk — the torch disappears, the
+      paper tray empties. Does that register as "I picked it up", or does
+      anyone think they broke something?
 - [ ] Does reading a note by moving the light across it feel like reading, or
       like fighting the interface? Watch whether people sweep or jab.
 - [ ] Does anyone try to click a document while the torch is on and find the
@@ -87,8 +90,12 @@ Watch a real team, not the screen. Record answers as yes/no plus one line.
 - [ ] Reset case: does it clear everything and return to the menu?
 - [ ] Play it once with the mouse only, once with touch only, once with the
       keyboard only. All three must complete the case.
-- [ ] Read it at 1080p from the back of the room, and on a 380px phone. Check
-      the pixel chrome specifically: it is set on an 8px grid and goes soft at
-      off-grid sizes.
+- [ ] Read it at 1080p from the back of the room, and on a 380px phone. The
+      whole game is set in VT323 now, including the letter, Sam's memo and the
+      reveal — the single biggest legibility risk in the build. If anyone
+      squints at the reveal paragraph, raise its size before anything else.
+- [ ] Does anyone read Sam's marginalia as system output rather than as
+      something written by hand? It is set in a different pixel face for
+      exactly that reason.
 - [ ] Safari and Firefox: the reveal mask and the room canvas are the two things
       most likely to differ. Only Chromium is covered by the local suite.

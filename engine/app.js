@@ -203,8 +203,18 @@ function boot(series) {
     if (object.requiresItem && inventory.indexOf(object.requiresItem) < 0) {
       return { kind: 'blocked', response: responses.noItem, label: `${object.label}. ${responses.noItem || 'Not yet.'}` };
     }
-    if (object.id === 'torch' && ctx.torch.held) {
-      return { kind: 'taken', response: responses.taken, label: `${object.label} — taken` };
+    /* Once you are carrying it, it is not on the desk any more. */
+    if (object.goneWhen && inventory.indexOf(object.goneWhen.item) >= 0) {
+      return { kind: 'gone' };
+    }
+    /* A container you have emptied stays where it is and says so. */
+    if (object.emptyWhen && inventory.indexOf(object.emptyWhen.item) >= 0) {
+      return {
+        kind: 'empty',
+        sprite: object.emptyWhen.sprite,
+        response: responses.empty,
+        label: `${object.label}. ${responses.empty || 'Empty.'}`,
+      };
     }
     if (object.track && progress[object.track] === true) {
       return { kind: 'done', response: responses.look, label: `${object.label} — read` };
@@ -214,6 +224,11 @@ function boot(series) {
 
   ctx.deskActivate = function deskActivate(object, say) {
     const responses = object.responses || {};
+    const state = ctx.deskState(object);
+    if (state.kind === 'blocked' || state.kind === 'empty') {
+      say(state.response);
+      return;
+    }
     /* Re-rendering the room rebuilds the status bar, so anything worth saying
        has to survive the redraw. */
     if (object.action === 'takeTorch') {

@@ -1,16 +1,11 @@
 @font-face {
-  font-family: "Silkscreen";
-  src: url("fonts/silkscreen-400.woff2") format("woff2");
+  font-family: "VT323";
+  src: url("fonts/vt323-400.woff2") format("woff2");
   font-weight: 400; font-style: normal; font-display: swap;
 }
 @font-face {
-  font-family: "Silkscreen";
-  src: url("fonts/silkscreen-700.woff2") format("woff2");
-  font-weight: 700; font-style: normal; font-display: swap;
-}
-@font-face {
-  font-family: "Caveat";
-  src: url("fonts/caveat-var.woff2") format("woff2");
+  font-family: "Pixelify Sans";
+  src: url("fonts/pixelifysans-var.woff2") format("woff2");
   font-weight: 400 700; font-style: normal; font-display: swap;
 }
 
@@ -44,12 +39,18 @@
   --tone-2: #8B857A;
   --tone-3: #EDE7DC;
 
-  --ui: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --mono: ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, monospace;
-  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
-  /* Pixel face for chrome, handwriting for Sam. Prose never uses either. */
-  --pixel: "Silkscreen", ui-monospace, "Cascadia Code", monospace;
-  --hand: "Caveat", "Segoe Script", "Bradley Hand", cursive;
+  /* One face for the whole world. VT323 is a terminal font: monospaced, so
+     figures line up, and legible at size in a way a true 8px bitmap face is
+     not. It carries roughly a third less cap-height per em than a normal UI
+     face, so every size below is scaled up to compensate — 24px of VT323 reads
+     as 18px of anything else. */
+  --ui: "VT323", ui-monospace, "Cascadia Code", monospace;
+  --mono: "VT323", ui-monospace, "Cascadia Code", monospace;
+  --serif: "VT323", ui-monospace, "Cascadia Code", monospace;
+  --pixel: "VT323", ui-monospace, "Cascadia Code", monospace;
+  /* Sam writes in a different hand — still pixel, but rounder and wider than
+     the terminal face, so marginalia never reads as system output. */
+  --hand: "Pixelify Sans", "VT323", ui-monospace, monospace;
 
   --r-block: 0;
   --r-card: 8px;
@@ -70,7 +71,7 @@ html, body {
 
 body {
   font-family: var(--ui);
-  font-size: clamp(18px, 1.15vw, 21px);
+  font-size: clamp(24px, 1.55vw, 28px);
   line-height: 1.5;
   -webkit-text-size-adjust: 100%;
   min-height: 100vh;
@@ -291,8 +292,8 @@ main:focus { outline: none; }
 .uv-note {
   display: block;
   font-family: var(--hand);
-  font-size: 1.42em;
-  line-height: 1.15;
+  font-size: 1.05em;
+  line-height: 1.25;
   color: var(--uv-ink);
   transform: rotate(var(--tilt, -1.5deg));
   transform-origin: left top;
@@ -650,7 +651,7 @@ textarea.field { font-family: var(--ui); font-size: 1em; line-height: 1.45; resi
 }
 .scale__mark span {
   position: absolute; top: 32px; left: 50%; transform: translateX(-50%);
-  font-family: var(--mono); font-size: 11px; color: var(--manila); white-space: nowrap;
+  font-family: var(--mono); font-size: 15px; color: var(--manila); white-space: nowrap;
 }
 .scale__pin {
   position: absolute; top: 10px; width: 4px; height: 22px; background: var(--paper);
@@ -705,7 +706,7 @@ input[type="range"]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px 
 input[type="range"]:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 4px var(--uv-ink); }
 
 .mixbar { display: flex; height: 26px; border-radius: 4px; overflow: hidden; border: 1px solid var(--ink-3); }
-.mixbar__part { display: grid; place-items: center; font-family: var(--mono); font-size: 12px; color: var(--ink); transition: flex-grow 220ms ease; }
+.mixbar__part { display: grid; place-items: center; font-family: var(--mono); font-size: 16px; color: var(--ink); transition: flex-grow 220ms ease; }
 .mixbar__part:nth-child(1) { background: #C9BFAA; }
 .mixbar__part:nth-child(2) { background: var(--manila); }
 .mixbar__part:nth-child(3) { background: #B49B5F; }
@@ -958,7 +959,7 @@ input[type="range"]:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 4px var(
 }
 .doc--slip::before {
   content: "Stapled"; position: absolute; top: -10px; left: 22px;
-  font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+  font-family: var(--mono); font-size: 15px; letter-spacing: 0.14em;
   background: var(--manila); color: var(--ink); padding: 2px 8px; border-radius: 2px;
 }
 mark.hl {
@@ -1145,7 +1146,7 @@ mark.hl {
   .chain__link { transition: opacity 300ms ease; transform: none; }
 }
 .reveal__coda {
-  margin-top: 18px; font-size: 0.78em; line-height: 1.55;
+  margin-top: 18px; font-size: 0.9em; line-height: 1.5;
   color: var(--muted-ink); border-top: 1px solid var(--paper-rule); padding-top: 16px;
 }
 
@@ -1206,18 +1207,18 @@ mark.hl {
 }
 
 /* ---------------------------------------------------------------------------
-   Pixel chrome
+   Chrome
 
-   Silkscreen is drawn on an 8px grid, so chrome type is set at fixed sizes on
-   that grid rather than in em — off-grid sizes render soft and lose the point.
-   Nothing below 16px, so it still carries to the back of a room.
+   Everything is VT323 now, so these rules set weight and size rather than
+   swapping families. Nothing below 21px, which is where VT323 stops carrying
+   to the back of a room.
    --------------------------------------------------------------------------- */
 
 :root {
-  --px-sm: 16px;
-  --px-md: 24px;
-  --px-lg: 32px;
-  --px-xl: 48px;
+  --px-sm: 21px;
+  --px-md: 30px;
+  --px-lg: 44px;
+  --px-xl: 62px;
 }
 
 .chrome__case,
@@ -1321,7 +1322,7 @@ mark.hl {
 }
 .hotspot__name {
   font-family: var(--pixel);
-  font-size: 14px;
+  font-size: 19px;
   color: var(--tone-3);
   background: var(--tone-0);
   border: 1px solid var(--tone-2);
@@ -1342,7 +1343,7 @@ mark.hl {
 .hotspot[data-state="taken"]::after {
   content: "READ";
   position: absolute; top: 2px; right: 2px;
-  font-family: var(--pixel); font-size: 10px; line-height: 1;
+  font-family: var(--pixel); font-size: 15px; line-height: 1;
   color: var(--ok-text);
   background: var(--tone-0);
   border: 1px solid var(--ok);
@@ -1406,7 +1407,7 @@ body[data-tray="on"] main { padding-bottom: 170px; }
 }
 .inventory__label {
   font-family: var(--pixel);
-  font-size: 12px;
+  font-size: 17px;
   color: var(--tone-2);
   margin: 0 0 6px;
 }
@@ -1430,7 +1431,7 @@ body[data-tray="on"] main { padding-bottom: 170px; }
   box-shadow: inset 0 0 0 2px var(--uv);
 }
 .item__art { display: block; height: 34px; width: auto; image-rendering: pixelated; }
-.item__name { font-family: var(--pixel); font-size: 12px; line-height: 1.2; text-align: center; }
+.item__name { font-family: var(--pixel); font-size: 17px; line-height: 1.2; text-align: center; }
 .item:focus-visible { outline: 2px solid var(--uv-text); outline-offset: 2px; }
 
 @media (max-width: 700px) {
@@ -1480,7 +1481,7 @@ body[data-tray="on"] main { padding-bottom: 170px; }
   gap: 8px;
   width: 100%;
   font-family: var(--pixel);
-  font-size: 14px;
+  font-size: 19px;
   text-align: left;
   padding: 10px 12px;
   background: transparent;
@@ -1498,14 +1499,14 @@ body[data-tray="on"] main { padding-bottom: 170px; }
 .hintnote__body { padding: 0 14px 12px; }
 .hintnote__text {
   font-family: var(--hand);
-  font-size: 1.5em;
-  line-height: 1.2;
+  font-size: 1.05em;
+  line-height: 1.3;
   color: var(--uv-ink);
   margin: 0 0 10px;
 }
 .hintnote__close {
   font-family: var(--pixel);
-  font-size: 12px;
+  font-size: 17px;
   background: transparent;
   border: 1px solid #C3AF7E;
   color: #4A4231;
@@ -1558,7 +1559,7 @@ body[data-tray="on"] main { padding-bottom: 170px; }
 .os { display: grid; gap: 14px; }
 .os__title {
   display: flex; align-items: center; gap: 10px;
-  font-family: var(--pixel); font-size: 14px; color: var(--tone-2);
+  font-family: var(--pixel); font-size: 19px; color: var(--tone-2);
   border-bottom: 2px solid var(--tone-1); padding-bottom: 10px;
 }
 .os__dot { width: 10px; height: 10px; background: var(--ok-text); }
@@ -1579,7 +1580,7 @@ body[data-tray="on"] main { padding-bottom: 170px; }
 .os__icon[data-kind="folder"] .os__glyph { background: var(--manila); border-color: #C3AF7E; }
 .os__icon[data-kind="app"] .os__glyph { background: var(--uv); border-color: var(--uv-text); }
 .os__icon[data-kind="lock"] .os__glyph { background: var(--stamp); border-color: var(--stamp-text); }
-.os__name { font-family: var(--pixel); font-size: 12px; line-height: 1.25; text-align: center; }
+.os__name { font-family: var(--pixel); font-size: 17px; line-height: 1.25; text-align: center; }
 .os__stage { min-height: 300px; }
 
 @media (max-width: 700px) {

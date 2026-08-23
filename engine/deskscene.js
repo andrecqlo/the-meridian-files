@@ -78,7 +78,10 @@ export function renderDeskScene(host, ctx, objects) {
     if (sprite) drawSprite(ctx2d, sprite, item.x * RENDER_SCALE, item.y * RENDER_SCALE, RENDER_SCALE);
   });
   objects.forEach((object) => {
-    const sprite = SPRITES[object.sprite];
+    const state = ctx.deskState(object);
+    /* Taken means gone: nothing left on the desk, and nothing to click. */
+    if (state.kind === 'gone') return;
+    const sprite = SPRITES[state.sprite || object.sprite];
     if (!sprite || !object.at) return;
     if (object.grounded !== false) {
       contactShadow(ctx2d, object.at.x + 2, sprite.w - 4, scene.deskTop, RENDER_SCALE);
@@ -105,6 +108,7 @@ export function renderDeskScene(host, ctx, objects) {
     const hit = object.hit || object.at;
     if (!hit) return;
     const state = ctx.deskState(object);
+    if (state.kind === 'gone') return;
     const button = el('button', {
       type: 'button',
       class: 'hotspot',
@@ -119,11 +123,7 @@ export function renderDeskScene(host, ctx, objects) {
 
     button.addEventListener('click', () => {
       const now = ctx.deskState(object);
-      if (now.kind === 'blocked') {
-        ctx.audio.play('wrong');
-        say(now.response);
-        return;
-      }
+      if (now.kind === 'blocked') ctx.audio.play('wrong');
       ctx.deskActivate(object, say);
     });
     button.addEventListener('focus', () => say(object.responses && object.responses.look));

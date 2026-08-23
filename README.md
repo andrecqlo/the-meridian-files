@@ -93,13 +93,18 @@ the ramp from `--tone-0` to `--tone-3`.
 Two typefaces are vendored into `assets/fonts/` rather than fetched from a CDN,
 so the game works on a meeting-room machine with no wifi:
 
-- **Silkscreen** by Jason Kottke — interface chrome.
-- **Caveat** by Impallari Type — Sam's handwriting.
+- **VT323** by Peter Hull — everything: chrome, figures, and document prose.
+- **Pixelify Sans** by Eddy Gann and Stefie Justprince — Sam's marginalia and
+  the notes that arrive over time.
 
 Both are licensed under the SIL Open Font License 1.1; the full licence is in
-`assets/fonts/OFL.txt`. Document body text deliberately stays in a normal
-reading face: there is too much prose here to set in a pixel font and still be
-legible from the back of a room.
+`assets/fonts/OFL.txt`.
+
+VT323 is a terminal face: monospaced, so figures line up, and legible at size
+in a way a true 8px bitmap font is not. It carries about a third less
+cap-height per em than a normal UI face, so every size in the stylesheet is
+scaled up to compensate — 24px of VT323 reads as 18px of anything else, and
+nothing is set below 21px.
 
 ## Running a session
 

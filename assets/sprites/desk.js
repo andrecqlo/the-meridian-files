@@ -245,3 +245,29 @@ export const LETTER = {
     'kkkkkkkkkkkkkkkkkkkkk.',
   ],
 };
+
+/* The same tray with nothing in it. Padded at the top so it can be drawn at
+   the same origin as the full one. */
+export const PAPER_TRAY_EMPTY = {
+  w: 44, h: 22, map: MAP,
+  rows: [
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '....kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk........',
+    '....kmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmk.......',
+    '....kmddddddddddddddddddddddddddddmmk.......',
+    '....kmdddddddddddddddddddddddddddddddk......',
+    '...kkmddddddddddddddddddddddddddddddmkk.....',
+    '...kmmdddddddddddddddddddddddddddddddmmk....',
+    '...kmdddddddddddddddddddddddddddddddddmk....',
+    '...kmddddddddddddddddddddddddddddddddddmk...',
+    '...kkddddddddddddddddddddddddddddddddddkk...',
+    '....kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk....',
+  ],
+};

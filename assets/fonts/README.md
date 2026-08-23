@@ -6,7 +6,12 @@ meeting-room machine with no wifi.
 
 | File | Family | Used for |
 |---|---|---|
-| `silkscreen-400.woff2`, `silkscreen-700.woff2` | Silkscreen, by Jason Kottke | Interface chrome: timer, item names, captions, buttons |
-| `caveat-var.woff2` | Caveat, by Impallari Type | Sam's handwriting |
+| `vt323-400.woff2` | VT323, by Peter Hull | Everything: chrome, data, and document prose |
+| `pixelifysans-var.woff2` | Pixelify Sans, by Eddy Gann and Stefie Justprince | Sam's marginalia and the notes that arrive over time |
+
+VT323 is monospaced, so figures line up, and it carries about a third less
+cap-height per em than a normal UI face — every size in `assets/app.css` is
+scaled up accordingly. Pixelify Sans is rounder and wider, so a note in the
+margin never reads as system output.
 
 Latin subsets only. Full licence in `OFL.txt`.

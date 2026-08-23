@@ -79,7 +79,12 @@
           "h": 34
         },
         "responses": {
-          "look": "A letter on top, addressed by hand. Everything under it is printed."
+          "look": "A letter on top, addressed by hand. Everything under it is printed.",
+          "empty": "Empty now. Her letter is in your hand — open it from there."
+        },
+        "emptyWhen": {
+          "item": "letter",
+          "sprite": "PAPER_TRAY_EMPTY"
         }
       },
       {
@@ -168,7 +173,10 @@
           "look": "A UV torch, lying where it was put down.",
           "taken": "Violet light. Sam wrote in ultraviolet ink — move it across a page and the handwriting comes up."
         },
-        "gives": "torch"
+        "gives": "torch",
+        "goneWhen": {
+          "item": "torch"
+        }
       },
       {
         "id": "drawer",
