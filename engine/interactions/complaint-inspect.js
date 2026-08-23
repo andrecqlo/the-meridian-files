@@ -8,41 +8,44 @@
    not the same as knowing where to point it. */
 
 import { el, append, announce } from '../dom.js';
-import { renderDocument } from '../scenes.js';
+import { renderDocument, renderUvHighlight } from '../scenes.js';
 import { spriteToDataURL } from '../pixel.js';
 import * as SPRITES from '../../assets/sprites/desk.js';
 
-function renderProfile(profile) {
+function renderProfile(profile, ctx) {
   const sprite = SPRITES[profile.portrait];
+  const body = el('div', { class: 'profile-card__body' }, [
+    el('p', { class: 'profile-card__name', text: profile.name }),
+    profile.meta ? el('p', { class: 'profile-card__meta', text: profile.meta }) : null,
+  ]);
+  const smear = renderSmear(profile.smear, ctx);
+  if (smear) append(body, smear);
+  append(body, el('dl', { class: 'profile-card__fields' }, profile.fields.map((field) => el('div', {
+    class: 'profile-card__field',
+  }, [
+    el('dt', { text: field.label }),
+    el('dd', {}, field.highlight ? renderUvHighlight(field.value, profile.smear.note) : field.value),
+  ]))));
   const card = el('div', { class: 'profile-card' }, [
     sprite
       ? el('img', { class: 'profile-card__portrait', src: spriteToDataURL(sprite, 4), alt: '' })
       : el('span', { class: 'profile-card__portrait' }),
-    el('div', { class: 'profile-card__body' }, [
-      el('p', { class: 'profile-card__name', text: profile.name }),
-      profile.meta ? el('p', { class: 'profile-card__meta', text: profile.meta }) : null,
-      el('dl', { class: 'profile-card__fields' }, profile.fields.map((field) => el('div', {
-        class: `profile-card__field${field.highlight ? ' profile-card__field--hl' : ''}`,
-      }, [
-        el('dt', { text: field.label }),
-        el('dd', { text: field.value }),
-      ]))),
-    ]),
+    body,
   ]);
   return el('div', { class: 'card', 'aria-label': 'Customer file' }, card);
 }
 
-/* The "something is smeared" tease. It sits under the document title until
-   the torch has actually found that document's note, then it is gone for
-   good — checked against the store directly, so a refresh does not bring it
-   back once the note has been read. */
-function renderSmear(doc, ctx) {
-  if (!doc.smear) return null;
-  const revealed = () => (ctx.store.get('revealed', []) || []).indexOf(doc.smear.note) >= 0;
+/* The "something is smeared" tease. It sits under the title until the torch
+   has actually found the thing it's about, then it is gone for good —
+   checked against the store directly, so a refresh does not bring it back
+   once the note has been read. Shared by documents and the profile card. */
+function renderSmear(smear, ctx) {
+  if (!smear) return null;
+  const revealed = () => (ctx.store.get('revealed', []) || []).indexOf(smear.note) >= 0;
   if (revealed()) return null;
-  const caption = el('p', { class: 'doc__smear', text: doc.smear.text });
+  const caption = el('p', { class: 'doc__smear', text: smear.text });
   const off = ctx.bus.on('note-read', ({ id }) => {
-    if (id !== doc.smear.note) return;
+    if (id !== smear.note) return;
     if (caption.parentNode) caption.parentNode.removeChild(caption);
     off();
   });
@@ -61,11 +64,11 @@ export function mount(host, config, ctx) {
     append(host, el('p', { class: 'scene__sub', text: config.instruction }));
   }
 
-  if (config.profile) append(host, renderProfile(config.profile));
+  if (config.profile) append(host, renderProfile(config.profile, ctx));
 
   config.documents.forEach((doc) => {
     const node = renderDocument(doc, ctx);
-    const smear = renderSmear(doc, ctx);
+    const smear = renderSmear(doc.smear, ctx);
     if (smear) node.insertBefore(smear, node.querySelector('.doc__body'));
     append(host, node);
   });

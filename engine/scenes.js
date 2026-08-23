@@ -6,18 +6,23 @@ import { el, append, clear, icon, announce, focusFirst, formatNumber } from './d
 import { load as loadInteraction } from './registry.js';
 import { renderDeskScene } from './deskscene.js';
 import { createShell } from './shells.js';
+import { spriteToDataURL } from './pixel.js';
+import { LETTER } from '../assets/sprites/desk.js';
 
 /* ---------- documents ---------- */
 
 function renderBlock(block) {
   if (block.p && block.highlight) {
-    /* The one pre-marked passage in the game: Sam's highlighter, already on
-       the page. It marks where to start digging, never the answer. */
+    /* Sam's highlighter, already on the page — but the mark itself only shows
+       under the UV torch (see renderUvHighlight). A block with no uvNote
+       falls back to a plain always-visible highlight. */
     const node = el('p');
     const at = block.p.indexOf(block.highlight);
     if (at < 0) return el('p', { text: block.p });
     append(node, block.p.slice(0, at));
-    append(node, el('mark', { class: 'hl', text: block.highlight }));
+    append(node, block.uvNote
+      ? renderUvHighlight(block.highlight, block.uvNote)
+      : el('mark', { class: 'hl', text: block.highlight }));
     append(node, block.p.slice(at + block.highlight.length));
     return node;
   }
@@ -127,6 +132,22 @@ function renderAnnotation(note) {
     'data-reveals': note.reveals || '',
     style: `--tilt:${tiltFor(note.id).toFixed(2)}deg`,
     text: note.text,
+  });
+}
+
+/* A highlighter mark on text that is already there — unlike renderAnnotation,
+   which reveals new hidden words, this toggles a background on a phrase the
+   player has been reading all along. Reuses the torch's existing .uv-note
+   wiring (refresh()/paint()/markRevealed() key off the class and data-*
+   attributes alone, not the element it's attached to), so no torch.js
+   changes are needed — only the CSS variant differs. */
+export function renderUvHighlight(text, noteId) {
+  return el('mark', {
+    class: 'uv-note uv-note--mark',
+    'data-note-id': noteId,
+    'data-lit': '0',
+    'data-inspect': '0',
+    text,
   });
 }
 
@@ -275,15 +296,29 @@ export function renderDesk(main, ctx) {
     .map((slot) => slot.track);
   if (nowSeen.length !== seen.length) ctx.store.set('stampsSeen', nowSeen);
 
-  append(main, el('div', { class: 'filestrip' }, [
-    el('p', { class: 'filestrip__name', text: desk.file.name }),
-    el('div', { class: 'slots' }, stamped.map((slot) => el('span', {
-      class: `slot${slot.fresh ? ' slot--stamping' : ''}`,
-      'data-filled': slot.filled ? '1' : '0',
-      text: slot.filled ? slot.word : '— — —',
-    }))),
-    el('p', { class: 'filestrip__caption', text: allStamped ? desk.file.ready : desk.file.locked }),
-  ]));
+  /* It was an email attachment before it was anything else — the icon and
+     name say so, and once the three words are stamped the strip itself is
+     the door in, not a folder sitting separately on the desk. */
+  const nameRow = el('div', { class: 'filestrip__name' }, [
+    el('img', { class: 'filestrip__icon', src: spriteToDataURL(LETTER, 3), alt: '' }),
+    el('span', { text: desk.file.name }),
+  ]);
+  const slotsRow = el('div', { class: 'slots' }, stamped.map((slot) => el('span', {
+    class: `slot${slot.fresh ? ' slot--stamping' : ''}`,
+    'data-filled': slot.filled ? '1' : '0',
+    text: slot.filled ? slot.word : '— — —',
+  })));
+  const caption = el('p', { class: 'filestrip__caption', text: allStamped ? desk.file.ready : desk.file.locked });
+
+  const strip = allStamped
+    ? el('button', {
+      type: 'button',
+      class: 'filestrip filestrip--open',
+      'aria-label': `${desk.file.name}. ${desk.file.ready}`,
+      onClick: () => ctx.router.go(desk.file.route),
+    }, [nameRow, slotsRow, caption])
+    : el('div', { class: 'filestrip' }, [nameRow, slotsRow, caption]);
+  append(main, strip);
 
   if (scene && allStamped) scene.say(desk.file.ready);
 }

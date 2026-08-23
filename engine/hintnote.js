@@ -1,9 +1,11 @@
-/* Sam's notes, arriving over time.
+/* Adaptive hints, surfacing over time.
 
    Distinct from the room's status bar, which answers something you just did.
    These arrive because time is passing: a folded note in the top corner,
    closed and pulsing until you open it. Only a team well behind the pace line
-   ever has one open itself, and even then it can be put back. */
+   ever has one open itself, and even then it can be put back. Not attributed
+   to Sam — a live-feeling notification that escalates on a schedule doesn't
+   read as something she left behind before resigning. */
 
 import { el, append, clear, announce, reducedMotion } from './dom.js';
 

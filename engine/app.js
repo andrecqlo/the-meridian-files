@@ -280,8 +280,7 @@ function boot(series) {
     return null;
   }
 
-  /* Sam's notes surface here. Tiers 1 and 2 arrive as marginalia that need the
-     torch; tier 3 is plain text, because by then nobody should be stuck. */
+  /* Adaptive hints surface here, one tier at a time. */
   ctx.mountHints = function mountHints(scene) {
     const sets = {
       [scene.track]: scene.hints || [],
@@ -400,6 +399,14 @@ function boot(series) {
        shortcut is the intended path, not the only technical one. */
     if (scene && scene.unlockedBy && store.get('progress', {})[scene.unlockedBy] !== true) {
       ctx.pendingStatus = scene.unlockedByMessage || null;
+      router.replace(`${CASE_ID}/desk`);
+      return;
+    }
+    /* The file is no longer a desk object of its own — it's the attachment
+       the filestrip unlocks — so it needs its own deep-link gate here, the
+       way a desk-object route otherwise gets one for free above. */
+    if (path === `${CASE_ID}/file` && store.get('progress', {}).c3 !== true) {
+      ctx.pendingStatus = content.desk.file.locked;
       router.replace(`${CASE_ID}/desk`);
       return;
     }

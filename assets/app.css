@@ -339,6 +339,30 @@ main:focus { outline: none; }
   .uv-note { transform: rotate(calc(var(--tilt, -1.5deg) * 0.4)); }
 }
 
+/* A highlighter mark on text that was already readable — unlike .uv-note's
+   default (revealing new hidden words), this only toggles a background on a
+   phrase that's been sitting in plain sight the whole time. Overrides the
+   base rule's opacity/rotation/hand-font, since none of that applies to a
+   mark inside an ordinary sentence. */
+.uv-note.uv-note--mark {
+  display: inline;
+  font: inherit;
+  color: inherit;
+  background-color: transparent;
+  transform: none;
+  opacity: 1;
+  transition: background-color 160ms linear;
+  padding: 1px 2px;
+  margin: 0 -2px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.uv-note.uv-note--mark[data-lit="1"] {
+  background-color: rgba(139, 92, 246, 0.32);
+  -webkit-mask-image: none;
+          mask-image: none;
+}
+
 .uv-flicker {
   position: absolute; inset: 0; border-radius: var(--r-card); pointer-events: none;
   box-shadow: inset 0 0 0 2px var(--uv); opacity: 0; transition: opacity 300ms;
@@ -1006,11 +1030,6 @@ mark.hl {
   text-transform: uppercase; color: var(--muted-ink);
 }
 .profile-card__field dd { margin: 0; font-size: 0.98em; }
-/* Sam's highlighter, on the one field that matters. The same visual language
-   as mark.hl in the documents below, so the two marks read as one hand. */
-.profile-card__field--hl {
-  background: rgba(217, 199, 154, 0.85);
-}
 
 /* The UV tease. It disappears the instant the torch actually finds the note
    underneath — see complaint-inspect.js. */
@@ -1397,6 +1416,7 @@ mark.hl {
 
 .filestrip {
   max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
   background: var(--manila);
   color: var(--ink);
@@ -1406,8 +1426,23 @@ mark.hl {
   flex-wrap: wrap;
   align-items: center;
   gap: 14px 20px;
+  font: inherit;
+  text-align: left;
 }
-.filestrip__name { font-family: var(--pixel); font-size: var(--px-sm); margin: 0; }
+/* Once all three words are stamped the strip is the door in — Sam's locked
+   attachment, not a folder on the desk — so it becomes a real button. */
+button.filestrip--open {
+  cursor: pointer;
+  transition: border-color 120ms ease-out;
+}
+button.filestrip--open:hover, button.filestrip--open:focus-visible {
+  border-color: var(--uv);
+}
+.filestrip__name {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--pixel); font-size: var(--px-sm); margin: 0;
+}
+.filestrip__icon { width: 22px; height: auto; image-rendering: pixelated; }
 .filestrip__caption { margin: 0; font-size: 0.86em; color: #4A4231; flex: 1 1 240px; }
 
 @media (max-width: 700px) {

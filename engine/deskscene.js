@@ -83,12 +83,15 @@ export function renderDeskScene(host, ctx, objects) {
     /* Taken means gone: nothing left on the desk, and nothing to click. */
     if (state.kind === 'gone') return;
     let spriteKey = state.sprite || object.sprite;
-    /* A locked object can wear a different face while it is locked — the
-       laptop's screen, not just a padlock glued on top of its usual sprite. */
-    let padlocked = state.kind === 'blocked';
+    /* A padlock means "locked, come back later" — it only belongs on things
+       actually gated by unlockedBy, not on something like the pinboard that
+       just needs a tool in hand. The laptop's own dark-screen-and-keyhole
+       sprite already carries that signal on its own, so it gets no separate
+       padlock either. */
+    const padlocked = state.kind === 'blocked' && Boolean(object.unlockedBy);
     if (object.altSprite) {
       const met = ctx.store.get('progress', {})[object.altSprite.untilProgress] === true;
-      if (!met) { spriteKey = object.altSprite.sprite; padlocked = true; }
+      if (!met) spriteKey = object.altSprite.sprite;
     }
     const sprite = SPRITES[spriteKey];
     if (!sprite || !object.at) return;
@@ -98,8 +101,11 @@ export function renderDeskScene(host, ctx, objects) {
     drawSprite(ctx2d, sprite, object.at.x * RENDER_SCALE, object.at.y * RENDER_SCALE, RENDER_SCALE);
     if (padlocked && SPRITES.PADLOCK) {
       const lock = SPRITES.PADLOCK;
-      const lx = object.at.x + sprite.w - lock.w - 1;
-      const ly = object.at.y + sprite.h - lock.h - 1;
+      /* On its handle when content says where that is; otherwise the
+         sprite's bottom-right corner as a fallback. */
+      const anchor = object.lockAt || { x: sprite.w - lock.w - 1, y: sprite.h - lock.h - 1 };
+      const lx = object.at.x + anchor.x;
+      const ly = object.at.y + anchor.y;
       drawSprite(ctx2d, lock, lx * RENDER_SCALE, ly * RENDER_SCALE, RENDER_SCALE);
     }
   });

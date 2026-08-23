@@ -112,37 +112,16 @@
         }
       },
       {
-        "id": "file",
-        "label": "READ_BEFORE_SIGNOFF",
-        "route": "case01/file",
-        "sprite": "CASE_FILE",
-        "at": {
-          "x": 154,
-          "y": 70
-        },
-        "hit": {
-          "x": 150,
-          "y": 58,
-          "w": 48,
-          "h": 34
-        },
-        "unlockedBy": "c3",
-        "responses": {
-          "look": "Sam’s file. Three words stamped on the front.",
-          "locked": "A locked file. Three empty word slots stamped on the front."
-        }
-      },
-      {
         "id": "torch",
         "label": "UV torch",
         "action": "takeTorch",
         "sprite": "DESK_TORCH",
         "at": {
-          "x": 214,
+          "x": 160,
           "y": 76
         },
         "hit": {
-          "x": 210,
+          "x": 156,
           "y": 60,
           "w": 40,
           "h": 32
@@ -185,17 +164,21 @@
         "label": "Bottom drawer",
         "sprite": "DRAWER",
         "at": {
-          "x": 154,
+          "x": 147,
           "y": 94
         },
         "hit": {
-          "x": 154,
+          "x": 147,
           "y": 92,
           "w": 58,
           "h": 28
         },
         "grounded": false,
         "unlockedBy": "c2",
+        "lockAt": {
+          "x": 24,
+          "y": 3
+        },
         "gives": "string",
         "responses": {
           "look": "The lock has given. Something inside rolls when you pull it.",
@@ -232,25 +215,25 @@
     ],
     "file": {
       "name": "READ_BEFORE_SIGNOFF",
-      "locked": "Three words, stamped one at a time. The evidence has them.",
+      "locked": "Three words, stamped one at a time — the password for Sam’s locked attachment.",
       "ready": "Three words. All stamped. Open it.",
       "route": "case01/file",
       "slots": [
         {
           "word": "V0hP",
-          "track": "c1"
+          "track": "c3"
         },
         {
           "word": "SVM=",
-          "track": "c2"
+          "track": "c1"
         },
         {
           "word": "TUlTU0lORw==",
-          "track": "c3"
+          "track": "c2"
         }
       ]
     },
-    "sceneLabel": "Sam’s desk: a paper tray, a laptop, a locked file, a torch, two drawers, and a pinboard on the wall.",
+    "sceneLabel": "Sam’s desk: a paper tray, a laptop, a torch, two drawers, and a pinboard on the wall.",
     "scene": {
       "w": 300,
       "h": 124,
@@ -262,7 +245,7 @@
       "dressing": [
         {
           "sprite": "MUG",
-          "x": 264,
+          "x": 230,
           "y": 74
         }
       ]
@@ -292,10 +275,6 @@
               "kind": "letter",
               "title": "Letter received — customer correspondence",
               "meta": "Logged 21 Jan 2026 · Received by post",
-              "smear": {
-                "note": "a-letter",
-                "text": "Something is smeared across the paper. It catches the light."
-              },
               "blocks": [
                 {
                   "p": "Dear Meridian,"
@@ -311,13 +290,6 @@
                 },
                 {
                   "signature": "Yours faithfully, Mrs H. Wiśniewska"
-                }
-              ],
-              "annotations": [
-                {
-                  "id": "a-letter",
-                  "after": 1,
-                  "text": "This is where I started."
                 }
               ]
             },
@@ -336,20 +308,14 @@
                 },
                 {
                   "p": "The survey was issued by email to all our customers. The response rate of 11.5% is within industry norms.",
-                  "highlight": "issued by email to all our customers"
+                  "highlight": "issued by email to all our customers",
+                  "uvNote": "a-invitations"
                 },
                 {
-                  "p": "Responses were weighted for age, gender, geography and service usage. The questionnaire was available in six languages, including Polish, and telephone completion was offered on request."
+                  "p": "Responses were weighted for age and gender. The questionnaire was available in six languages, including Polish, and telephone completion was offered on request."
                 },
                 {
                   "p": "We are satisfied the consultation reflects our customer base. No further action is proposed."
-                }
-              ],
-              "annotations": [
-                {
-                  "id": "a-invitations",
-                  "after": 1,
-                  "text": "42,000 was never everyone."
                 }
               ]
             }
@@ -379,7 +345,11 @@
                 "value": "Post only",
                 "highlight": true
               }
-            ]
+            ],
+            "smear": {
+              "note": "a-profile",
+              "text": "Something is smeared across the page. It catches the light."
+            }
           }
         }
       ],
@@ -1206,7 +1176,7 @@
   "final": {
     "lock": {
       "title": "READ_BEFORE_SIGNOFF",
-      "subtitle": "Encrypted. Three words.",
+      "subtitle": "Sam’s locked email attachment. Three words.",
       "prompt": "Enter the passphrase",
       "placeholder": "Three words",
       "submitLabel": "Unlock",
@@ -1477,8 +1447,8 @@
     }
   ],
   "hintNote": {
-    "closedLabel": "Note from Sam",
-    "dismissLabel": "Put it back",
-    "arrival": "Sam left a note in the corner."
+    "closedLabel": "Hint",
+    "dismissLabel": "Close",
+    "arrival": "A hint is available."
   }
 }

@@ -1,7 +1,7 @@
-/* Sam's notes. There is no hint menu and no penalty: tiers surface on their own
-   when a challenge stops moving. T1 at 90s of no meaningful progress, then one
-   tier per further 60s, so a stuck player holds T3 by 3:30. Nobody is
-   hard-stuck — the 17-minute ceiling depends on it. */
+/* Adaptive hints. There is no hint menu and no penalty: tiers surface on their
+   own when a challenge stops moving. T1 at 90s of no meaningful progress,
+   then one tier per further 60s, so a stuck player holds T3 by 3:30. Nobody
+   is hard-stuck — the 17-minute ceiling depends on it. */
 
 const FIRST_MS = 90000;
 const STEP_MS = 60000;
@@ -53,7 +53,7 @@ export function createHints(store) {
       });
     },
     /* Called on entering a challenge. Replays any tier already earned, so a
-       refresh does not take Sam's notes away again. */
+       refresh does not take a hint away again. */
     begin(trackId, onTier) {
       const existing = tracks.get(trackId);
       if (existing) window.clearTimeout(existing.handle);
