@@ -69,11 +69,11 @@
         "track": "c1letter",
         "sprite": "PAPER_TRAY",
         "at": {
-          "x": 10,
+          "x": 20,
           "y": 66
         },
         "hit": {
-          "x": 6,
+          "x": 16,
           "y": 58,
           "w": 52,
           "h": 34
@@ -95,42 +95,22 @@
         "stamps": "WHO",
         "sprite": "LAPTOP",
         "at": {
-          "x": 60,
+          "x": 82,
           "y": 60
         },
         "hit": {
-          "x": 56,
+          "x": 78,
           "y": 52,
           "w": 58,
           "h": 40
         },
-        "unlockedBy": "c1letter",
         "responses": {
-          "look": "Still awake. The research dashboard is open.",
-          "locked": "The screen's asleep and you don't know what you're looking for yet. Start with the tray."
-        }
-      },
-      {
-        "id": "pilot",
-        "label": "Pilot data pack",
-        "route": "case01/pilot",
-        "track": "c2",
-        "stamps": "IS",
-        "sprite": "REPORT",
-        "at": {
-          "x": 120,
-          "y": 71
+          "look": "Sam’s laptop, lid up. The screen is asking for a PIN.",
+          "done": "Unlocked. The research dashboard is open."
         },
-        "hit": {
-          "x": 116,
-          "y": 60,
-          "w": 44,
-          "h": 32
-        },
-        "unlockedBy": "c1",
-        "responses": {
-          "look": "Bound, tabbed, left open at the summary.",
-          "locked": "Numbers about a pilot. Nothing to weigh them against yet."
+        "altSprite": {
+          "untilProgress": "c1",
+          "sprite": "LAPTOP_LOCKED"
         }
       },
       {
@@ -139,19 +119,19 @@
         "route": "case01/file",
         "sprite": "CASE_FILE",
         "at": {
-          "x": 164,
+          "x": 154,
           "y": 70
         },
         "hit": {
-          "x": 160,
+          "x": 150,
           "y": 58,
           "w": 48,
           "h": 34
         },
         "unlockedBy": "c3",
         "responses": {
-          "look": "Sam's file. Three words stamped on the front.",
-          "locked": "Three word slots on the front, and you haven't stamped them all."
+          "look": "Sam’s file. Three words stamped on the front.",
+          "locked": "A locked file. Three empty word slots stamped on the front."
         }
       },
       {
@@ -160,11 +140,11 @@
         "action": "takeTorch",
         "sprite": "DESK_TORCH",
         "at": {
-          "x": 210,
+          "x": 214,
           "y": 76
         },
         "hit": {
-          "x": 206,
+          "x": 210,
           "y": 60,
           "w": 40,
           "h": 32
@@ -179,29 +159,52 @@
         }
       },
       {
-        "id": "drawer",
-        "label": "Desk drawer",
-        "action": "drawer",
+        "id": "drawer-open",
+        "label": "Top drawer",
+        "route": "case01/stats",
         "sprite": "DRAWER",
         "at": {
-          "x": 22,
+          "x": 88,
           "y": 94
         },
         "hit": {
-          "x": 18,
-          "y": 93,
-          "w": 146,
-          "h": 26
+          "x": 88,
+          "y": 92,
+          "w": 58,
+          "h": 28
         },
+        "grounded": false,
         "responses": {
-          "look": "Stuck. Something has shifted inside it.",
-          "locked": "Stuck. You put your weight into it and it doesn't move.",
-          "taken": "It gives all at once. Pens, a stapler, and a ball of string.",
-          "empty": "Pens and a stapler. Nothing else you need."
+          "look": "Unlocked. A single printed sheet on top of the usual clutter.",
+          "empty": "Pens and a stapler. The sheet is in your hand — open it from there."
+        },
+        "emptyWhen": {
+          "item": "stats"
+        }
+      },
+      {
+        "id": "drawer-locked",
+        "label": "Bottom drawer",
+        "sprite": "DRAWER",
+        "at": {
+          "x": 154,
+          "y": 94
+        },
+        "hit": {
+          "x": 154,
+          "y": 92,
+          "w": 58,
+          "h": 28
         },
         "grounded": false,
         "unlockedBy": "c2",
-        "gives": "string"
+        "gives": "string",
+        "responses": {
+          "look": "The lock has given. Something inside rolls when you pull it.",
+          "locked": "Locked. A proper lock, not a stiff runner — something in here mattered to somebody.",
+          "taken": "The lock has been sprung. Pens, a stapler, and a ball of string.",
+          "empty": "Pens and a stapler. Nothing else you need."
+        }
       },
       {
         "id": "pinboard",
@@ -221,9 +224,9 @@
           "h": 40
         },
         "responses": {
-          "look": "Five index cards and a lot of confident handwriting.",
-          "noItem": "The claims are pinned up, but there's nothing to run between them. Looks like you need some string.",
-          "used": "You run string from each claim to whatever is supposed to hold it up."
+          "look": "An evidence board. Five index cards and a lot of confident handwriting.",
+          "noItem": "An evidence board — cards pinned up, nothing connecting them. Looks like you need some string to mark the connections.",
+          "used": "You run string from each card to whatever is supposed to hold it up."
         },
         "grounded": false,
         "requiresItem": "string"
@@ -249,7 +252,7 @@
         }
       ]
     },
-    "sceneLabel": "Sam's desk: a paper tray, a laptop, a pilot data pack, a locked file, a torch, a drawer, and a pinboard on the wall.",
+    "sceneLabel": "Sam’s desk: a paper tray, a laptop, a locked file, a torch, two drawers, and a pinboard on the wall.",
     "scene": {
       "w": 300,
       "h": 124,
@@ -261,13 +264,8 @@
       "dressing": [
         {
           "sprite": "MUG",
-          "x": 250,
+          "x": 264,
           "y": 74
-        },
-        {
-          "sprite": "DRAWER",
-          "x": 100,
-          "y": 94
         }
       ]
     },
@@ -281,7 +279,7 @@
       "route": "case01/tray",
       "kind": "challenge",
       "title": "Paper tray",
-      "subtitle": "Topmost item, still in its envelope",
+      "subtitle": "Topmost item, still clipped to her file",
       "track": "c1",
       "documents": [],
       "interactions": [
@@ -295,35 +293,32 @@
               "id": "letter",
               "kind": "letter",
               "title": "Letter received — customer correspondence",
-              "meta": "Logged 21 Jan 2026 · Ref CC-2026-0114 · Received by post",
+              "meta": "Logged 21 Jan 2026 · Received by post",
+              "smear": {
+                "note": "a-letter",
+                "text": "Something is smeared across the paper. It catches the light."
+              },
               "blocks": [
                 {
                   "p": "Dear Meridian,"
                 },
                 {
-                  "p": "I understand from friends — customers like me — that you intend to take this service “digital first”. I learned this from a neighbour, not from you."
-                },
-                {
-                  "p": "I have been a customer for nineteen years. You have my address — you write to me about everything else. Statements, renewals, changes to my terms."
-                },
-                {
-                  "p": "Yet when you decided to ask customers what they thought, no letter came.",
-                  "highlight": "Yet when you decided to ask customers what they thought, no letter came."
-                },
-                {
                   "p": "I am told there was a survey. Nobody I know received it."
+                },
+                {
+                  "p": "Nineteen years I have been with you. You write to me about everything else — statements, renewals, changes to my terms. Yet when you decided to ask, no letter came."
                 },
                 {
                   "p": "If the decision is already made, say so. If it is not, I would like to be asked."
                 },
                 {
-                  "signature": "Yours faithfully, Mrs J. Calder"
+                  "signature": "Yours faithfully, Mrs H. Wiśniewska"
                 }
               ],
               "annotations": [
                 {
                   "id": "a-letter",
-                  "after": 3,
+                  "after": 1,
                   "text": "This is where I started."
                 }
               ]
@@ -331,67 +326,245 @@
             {
               "id": "slip",
               "kind": "slip",
-              "title": "Reply slip",
+              "title": "Our reply",
               "meta": "Sent 04 Feb 2026 · Standard response",
+              "smear": {
+                "note": "a-invitations",
+                "text": "Something is smeared across this one too."
+              },
               "blocks": [
                 {
-                  "p": "Thank you for your feedback. Our consultation was statistically robust. No further action."
+                  "p": "Thank you for your feedback. Our consultation methodology was reviewed by an independent research consultancy and found to be robust."
+                },
+                {
+                  "p": "The survey was issued by email to all our customers. The response rate of 11.5% is within industry norms.",
+                  "highlight": "issued by email to all our customers"
+                },
+                {
+                  "p": "Responses were weighted for age, gender, geography and service usage. The questionnaire was available in six languages, including Polish, and telephone completion was offered on request."
+                },
+                {
+                  "p": "We are satisfied the consultation reflects our customer base. No further action is proposed."
                 }
               ],
               "annotations": [
                 {
-                  "id": "a-slip",
-                  "after": 0,
-                  "text": "Robust for whom?"
+                  "id": "a-invitations",
+                  "after": 1,
+                  "text": "42,000 was never everyone."
                 }
               ]
             }
           ],
-          "record": {
-            "title": "Customer record — J. Calder",
-            "instruction": "Four fields. Each one gives you what her file says, what the customer base looks like, and what the methodology claims. None of them tells you whether that is a problem.",
-            "openLabel": "Pull her customer record",
-            "chips": [
+          "nextLabel": "Go to the laptop",
+          "nextRoute": "case01/laptop",
+          "profile": {
+            "title": "Customer file",
+            "portrait": "PORTRAIT",
+            "name": "Mrs H. Wiśniewska",
+            "meta": "Customer since 2007 · Ref CC-2026-0114",
+            "fields": [
               {
-                "id": "gender",
-                "label": "Gender",
-                "record": "F",
-                "base": "57% of the customer base is female",
-                "methodology": "“Responses weighted for gender, age, geography and service usage.”"
-              },
-              {
-                "id": "age",
                 "label": "Age",
-                "record": "61",
-                "base": "28% of the customer base is aged 60 or over",
-                "methodology": "“Responses weighted for gender, age, geography and service usage.”"
+                "value": "61"
               },
               {
-                "id": "language",
-                "label": "Primary language",
-                "record": "Polish",
-                "base": "6% of the customer base has a primary language other than English",
-                "methodology": "“Survey available in six languages, including Polish.”",
-                "unlockNote": "Six languages. Zero letters.",
-                "unlockNoteTitle": "Added later"
+                "label": "Gender",
+                "value": "Female"
               },
               {
-                "id": "contact",
+                "label": "Preferred language",
+                "value": "Polish"
+              },
+              {
                 "label": "Contact preference",
-                "record": "Post",
-                "base": "6,847 post only (13%); 9,214 (18%) with no usable email address",
-                "methodology": "“Invitations were issued by email to all registered users with a valid email address.”"
+                "value": "Post only",
+                "highlight": true
               }
             ]
-          },
-          "nextLabel": "Go to the laptop",
-          "nextRoute": "case01/laptop"
+          }
         }
       ],
       "hints": [
-        "Start with the letter. She’s telling you what to check.",
-        "Compare what the survey says it covered with the four things her file says about her.",
-        "She prefers post. Find who the invitation was actually sent to — then select everyone the email could never reach."
+        [
+          {
+            "when": {
+              "missingItem": "letter"
+            },
+            "text": "Have you been through the paper tray?"
+          },
+          {
+            "when": {
+              "missingItem": "stats"
+            },
+            "text": "Have you checked the drawers?"
+          },
+          {
+            "text": "Sam's PIN is a number. The papers have it."
+          }
+        ],
+        [
+          {
+            "when": {
+              "missingItem": "letter"
+            },
+            "text": "Have you been through the paper tray?"
+          },
+          {
+            "when": {
+              "missingItem": "stats"
+            },
+            "text": "Have you checked the drawers?"
+          },
+          {
+            "text": "Sam's PIN is a number. The papers have it."
+          }
+        ],
+        "Post only. Count them. That's the PIN."
+      ],
+      "shell": "tray"
+    },
+    {
+      "id": "stats",
+      "route": "case01/stats",
+      "kind": "challenge",
+      "title": "Top drawer",
+      "subtitle": "One printed sheet, face down under the pens",
+      "track": "c1",
+      "grants": "stats",
+      "documents": [
+        {
+          "id": "statsheet",
+          "kind": "paper",
+          "title": "Customer base — reference sheet",
+          "meta": "Data services · extracted 09 Feb 2026 · internal",
+          "stamp": "EVIDENCE",
+          "blocks": [
+            {
+              "stats": [
+                {
+                  "value": "51,214",
+                  "label": "customers on the register"
+                }
+              ]
+            },
+            {
+              "table": {
+                "head": [
+                  "Gender",
+                  "Customers"
+                ],
+                "rows": [
+                  [
+                    "Female",
+                    "29,192 (57%)"
+                  ],
+                  [
+                    "Male",
+                    "21,510 (42%)"
+                  ],
+                  [
+                    "Other or not recorded",
+                    "512 (1%)"
+                  ]
+                ]
+              }
+            },
+            {
+              "table": {
+                "head": [
+                  "Communication method",
+                  "Customers"
+                ],
+                "rows": [
+                  [
+                    "Email only",
+                    "30,000 (59%)"
+                  ],
+                  [
+                    "Email and post",
+                    "12,000 (23%)"
+                  ],
+                  [
+                    "Post only",
+                    "9,214 (18%)"
+                  ]
+                ]
+              }
+            },
+            {
+              "table": {
+                "head": [
+                  "Language",
+                  "Customers"
+                ],
+                "rows": [
+                  [
+                    "English",
+                    "48,141 (94%)"
+                  ],
+                  [
+                    "Polish",
+                    "1,410 (3%)"
+                  ],
+                  [
+                    "French",
+                    "612 (1%)"
+                  ],
+                  [
+                    "Other",
+                    "1,051 (2%)"
+                  ]
+                ]
+              }
+            }
+          ],
+          "annotations": [
+            {
+              "id": "a-contact",
+              "after": 2,
+              "text": "The one line nothing was adjusted for."
+            }
+          ]
+        }
+      ],
+      "interactions": [],
+      "hints": [
+        [
+          {
+            "when": {
+              "missingItem": "letter"
+            },
+            "text": "Have you been through the paper tray?"
+          },
+          {
+            "when": {
+              "missingItem": "stats"
+            },
+            "text": "Have you checked the drawers?"
+          },
+          {
+            "text": "Sam's PIN is a number. The papers have it."
+          }
+        ],
+        [
+          {
+            "when": {
+              "missingItem": "letter"
+            },
+            "text": "Have you been through the paper tray?"
+          },
+          {
+            "when": {
+              "missingItem": "stats"
+            },
+            "text": "Have you checked the drawers?"
+          },
+          {
+            "text": "Sam's PIN is a number. The papers have it."
+          }
+        ],
+        "Post only. Count them. That's the PIN."
       ],
       "shell": "tray"
     },
@@ -400,7 +573,7 @@
       "route": "case01/laptop",
       "kind": "challenge",
       "title": "Laptop",
-      "subtitle": "Research dashboard, operations summary, methodology appendix",
+      "subtitle": "Research dashboard and the pilot data folder",
       "track": "c1",
       "documents": [
         {
@@ -444,311 +617,45 @@
             }
           ],
           "openLabel": "Research.doc"
-        },
-        {
-          "id": "operations",
-          "kind": "paper",
-          "title": "Service operations summary",
-          "meta": "Contact channel record · extracted 09 Feb 2026",
-          "stamp": "EVIDENCE",
-          "blocks": [
-            {
-              "stats": [
-                {
-                  "value": "51,214",
-                  "label": "registered service users"
-                }
-              ]
-            },
-            {
-              "table": {
-                "head": [
-                  "Contact channel",
-                  "Users"
-                ],
-                "rows": [
-                  [
-                    "Email on file",
-                    "42,000"
-                  ],
-                  [
-                    "Post only",
-                    "6,847"
-                  ],
-                  [
-                    "Phone only",
-                    "1,412"
-                  ],
-                  [
-                    "No valid contact details",
-                    "955"
-                  ]
-                ]
-              }
-            }
-          ],
-          "annotations": [],
-          "openLabel": "Operations.doc"
-        },
-        {
-          "id": "methodology",
-          "kind": "paper",
-          "title": "Methodology appendix",
-          "collapsed": true,
-          "openLabel": "Methodology.doc",
-          "meta": "Appendix B · Sampling and fieldwork",
-          "blocks": [
-            {
-              "p": "Responses weighted to the population profile for gender, age band, region and service usage frequency."
-            },
-            {
-              "p": "Questionnaire offered in six languages. Telephone completion offered on request."
-            },
-            {
-              "small": "Invitations were issued by email to all registered users with a valid email address."
-            }
-          ],
-          "annotations": [
-            {
-              "id": "a-invitations",
-              "after": 2,
-              "text": "42,000 was never everyone."
-            }
-          ]
         }
       ],
-      "interactions": [
-        {
-          "type": "cohort-diagram",
-          "id": "cohort",
-          "track": "c1",
-          "title": "Cohort diagram",
-          "instruction": "Select cohorts on any dimension and the panel counts them. It counts. It does not judge.",
-          "tabsLabel": "Population dimensions",
-          "countLabel": "People in selection",
-          "emptyLabel": "Nothing selected",
-          "clearLabel": "Clear selection",
-          "population": {
-            "label": "Registered service users",
-            "total": 51214,
-            "perDot": 50
-          },
-          "dimensions": [
-            {
-              "id": "contact",
-              "label": "Contact preference",
-              "options": [
-                {
-                  "id": "email",
-                  "label": "Email on file",
-                  "count": 42000
-                },
-                {
-                  "id": "post",
-                  "label": "Post only",
-                  "count": 6847
-                },
-                {
-                  "id": "phone",
-                  "label": "Phone only",
-                  "count": 1412
-                },
-                {
-                  "id": "none",
-                  "label": "No valid contact details",
-                  "count": 955
-                }
-              ]
-            },
-            {
-              "id": "age",
-              "label": "Age band",
-              "options": [
-                {
-                  "id": "a1",
-                  "label": "18–39",
-                  "count": 15876
-                },
-                {
-                  "id": "a2",
-                  "label": "40–59",
-                  "count": 20998
-                },
-                {
-                  "id": "a3",
-                  "label": "60 and over",
-                  "count": 14340
-                }
-              ]
-            },
-            {
-              "id": "gender",
-              "label": "Gender",
-              "options": [
-                {
-                  "id": "f",
-                  "label": "Female",
-                  "count": 29192
-                },
-                {
-                  "id": "m",
-                  "label": "Male",
-                  "count": 21510
-                },
-                {
-                  "id": "x",
-                  "label": "Other or not recorded",
-                  "count": 512
-                }
-              ]
-            },
-            {
-              "id": "language",
-              "label": "Primary language",
-              "options": [
-                {
-                  "id": "en",
-                  "label": "English",
-                  "count": 48141
-                },
-                {
-                  "id": "pl",
-                  "label": "Polish",
-                  "count": 1410
-                },
-                {
-                  "id": "ur",
-                  "label": "Urdu",
-                  "count": 612
-                },
-                {
-                  "id": "ro",
-                  "label": "Romanian",
-                  "count": 486
-                },
-                {
-                  "id": "ot",
-                  "label": "Other",
-                  "count": 565
-                }
-              ]
-            },
-            {
-              "id": "region",
-              "label": "Region",
-              "options": [
-                {
-                  "id": "n",
-                  "label": "North",
-                  "count": 16388
-                },
-                {
-                  "id": "c",
-                  "label": "Central",
-                  "count": 23046
-                },
-                {
-                  "id": "s",
-                  "label": "South",
-                  "count": 11780
-                }
-              ]
-            }
-          ],
-          "dimUsing": {
-            "dimension": "contact",
-            "options": [
-              "post",
-              "phone",
-              "none"
-            ],
-            "announce": "The cohort outside the email frame is now dimmed across the field."
-          },
-          "shellLabel": "Cohort diagram",
-          "shellKind": "app",
-          "shellDefault": true
-        },
-        {
-          "type": "code-entry",
-          "id": "c1-code",
-          "track": "c1",
-          "finding": "frame",
-          "label": "Laptop — locked panel",
-          "device": "laptop",
-          "prompt": "How many customers like Mrs Calder were never invited?",
-          "inputMode": "numeric",
-          "placeholder": "Figure",
-          "submitLabel": "Enter",
-          "answerDigest": "360a93c2ff7529acf83b3b2c3b0af1aab42c68a7572e2e9ed165c1b222a96ffe",
-          "targetedResponses": [
-            {
-              "digest": "890ebdf964b651bc670b2001f32aad8eb1c0e9704f7857b4961fd0a602eed83b",
-              "text": "She’s not the only kind of missing."
-            },
-            {
-              "digest": "484022174663d3666d30c36c8b182abc3db633d42e893c69d2a8be52251c7a82",
-              "text": "Non-response is normal. Never being asked isn’t."
-            },
-            {
-              "digest": "5010c493958a86e59cdc3b94179856b6c2fea01c7e1b293ff115706c4ff4d6dc",
-              "text": "That’s who they heard from. I asked who they asked."
-            },
-            {
-              "digest": "c18d4cbad6a778b727bac4c7572a747cf105ad959e684f3d3c123d3e4071a5ca",
-              "text": "That’s who they heard from. I asked who they asked."
-            },
-            {
-              "digest": "7ea87fd36d9b1b247aa9396cf7268f401bc084ac3d6cad3da841d7e0cd35ca67",
-              "text": "That’s everyone. I want the ones the invitation couldn’t reach."
-            }
-          ],
-          "wrongResponses": [
-            "Non-response is normal. Never being asked isn’t.",
-            "Count the channels the email couldn’t reach. All of them.",
-            "The operations summary has it in three rows."
-          ],
-          "successTitle": "WHO",
-          "successNote": "Weighting can’t reach people who were never invited.",
-          "successBody": "9,214 registered customers were outside the invitation before the survey started.",
-          "reward": {
-            "cards": [
-              {
-                "title": "Who the 9,214 are",
-                "lines": [
-                  "47% aged 60 or over",
-                  "7% with a primary language other than English",
-                  "100% outside the email frame"
-                ],
-                "body": "The exclusion correlates with age and language. It runs along neither — it runs along a contact field."
-              },
-              {
-                "title": "Case complexity profile of the 9,214",
-                "lines": [
-                  "Low 14%",
-                  "Medium 34%",
-                  "High 52%"
-                ],
-                "body": "Service-wide: 35 / 40 / 25."
-              },
-              {
-                "title": "Consultation feedback log",
-                "lines": [
-                  "Complaints received about the consultation: 1",
-                  "Customers never invited: 9,214"
-                ],
-                "note": "Most exclusions never write in."
-              }
-            ]
-          },
-          "shellLabel": "Sampling audit",
-          "shellKind": "lock",
-          "shellPin": true
-        }
-      ],
+      "interactions": [],
       "hints": [
-        "Start with the letter. She’s telling you what to check.",
-        "Compare what the survey says it covered with the four things her file says about her.",
-        "She prefers post. Find who the invitation was actually sent to — then select everyone the email could never reach."
+        [
+          {
+            "when": {
+              "missingItem": "letter"
+            },
+            "text": "Have you been through the paper tray?"
+          },
+          {
+            "when": {
+              "missingItem": "stats"
+            },
+            "text": "Have you checked the drawers?"
+          },
+          {
+            "text": "Sam's PIN is a number. The papers have it."
+          }
+        ],
+        [
+          {
+            "when": {
+              "missingItem": "letter"
+            },
+            "text": "Have you been through the paper tray?"
+          },
+          {
+            "when": {
+              "missingItem": "stats"
+            },
+            "text": "Have you checked the drawers?"
+          },
+          {
+            "text": "Sam's PIN is a number. The papers have it."
+          }
+        ],
+        "Post only. Count them. That's the PIN."
       ],
       "shell": "laptop",
       "shellTitle": "Sam's laptop",
@@ -760,7 +667,86 @@
           "route": "case01/pilot",
           "kind": "folder"
         }
-      ]
+      ],
+      "lockedSubtitle": "Locked. Sam set the PIN.",
+      "lockedBy": "c1",
+      "lockScreen": {
+        "id": "c1-lock",
+        "track": "c1",
+        "finding": "frame",
+        "device": "MERIDIAN-ANALYTICS-04",
+        "user": "s.okafor",
+        "label": "Locked",
+        "prompt": "Enter PIN",
+        "inputMode": "numeric",
+        "placeholder": "4 digits",
+        "submitLabel": "Unlock",
+        "stickyTitle": "Stuck to the screen",
+        "sticky": "PIN: the ones nobody asked.",
+        "stickySharp": "Incorrect. How many customers were never sent the survey?",
+        "answerDigest": "360a93c2ff7529acf83b3b2c3b0af1aab42c68a7572e2e9ed165c1b222a96ffe",
+        "targetedResponses": [
+          {
+            "digest": "c18d4cbad6a778b727bac4c7572a747cf105ad959e684f3d3c123d3e4071a5ca",
+            "text": "That’s who they could reach. I asked who they couldn’t."
+          },
+          {
+            "digest": "5010c493958a86e59cdc3b94179856b6c2fea01c7e1b293ff115706c4ff4d6dc",
+            "text": "That’s who answered."
+          },
+          {
+            "digest": "7ea87fd36d9b1b247aa9396cf7268f401bc084ac3d6cad3da841d7e0cd35ca67",
+            "text": "That’s everyone. I want the ones the invitation could never reach."
+          },
+          {
+            "digest": "891937cb335016e9c7074c3781dcb1364e0c660733a8889bbeae83e6aa759be6",
+            "text": "That’s who got only email."
+          },
+          {
+            "digest": "c5d1866aabc15dda07995e73b08c4ccb514947dcd3a621cea851af5fe366f11b",
+            "text": "They got the email too."
+          }
+        ],
+        "wrongResponses": [
+          "Four digits, and they are printed somewhere in this room.",
+          "A count of customers, not a percentage.",
+          "The reply says how the survey went out. Start there."
+        ],
+        "successTitle": "WHO",
+        "successNote": "Weighting can’t reach people who were never invited.",
+        "successBody": "9,214 customers were outside the invitation before the survey started.",
+        "reward": {
+          "cards": [
+            {
+              "title": "Who the 9,214 are",
+              "lines": [
+                "47% aged 60 or over",
+                "7% with a primary language other than English",
+                "100% outside the email frame"
+              ],
+              "body": "The exclusion correlates with age and language. It runs along neither — it runs along a contact field."
+            },
+            {
+              "title": "Case complexity profile of the 9,214",
+              "lines": [
+                "Low 14%",
+                "Medium 34%",
+                "High 52%"
+              ],
+              "body": "Service-wide: 35 / 40 / 25."
+            },
+            {
+              "title": "Consultation feedback log",
+              "lines": [
+                "Complaints received about the consultation: 1",
+                "Customers never invited: 9,214"
+              ],
+              "note": "Most exclusions never write in."
+            }
+          ]
+        },
+        "continueLabel": "Open the laptop"
+      }
     },
     {
       "id": "pilot",
@@ -1007,7 +993,9 @@
         "Three dimensions. Two of them are already handled — check what the survey said it weighted for.",
         "Case complexity. Drag the mix to the service reference and read the big figure."
       ],
-      "shell": "tray"
+      "shell": "tray",
+      "unlockedBy": "c1",
+      "unlockedByMessage": "Numbers about a pilot. Nothing to weigh them against yet."
     },
     {
       "id": "pinboard",
@@ -1338,7 +1326,7 @@
           "missedQuote": "My concern is the people who have never used the digital service — not the ones using it more."
         }
       ],
-      "closingLine": "The sponsor parked Sam. The workshop parked Priya. The first voice parked was Mrs Calder’s letter."
+      "closingLine": "The sponsor parked Sam. The workshop parked Priya. The first voice parked was Mrs Wiśniewska’s letter."
     },
     "chain": {
       "title": "How it happened",
@@ -1469,9 +1457,16 @@
     },
     {
       "id": "letter",
-      "label": "Mrs Calder's letter",
+      "label": "Mrs Wiśniewska’s letter",
       "sprite": "LETTER",
       "route": "case01/tray",
+      "hint": "Opens it to read again."
+    },
+    {
+      "id": "stats",
+      "label": "Customer base sheet",
+      "sprite": "STATS",
+      "route": "case01/stats",
       "hint": "Opens it to read again."
     },
     {

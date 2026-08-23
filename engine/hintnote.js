@@ -70,6 +70,18 @@ export function createHintStack(ctx) {
       open(entry);
     },
 
+    /* A track that has just been solved takes its notes with it — nothing
+       nags after it has been answered, even without a route change. */
+    remove(track) {
+      const prefix = `${track}-`;
+      for (let i = notes.length - 1; i >= 0; i -= 1) {
+        if (notes[i].id.indexOf(prefix) !== 0) continue;
+        const [entry] = notes.splice(i, 1);
+        if (entry.node.parentNode) entry.node.parentNode.removeChild(entry.node);
+      }
+      if (!notes.length) host.hidden = true;
+    },
+
     clear() {
       notes.length = 0;
       clear(host);

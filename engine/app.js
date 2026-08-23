@@ -181,6 +181,7 @@ function boot(series) {
   ctx.completeTrack = function completeTrack(track) {
     store.patch('progress', { [track]: true });
     hints.solved(track);
+    ctx.hintStack.remove(track);
   };
 
   ctx.recordFinding = function recordFinding(id) {
@@ -217,7 +218,9 @@ function boot(series) {
       };
     }
     if (object.track && progress[object.track] === true) {
-      return { kind: 'done', response: responses.look, label: `${object.label} — read` };
+      /* Solving can change what the object looks like saying — the laptop
+         goes from "asking for a PIN" to "unlocked" without a new sprite. */
+      return { kind: 'done', response: responses.done || responses.look, label: `${object.label} — read` };
     }
     return { kind: 'open', response: responses.look, label: object.label };
   };
@@ -270,6 +273,28 @@ function boot(series) {
     window.location.reload();
   };
 
+  /* A hint tier can be a plain string, or a list of {when, text} entries
+     evaluated fresh each time that tier fires — so the same tier reads
+     differently depending on what the player is still missing, without
+     needing a separate tier for every stage of the challenge. The first
+     entry with no `when`, or whose `when` matches, wins. */
+  function matchesWhen(when) {
+    if (!when) return true;
+    const inventory = store.get('inventory', []) || [];
+    if (when.missingItem) return inventory.indexOf(when.missingItem) < 0;
+    if (when.hasItem) return inventory.indexOf(when.hasItem) >= 0;
+    return true;
+  }
+  function resolveHint(entry) {
+    if (!entry) return null;
+    if (typeof entry === 'string') return entry;
+    if (Array.isArray(entry)) {
+      const match = entry.find((option) => matchesWhen(option.when));
+      return match ? match.text : null;
+    }
+    return null;
+  }
+
   /* Sam's notes surface here. Tiers 1 and 2 arrive as marginalia that need the
      torch; tier 3 is plain text, because by then nobody should be stuck. */
   ctx.mountHints = function mountHints(scene) {
@@ -282,7 +307,7 @@ function boot(series) {
       if (!track || ctx.activeTracks.indexOf(track) >= 0) return;
       ctx.activeTracks.push(track);
       hints.begin(track, (tier) => {
-        const text = (sets[track] || [])[tier - 1];
+        const text = resolveHint((sets[track] || [])[tier - 1]);
         if (!text) return;
         ctx.hintStack.add(track, tier, text);
       });
@@ -387,6 +412,14 @@ function boot(series) {
     }
 
     const scene = (content.scenes || []).find((entry) => entry.route === path);
+    /* A scene reached only through a shortcut (the laptop's folder icons, not
+       a desk object of its own) still needs its own gate checked here — the
+       shortcut is the intended path, not the only technical one. */
+    if (scene && scene.unlockedBy && store.get('progress', {})[scene.unlockedBy] !== true) {
+      ctx.pendingStatus = scene.unlockedByMessage || null;
+      router.replace(`${CASE_ID}/desk`);
+      return;
+    }
     if (scene) {
       await scenes.renderChallenge(main, scene, ctx);
       finish();

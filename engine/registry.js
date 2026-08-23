@@ -10,6 +10,7 @@ const BUILT = {
   'pinboard': () => import('./interactions/pinboard.js'),
   'fragment-assembly': () => import('./interactions/fragment-assembly.js'),
   'code-entry': () => import('./interactions/code-entry.js'),
+  'lock-screen': () => import('./interactions/lock-screen.js'),
   'decision': () => import('./interactions/decision.js'),
   'timed-twist': () => import('./interactions/timed-twist.js'),
   'memo': () => import('./interactions/memo.js'),

@@ -311,7 +311,27 @@ function renderDeskCards(main, ctx, objects) {
 /* ---------- challenge scenes ---------- */
 
 export async function renderChallenge(main, scene, ctx) {
-  append(main, sceneHead(`Case 01 · ${scene.title}`, scene.title, scene.subtitle));
+  /* A scene that hands over an item the moment it is opened — the same
+     take-and-remove rule the desk objects use, expressed once here instead of
+     in every reading-only interaction. */
+  if (scene.grants && ctx.inventory) ctx.inventory.add(scene.grants);
+
+  const locked = scene.lockedBy && ctx.store.get('progress', {})[scene.lockedBy] !== true;
+  append(main, sceneHead(`Case 01 · ${scene.title}`, scene.title, locked ? (scene.lockedSubtitle || scene.subtitle) : scene.subtitle));
+
+  /* Locked stands in for the whole scene: no documents, no other
+     interactions, nothing to browse until the lock gives. */
+  if (locked && scene.lockScreen) {
+    const shell = createShell(main, scene, ctx, { locked: true });
+    const host = el('div', { class: 'interaction', 'data-interaction': 'lock-screen' });
+    if (shell) shell.add(scene.lockScreen.id, scene.lockScreen.label || 'Locked', host);
+    else append(main, host);
+    const mod = await loadInteraction('lock-screen');
+    ctx.track(mod.mount(host, scene.lockScreen, Object.assign({}, ctx, { scene, host })));
+    ctx.mountHints(scene);
+    ctx.torch.refresh();
+    return;
+  }
 
   const shell = createShell(main, scene, ctx);
 

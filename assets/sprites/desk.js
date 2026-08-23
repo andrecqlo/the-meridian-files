@@ -271,3 +271,108 @@ export const PAPER_TRAY_EMPTY = {
     '....kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk....',
   ],
 };
+
+/* Drawn over anything the room says you cannot open yet. Light body, dark
+   keyhole, so it reads against both the drawer front and the desk. */
+export const PADLOCK = {
+  w: 9, h: 12, map: MAP,
+  rows: [
+    '..kkkkk..',
+    '.kklllkk.',
+    '.kl...lk.',
+    '.kl...lk.',
+    'kkkkkkkkk',
+    'klllllllk',
+    'kllkkkllk',
+    'kllkkkllk',
+    'kllllkllk',
+    'kllllkllk',
+    'klllllllk',
+    'kkkkkkkkk',
+  ],
+};
+
+/* The photograph clipped to the customer's file. A bust on a flat studio
+   background, four tones, no detail that would not survive at this size. */
+export const PORTRAIT = {
+  w: 24, h: 24, map: MAP,
+  rows: [
+    'kkkkkkkkkkkkkkkkkkkkkkkk',
+    'kmmmmmmmmmmmmmmmmmmmmmmk',
+    'kmmmmmmmkkkkkkkkmmmmmmmk',
+    'kmmmmmkkddddddddkkmmmmmk',
+    'kmmmmkddddddddddddkmmmmk',
+    'kmmmkdddllllllllddkmmmmk',
+    'kmmmkddlllllllllldkmmmmk',
+    'kmmmkdllllllllllldkmmmmk',
+    'kmmmkdllkllllkllldkmmmmk',
+    'kmmmkdllkllllkllldkmmmmk',
+    'kmmmkdlllllllllllkkmmmmk',
+    'kmmmkdlllllkllllllkmmmmk',
+    'kmmmkdllllllllllllkmmmmk',
+    'kmmmkdllllkkkkllllkmmmmk',
+    'kmmmmkdlllllllllkkmmmmmk',
+    'kmmmmmkdlllllllkmmmmmmmk',
+    'kmmmmmmkdlllllkmmmmmmmmk',
+    'kmmmmmmmkkllkkmmmmmmmmmk',
+    'kmmmmmmmkdllldkmmmmmmmmk',
+    'kmmmmmkkddlllddkkmmmmmmk',
+    'kmmmkkdddddllldddddkkmmk',
+    'kmmkddddddddddddddddddkk',
+    'kmkddddddddddddddddddddk',
+    'kkddddddddddddddddddddkk',
+  ],
+};
+
+/* The reference sheet from the drawer: ruled rows, three blocks. */
+export const STATS = {
+  w: 22, h: 18, map: MAP,
+  rows: [
+    'kkkkkkkkkkkkkkkkkkkk..',
+    'klllllllllllllllllllk.',
+    'klldddddddddllllllllk.',
+    'klllllllllllllllllllk.',
+    'klldddllllllldddlllllk',
+    'klldddllllllldddllllk.',
+    'klllllllllllllllllllk.',
+    'klldddllllllldddlllllk',
+    'klldddllllllldddllllk.',
+    'klllllllllllllllllllk.',
+    'klldddllllllldddlllllk',
+    'klldddllllllldddllllk.',
+    'klllllllllllllllllllk.',
+    'kkkkkkkkkkkkkkkkkkkkk.',
+  ],
+};
+
+/* The same machine with the screen asking for a PIN. Drawn at the same origin
+   as LAPTOP, so the object does not shift when it opens. */
+export const LAPTOP_LOCKED = {
+  w: 54, h: 32, map: MAP,
+  rows: [
+    '.......kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk.....',
+    '.......kmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmk....',
+    '.......kmkkkkkkkkkkkkkkkkkkkkkkkkkkkkmmk...',
+    '.......kmkddddddddddddddddddddddddddkmk....',
+    '.......kmkdddddddddddkkkkkddddddddddddkmk..',
+    '.......kmkdddddddddddkdddkdddddddddddkkmk..',
+    '.......kmkdddddddddddkdddkddddddddddddkmk..',
+    '.......kmkddddddddddkkkkkkkddddddddddkkmk..',
+    '.......kmkddddddddddkdlllldkddddddddddkmk..',
+    '.......kmkddddddddddkdllkldkdddddddddkkmk..',
+    '.......kmkddddddddddkdlllldkddddddddddkmk..',
+    '.......kmkddddddddddkkkkkkkdddddddddddkmk..',
+    '.......kmkddddddddddddddddddddddddddddkmk..',
+    '.......kmkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkmk..',
+    '.......kmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmk.',
+    '.......kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk..',
+    '...kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk',
+    '..kmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmk',
+    '..kmllllllllllllllllllllllllllllllllllllllmk',
+    '..kmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmk',
+    '..kmmddddddddddddddddddddddddddddddddddmmmmk',
+    '..kmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmk',
+    '..kddddddddddddddddddddddddddddddddddddddddk',
+    '..kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk',
+  ],
+};

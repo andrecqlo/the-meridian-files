@@ -985,25 +985,46 @@ mark.hl {
   -webkit-box-decoration-break: clone;
 }
 
-.chips { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
-.chip {
+/* ---------- the customer's file, above the letter ---------- */
+
+.profile-card {
+  display: flex; gap: 16px; align-items: flex-start;
   background: var(--paper); color: var(--ink);
   border: 1px solid var(--paper-rule); border-radius: var(--r-card);
-  overflow: hidden;
+  padding: 16px 18px;
 }
-.chip__toggle {
-  display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  width: 100%; font: inherit; font-weight: 620; text-align: left; cursor: pointer;
-  background: transparent; border: 0; color: inherit; padding: 16px 18px;
+.profile-card__portrait {
+  width: 72px; height: 72px; flex: none;
+  image-rendering: pixelated; border: 1px solid var(--paper-rule);
 }
-.chip__cue { font-family: var(--mono); font-size: 1.3em; color: var(--uv-ink); }
-.chip__body { padding: 0 18px 16px; display: grid; gap: 10px; }
-.chip__row { display: grid; gap: 2px; border-top: 1px solid var(--paper-rule); padding-top: 8px; }
-.chip__key {
-  font-family: var(--mono); font-size: 0.66em; letter-spacing: 0.12em;
+.profile-card__body { flex: 1 1 auto; min-width: 0; }
+.profile-card__name { font-size: 1.15em; font-weight: 620; margin: 0 0 2px; }
+.profile-card__meta {
+  font-family: var(--mono); font-size: 0.8em; color: var(--muted-ink); margin: 0 0 10px;
+}
+.profile-card__fields {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 8px 18px; margin: 0;
+}
+.profile-card__field { display: grid; gap: 1px; padding: 2px 4px; border-radius: 2px; }
+.profile-card__field dt {
+  font-family: var(--mono); font-size: 0.66em; letter-spacing: 0.1em;
   text-transform: uppercase; color: var(--muted-ink);
 }
-.chip__value { font-size: 0.92em; }
+.profile-card__field dd { margin: 0; font-size: 0.98em; }
+/* Sam's highlighter, on the one field that matters. The same visual language
+   as mark.hl in the documents below, so the two marks read as one hand. */
+.profile-card__field--hl {
+  background: rgba(217, 199, 154, 0.85);
+}
+
+/* The UV tease. It disappears the instant the torch actually finds the note
+   underneath — see complaint-inspect.js. */
+.doc__smear {
+  font-family: var(--mono); font-size: 0.8em; font-style: italic;
+  color: var(--muted-ink); margin: 0 0 10px;
+}
+.doc--screen .doc__smear, .on-dark .doc__smear { color: var(--muted); }
 
 .doc__table { width: 100%; border-collapse: collapse; margin: 4px 0 8px; font-family: var(--mono); font-size: 0.86em; }
 .doc__table th, .doc__table td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--paper-rule); }
@@ -1607,6 +1628,35 @@ body[data-tray="on"] main { padding-bottom: 170px; }
 
 .os__pinned { border-top: 2px solid var(--tone-1); padding-top: 16px; }
 .os__pinned:empty { display: none; }
+
+/* The laptop before it opens: no icon bar, just the pad, centred on the
+   screen the way a real lock screen sits over whatever was open underneath. */
+.os__stage--locked { min-height: 300px; display: grid; align-content: center; justify-items: center; }
+.os__stage--locked .lock-screen { width: min(100%, 420px); }
+
+.lock-screen__pad {
+  display: grid; gap: 10px; margin-bottom: 16px; text-align: center;
+}
+.lock-screen__device {
+  font-family: var(--mono); font-size: 0.72em; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--tone-2); margin: 0;
+}
+.lock-screen__label {
+  font-family: var(--pixel); font-size: 22px; color: var(--tone-3); margin: 0;
+}
+.lock-screen__note {
+  justify-self: center; max-width: 280px;
+  background: var(--manila); color: var(--ink);
+  border: 1px solid #C3AF7E; border-radius: 2px;
+  padding: 10px 14px; transform: rotate(-1.4deg);
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.32);
+}
+.lock-screen__note-title {
+  font-family: var(--mono); font-size: 0.68em; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--muted-ink); margin: 0 0 4px;
+}
+.lock-screen__sticky { font-family: var(--serif); font-size: 1em; margin: 0; }
+.field--lock { text-align: center; letter-spacing: 0.3em; }
 
 /* ---------- things pinned to cork ---------- */
 

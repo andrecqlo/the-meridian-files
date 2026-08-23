@@ -16,6 +16,25 @@ function frame(main, scene, kind) {
   return { node, body };
 }
 
+/* The laptop while it is still locked: the bezel, but no icon bar — there is
+   nothing to browse yet, only the pad. */
+function lockedLaptopShell(main, scene, ctx) {
+  const stage = el('div', { class: 'os__stage os__stage--locked' });
+  const chrome = el('div', { class: 'os os--locked' }, [
+    el('div', { class: 'os__title' }, [
+      el('span', { class: 'os__dot', 'aria-hidden': 'true' }),
+      el('span', { text: scene.shellTitle || 'Sam’s laptop' }),
+    ]),
+    stage,
+  ]);
+  const shell = el('div', { class: 'shell shell--laptop' }, [
+    el('div', { class: 'shell__screen' }, chrome),
+    el('div', { class: 'shell__base', 'aria-hidden': 'true' }),
+  ]);
+  append(main, shell);
+  return { add(id, label, node) { append(stage, node); }, show() {} };
+}
+
 /* The laptop: an icon bar and one window at a time. */
 function laptopShell(main, scene, ctx) {
   const bar = el('div', { class: 'os__bar', role: 'tablist', 'aria-label': scene.shellLabel || 'Open on the laptop' });
@@ -103,8 +122,9 @@ function laptopShell(main, scene, ctx) {
   return { add, show };
 }
 
-export function createShell(main, scene, ctx) {
-  if (scene.shell === 'laptop') return laptopShell(main, scene, ctx);
+export function createShell(main, scene, ctx, opts) {
+  const locked = Boolean(opts && opts.locked);
+  if (scene.shell === 'laptop') return locked ? lockedLaptopShell(main, scene, ctx) : laptopShell(main, scene, ctx);
   if (!scene.shell) return null;
   const { body } = frame(main, scene, scene.shell);
   return {

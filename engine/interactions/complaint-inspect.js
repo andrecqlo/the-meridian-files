@@ -1,56 +1,74 @@
-/* Act 1 and 2 of the first challenge: a letter from a customer, the reply she
-   received, and her customer record.
+/* Challenge 1, act 1: the letter, the reply, and the customer it names.
 
-   The record chips state three facts each — what her file says, what the
-   customer base looks like, what the methodology claims — and never a verdict.
-   No ticks, no crosses, no "covered" labels. Working out which of the four
-   matters is the challenge; a chip that answered it would be the challenge. */
+   Her profile sits above the documents as a plain field list — no verdict,
+   just what her file says. Sam's highlighter marks one field here and one
+   sentence in the reply; the two marks are the pair that matters, and finding
+   why is the puzzle. A UV note also sits on each document, but nothing says so
+   until you have actually swept the torch across it — grabbing the torch is
+   not the same as knowing where to point it. */
 
-import { el, append, clear, announce } from '../dom.js';
-import { renderDocument, renderNoteCard } from '../scenes.js';
+import { el, append, announce } from '../dom.js';
+import { renderDocument } from '../scenes.js';
+import { spriteToDataURL } from '../pixel.js';
+import * as SPRITES from '../../assets/sprites/desk.js';
+
+function renderProfile(profile) {
+  const sprite = SPRITES[profile.portrait];
+  const card = el('div', { class: 'profile-card' }, [
+    sprite
+      ? el('img', { class: 'profile-card__portrait', src: spriteToDataURL(sprite, 4), alt: '' })
+      : el('span', { class: 'profile-card__portrait' }),
+    el('div', { class: 'profile-card__body' }, [
+      el('p', { class: 'profile-card__name', text: profile.name }),
+      profile.meta ? el('p', { class: 'profile-card__meta', text: profile.meta }) : null,
+      el('dl', { class: 'profile-card__fields' }, profile.fields.map((field) => el('div', {
+        class: `profile-card__field${field.highlight ? ' profile-card__field--hl' : ''}`,
+      }, [
+        el('dt', { text: field.label }),
+        el('dd', { text: field.value }),
+      ]))),
+    ]),
+  ]);
+  return el('div', { class: 'card', 'aria-label': 'Customer file' }, card);
+}
+
+/* The "something is smeared" tease. It sits under the document title until
+   the torch has actually found that document's note, then it is gone for
+   good — checked against the store directly, so a refresh does not bring it
+   back once the note has been read. */
+function renderSmear(doc, ctx) {
+  if (!doc.smear) return null;
+  const revealed = () => (ctx.store.get('revealed', []) || []).indexOf(doc.smear.note) >= 0;
+  if (revealed()) return null;
+  const caption = el('p', { class: 'doc__smear', text: doc.smear.text });
+  const off = ctx.bus.on('note-read', ({ id }) => {
+    if (id !== doc.smear.note) return;
+    if (caption.parentNode) caption.parentNode.removeChild(caption);
+    off();
+  });
+  return caption;
+}
 
 export function mount(host, config, ctx) {
   host.classList.add('stack');
   ctx.store.patch('progress', { c1letter: true });
   /* Once you have read it, you carry it — it is worth re-reading later. */
   if (ctx.inventory) ctx.inventory.add('letter');
+  ctx.progress();
 
   append(host, el('h3', { text: config.title }));
   if (config.instruction) {
     append(host, el('p', { class: 'scene__sub', text: config.instruction }));
   }
 
-  config.documents.forEach((doc) => append(host, renderDocument(doc, ctx)));
+  if (config.profile) append(host, renderProfile(config.profile));
 
-  const recordHost = el('div', { class: 'stack stack--tight' });
-  append(host, recordHost);
-
-  const opened = ctx.store.get('recordOpened', false);
-
-  function openRecord() {
-    ctx.store.set('recordOpened', true);
-    ctx.progress();
-    clear(recordHost);
-    append(recordHost, el('h3', { text: config.record.title, tabindex: '-1', id: 'record-head' }));
-    append(recordHost, el('p', { class: 'scene__sub', text: config.record.instruction }));
-
-    const grid = el('div', { class: 'chips' });
-    config.record.chips.forEach((chip) => append(grid, renderChip(chip, ctx)));
-    append(recordHost, grid);
-    const head = recordHost.querySelector('#record-head');
-    if (head) head.focus();
-    announce(`${config.record.chips.length} record fields. Select one to inspect it.`);
-  }
-
-  if (opened) openRecord();
-  else {
-    append(recordHost, el('button', {
-      type: 'button',
-      class: 'btn btn--primary',
-      text: config.record.openLabel,
-      onClick: openRecord,
-    }));
-  }
+  config.documents.forEach((doc) => {
+    const node = renderDocument(doc, ctx);
+    const smear = renderSmear(doc, ctx);
+    if (smear) node.insertBefore(smear, node.querySelector('.doc__body'));
+    append(host, node);
+  });
 
   append(host, el('div', {}, el('button', {
     type: 'button',
@@ -59,50 +77,6 @@ export function mount(host, config, ctx) {
     onClick: () => ctx.router.go(config.nextRoute),
   })));
 
+  announce(`${config.documents.length} documents. Sam’s customer file is above them.`);
   return { unmount() {} };
-}
-
-/* Tap or Enter to inspect. Nothing in this game is revealed by hover: hover
-   does not exist on touch and is invisible from the back of a room. */
-function renderChip(chip, ctx) {
-  const body = el('div', { class: 'chip__body', hidden: true, id: `chip-body-${chip.id}` }, [
-    row('Her record', chip.record),
-    row('Customer base', chip.base),
-    row('Methodology', chip.methodology),
-  ]);
-
-  /* One chip earns a note once the challenge is solved. It is Sam's, so it
-     arrives under the light like the rest of them. */
-  if (chip.unlockNote && ctx.store.get('progress', {}).c1 === true) {
-    append(body, renderNoteCard(chip.unlockNoteTitle, [
-      { id: `chip-note-${chip.id}`, text: chip.unlockNote },
-    ], ctx));
-  }
-
-  const button = el('button', {
-    type: 'button',
-    class: 'chip__toggle',
-    'aria-expanded': 'false',
-    'aria-controls': `chip-body-${chip.id}`,
-  }, [
-    el('span', { class: 'chip__label', text: chip.label }),
-    el('span', { class: 'chip__cue', 'aria-hidden': 'true', text: '+' }),
-  ]);
-
-  button.addEventListener('click', () => {
-    const next = button.getAttribute('aria-expanded') !== 'true';
-    button.setAttribute('aria-expanded', next ? 'true' : 'false');
-    button.querySelector('.chip__cue').textContent = next ? '−' : '+';
-    body.hidden = !next;
-    if (next) ctx.progress();
-  });
-
-  return el('div', { class: 'chip' }, [button, body]);
-}
-
-function row(label, value) {
-  return el('div', { class: 'chip__row' }, [
-    el('span', { class: 'chip__key', text: label }),
-    el('span', { class: 'chip__value', text: value }),
-  ]);
 }

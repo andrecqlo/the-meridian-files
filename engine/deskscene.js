@@ -82,12 +82,26 @@ export function renderDeskScene(host, ctx, objects) {
     const state = ctx.deskState(object);
     /* Taken means gone: nothing left on the desk, and nothing to click. */
     if (state.kind === 'gone') return;
-    const sprite = SPRITES[state.sprite || object.sprite];
+    let spriteKey = state.sprite || object.sprite;
+    /* A locked object can wear a different face while it is locked — the
+       laptop's screen, not just a padlock glued on top of its usual sprite. */
+    let padlocked = state.kind === 'blocked';
+    if (object.altSprite) {
+      const met = ctx.store.get('progress', {})[object.altSprite.untilProgress] === true;
+      if (!met) { spriteKey = object.altSprite.sprite; padlocked = true; }
+    }
+    const sprite = SPRITES[spriteKey];
     if (!sprite || !object.at) return;
     if (object.grounded !== false) {
       contactShadow(ctx2d, object.at.x + 2, sprite.w - 4, scene.deskTop, RENDER_SCALE);
     }
     drawSprite(ctx2d, sprite, object.at.x * RENDER_SCALE, object.at.y * RENDER_SCALE, RENDER_SCALE);
+    if (padlocked && SPRITES.PADLOCK) {
+      const lock = SPRITES.PADLOCK;
+      const lx = object.at.x + sprite.w - lock.w - 1;
+      const ly = object.at.y + sprite.h - lock.h - 1;
+      drawSprite(ctx2d, lock, lx * RENDER_SCALE, ly * RENDER_SCALE, RENDER_SCALE);
+    }
   });
 
   const status = el('p', { class: 'room__status', role: 'status', 'aria-live': 'polite' });
@@ -127,7 +141,10 @@ export function renderDeskScene(host, ctx, objects) {
       if (now.kind === 'blocked') ctx.audio.play('wrong');
       ctx.deskActivate(object, say);
     });
-    button.addEventListener('focus', () => say(object.responses && object.responses.look));
+    button.addEventListener('focus', () => {
+      const current = ctx.deskState(object);
+      say(current.response || (object.responses && object.responses.look));
+    });
     append(layer, button);
   });
 
