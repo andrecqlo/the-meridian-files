@@ -103,31 +103,39 @@ objects open in sequence rather than all at once:
 | Pilot data — a folder on the laptop | once the laptop is unlocked |
 | Bottom drawer | Challenge 2 is solved — it yields a ball of string |
 | Pinboard | the team is carrying the string |
-| READ_BEFORE_SIGNOFF | all three words are stamped |
 
 Clicking something that will not open yet is not a dead end: it puts a line in
 the status bar under the room, in Sam's voice, saying what is missing. Clicking
-the pinboard without the string says so in as many words. **Nothing is ever
-hidden behind a search** — if a team seems stuck, tell them to click things.
+the pinboard without the string says so in as many words — and it never shows
+a padlock, since it isn't locked, it just needs the string in hand. **Nothing
+is ever hidden behind a search** — if a team seems stuck, tell them to click
+things.
 
 The torch is the one object worth pointing at if a team has not picked it up by
-about four minutes in. Sam's annotations are all read by moving its light across
-a page, and a team that never takes it will miss every one of them.
+about four minutes in. Sam's marks are all read by moving its light across a
+page, and a team that never takes it will miss every one of them.
 
-### Two marking systems, one fiction
+There is no case file sitting on the desk any more — READ_BEFORE_SIGNOFF was
+always the locked attachment on Sam's email, not a folder that happened to
+also be on her desk. The filestrip at the bottom of the desk (three word
+slots, a small envelope icon) is that attachment: it stays a status readout
+until all three words are stamped, then becomes the door in.
 
-The room uses two visible-annotation systems that look similar and are meant
-to: a highlighter, and UV ink. This is deliberate, not an inconsistency to
-flag if a player asks. Sam highlighted two things openly — "Post only" on the
-customer's profile, and "issued by email to all our customers" on the reply —
-because a highlighter is what Sam could still do without anyone noticing.
-Everything Sam actually thought but could not say out loud went into the UV
-ink instead, which is why the intro line is "I couldn't say them out loud."
-The letter and the reply both carry a visible tease ("something is smeared
-across the paper") until the torch actually finds the note underneath — taking
-the torch is not the same as knowing where to point it, and the tease exists
-so a team that is carrying the torch but hasn't found the note yet still has a
-reason to keep sweeping.
+### The highlighter is under UV now, and it's the only mark on the page
+
+Sam left exactly two highlighter marks for this challenge — "Post only" on
+the customer's profile, and "issued by email to all our customers" on the
+reply — and both are UV-only: nothing shows without the torch. There is no
+separate marginalia to find here any more; the highlight itself is what the
+torch reveals, appearing as a light purple glow while the beam is near and
+disappearing when it moves on. Both documents carry a visible tease
+("something is smeared across the page/paper") until their mark has actually
+been found, so a team that is carrying the torch but hasn't swept the right
+spot yet still has a reason to keep looking. This is a genuinely harder
+version of the challenge than earlier builds: a team that never finds the
+torch, or finds it but never sweeps the profile and reply, gets no visual
+flag on the contradiction at all — the text still reads plainly, just without
+emphasis. Watch for this in a playtest; see PLAYTEST.md.
 
 ## Solutions
 
@@ -150,28 +158,40 @@ reason to keep sweeping.
   analysis — then flag *disabled users (removes travel)* and *non-English
   speakers (automated translation)* as not supported. Stamps MISSING.
 - **Passphrase.** The three stamped words: **WHO IS MISSING**. Spacing, hyphens
-  and capitals are all forgiven.
+  and capitals are all forgiven. The challenges don't stamp the words in
+  reading order — Challenge 1 stamps "IS", Challenge 2 stamps "MISSING",
+  Challenge 3 stamps "WHO" — so the phrase only becomes legible once all
+  three are actually in, rather than being guessable after two.
 - **The string.** In the bottom drawer, locked until Challenge 2 lands. Take
   it, then click the pinboard.
+- **The attachment.** Once all three words are stamped, the filestrip at the
+  bottom of the desk becomes clickable and opens READ_BEFORE_SIGNOFF — same
+  passphrase screen as before, now explicitly framed as Sam's locked email
+  attachment.
 - **Priya, optional.** Put the torch over the workshop minutes on the pinboard
   after the board is complete, then reassemble: *"My concern is the people who
   have never used the digital service — not the ones using it more."*
 
 ## Hints and pacing — you should not need to help
 
-There is no hint menu and no penalty. Sam's notes surface on their own: tier 1
-after 90 seconds without meaningful progress, one tier per further 60 seconds,
-so a stuck team holds the near-explicit tier by 3:30.
+There is no hint menu and no penalty. Hints surface on their own: tier 1 after
+90 seconds without meaningful progress, one tier per further 60 seconds, so a
+stuck team holds the near-explicit tier by 3:30. These are not attributed to
+Sam — she resigned before the game starts, and a note that arrives on a
+schedule reacting to how stuck the team is reads as her watching in real
+time, which contradicts that. Sam still narrates the things she actually left
+behind (the letter, the memo, the UV ink, the highlighter); this adaptive
+layer is just the game surfacing help, plainly labelled as a hint.
 
 Behind that sits an invisible pace line — letter opened by 13:30, Challenge 1
 by 11:00, Challenge 2 by 7:30, pinboard by 5:00, passphrase by 4:00, decision
 by 1:30. A team more than a minute behind gets hints twice as fast; more than
-two minutes behind, the next note surfaces in the margin, pulsing, unopened;
-more than three minutes behind, that note opens itself once and can be put
-back. Pacing never completes a step: the selection, the slider and the sentence
-are always the team's own work.
+two minutes behind, the next hint surfaces in the corner, pulsing, unopened;
+more than three minutes behind, it opens itself once and can be put back.
+Pacing never completes a step: the selection, the slider and the sentence are
+always the team's own work.
 
-So: let them struggle. If you must intervene, read Sam's note aloud rather than
+So: let them struggle. If you must intervene, read the hint aloud rather than
 explaining it yourself.
 
 ## Running the debrief

@@ -37,14 +37,21 @@ Watch a real team, not the screen. Record answers as yes/no plus one line.
       it because they were looking at the object rather than the bar?
 - [ ] Does the bottom drawer unlocking after Challenge 2 get noticed, or does
       the team hunt for the string?
-- [ ] Do the notes that arrive top-right read as Sam, or as a nag? Does anyone
-      fail to notice one arrive?
-- [ ] Is the laptop's padlock read as "locked, come back" rather than
-      "broken"? Watch for a team that gives up on it rather than trying the
-      other objects first.
-- [ ] Does the "smeared paper" caption on the letter and the reply actually
-      send people to the torch, or does it read as decorative and get
-      ignored?
+- [ ] Do the hints that arrive top-right read as helpful, or as a nag? Does
+      anyone fail to notice one arrive?
+- [ ] Is the bottom drawer's padlock (on the handle) read as "locked, come
+      back" rather than "broken"? Watch for a team that gives up on it rather
+      than trying the other objects first.
+- [ ] The laptop's locked state and the pinboard should never show a padlock
+      — the laptop's own dark screen carries that signal, and the pinboard
+      isn't locked at all, it just needs the string. Does either ever get
+      misread as broken rather than "not yet"?
+- [ ] Does the "smeared paper" caption on the profile card and the reply
+      actually send people to the torch, or does it read as decorative and
+      get ignored?
+- [ ] Once all three words are stamped, does the filestrip at the bottom of
+      the desk get noticed as the way in, or does the team keep looking for a
+      folder or icon on the desk itself?
 
 ### The interactions
 
@@ -58,13 +65,19 @@ Watch a real team, not the screen. Record answers as yes/no plus one line.
       before anyone types a wrong answer? If it **never** does, the clue is too
       vague; if it **always** does, it is carrying too much and the sharpened
       wrong-answer line is never seen.
-- [ ] **Do most teams crack the PIN without opening the drawer?** The profile's
-      "Post only" and the reply's "issued by email" are highlighted as a pair
-      specifically so the two together are decodable without the reference
-      sheet's count. If most teams solve it from the highlights alone, that
-      pairing is doing too much and the profile highlight has lost its point
-      as a *marker* rather than an *answer* — note it, do not add more
-      highlighting to compensate.
+- [ ] **Does a team that never sweeps the torch over the profile and reply get
+      completely stuck, with the reference sheet as their only way in?** Both
+      highlights are UV-only now — the contradiction carries no visual flag
+      at all until swept. That's the intended difficulty, but if it's
+      producing hard stalls rather than "check the torch" hints landing in
+      time, that's a pacing problem, not a copy one.
+- [ ] **Do most teams crack the PIN without opening the drawer, once they've
+      swept both highlights?** "Post only" and "issued by email" are
+      highlighted as a pair specifically so the two together are decodable
+      without the reference sheet's count. If most teams solve it from the
+      highlights alone, that pairing is doing too much and the profile
+      highlight has lost its point as a *marker* rather than an *answer* —
+      note it, do not add more highlighting to compensate.
 - [ ] Does any team treat the age tab's 81 as a bug rather than a finding? If
       so, strengthen Sam's note on that tab. Never change the arithmetic.
 - [ ] Does the "1 complaint / 9,214 never invited" card get a visible reaction?
@@ -82,7 +95,7 @@ Watch a real team, not the screen. Record answers as yes/no plus one line.
 
 - [ ] Does any tester get hard-stuck for more than 3.5 minutes despite tier 3?
 - [ ] With pacing active, does any team finish past 17:00 including debrief?
-- [ ] Do auto-surfaced notes read as Sam, or as a nag?
+- [ ] Do auto-surfaced hints read as helpful, or as a nag?
 - [ ] Does the pace line fire all three thresholds in a deliberately slow run:
       intervals halve, then a note surfaces unopened and pulsing, then one note
       opens itself once and can be put back?
