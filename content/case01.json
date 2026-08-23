@@ -53,8 +53,6 @@
     "timerNote": "The countdown starts when you open the desk."
   },
   "torch": {
-    "toggleOn": "Switch the torch on",
-    "toggleOff": "Switch the torch off",
     "firstUse": "Violet light. Handwriting comes up out of the paper wherever you point it.",
     "keyboardHint": "UV torch. Move the pointer to move the light. Arrow keys also move it, N jumps to the next thing worth reading, and Escape puts it out."
   },

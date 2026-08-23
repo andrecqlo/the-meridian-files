@@ -195,12 +195,6 @@ main:focus, main:focus-visible { outline: none; }
   background: var(--paper); color: var(--ink); border-color: var(--paper-rule);
 }
 .btn--paper:hover { background: #fff; }
-.btn--torch[aria-pressed="true"] { border-color: var(--uv); color: var(--uv-text); }
-.btn__dot {
-  width: 10px; height: 10px; border-radius: 50%;
-  background: var(--ink-3); border: 1px solid var(--muted);
-}
-.btn--torch[aria-pressed="true"] .btn__dot { background: var(--uv); border-color: var(--uv); }
 .btn--danger { border-color: var(--stamp); color: var(--stamp-text); }
 
 .icon { width: 1.2em; height: 1.2em; fill: none; }
@@ -1205,7 +1199,7 @@ mark.hl {
   .chrome__timer[data-level="over"] .chrome__timer-value { font-size: 32px; }
   .chrome__timer-note { font-size: 10px; letter-spacing: 0.06em; }
   .btn { padding: 8px 10px; font-size: 0.82em; }
-  .btn--torch span:last-child, #btn-sound { font-size: 0.8em; }
+  #btn-sound { font-size: 0.8em; }
   .readout { grid-template-columns: 1fr; }
   .readout__figure { font-size: clamp(56px, 22vw, 96px); }
   .headline { gap: 18px; }

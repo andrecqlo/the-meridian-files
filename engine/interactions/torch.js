@@ -154,8 +154,8 @@ export function createTorch(ctx) {
     if (event.key === 'Escape') {
       event.preventDefault();
       setOn(false);
-      const button = document.getElementById('btn-torch');
-      if (button) button.focus();
+      const item = document.querySelector('.item[data-item="torch"]');
+      if (item) item.focus();
     }
   }
 
@@ -167,11 +167,10 @@ export function createTorch(ctx) {
     if (body) body.hidden = !on;
     if (handle) handle.hidden = !on;
     document.body.dataset.torch = on ? 'on' : 'off';
-    const button = document.getElementById('btn-torch');
-    if (button) {
-      button.setAttribute('aria-pressed', on ? 'true' : 'false');
-      button.title = on ? ctx.content.torch.toggleOff : ctx.content.torch.toggleOn;
-    }
+    /* The inventory item is the only on/off control left — keep its
+       aria-pressed in step, however the state changed (click, Escape, or the
+       keyboard handle). */
+    if (ctx.inventory) ctx.inventory.render();
     if (!on) {
       notes.forEach((node) => { if (node.dataset.inspect !== '1') node.dataset.lit = '0'; });
     } else {
@@ -197,7 +196,6 @@ export function createTorch(ctx) {
     get held() { return held(); },
     setOn,
     toggle() { return setOn(!on); },
-    nudge(dx, dy) { if (on) moveTo(x + dx, y + dy); },
     jumpToNextNote,
     pickUp() {
       store.patch('torch', { held: true });

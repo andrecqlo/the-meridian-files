@@ -60,11 +60,16 @@ export function createInventory(ctx) {
       const item = definition(id);
       if (!item) return;
       const sprite = SPRITES[item.sprite];
-      const isArmed = armed === id;
+      /* The torch item is a toggle, not an arm-then-use tool like the string —
+         its pressed state is whether the beam is lit, not whether it is
+         selected. This is the only on/off indicator left now the chrome
+         button is gone. */
+      const isPressed = item.action === 'torch' ? ctx.torch.on : armed === id;
       const button = el('button', {
         type: 'button',
         class: 'item',
-        'aria-pressed': isArmed ? 'true' : 'false',
+        'data-item': id,
+        'aria-pressed': isPressed ? 'true' : 'false',
         'aria-label': `${item.label}. ${item.hint || ''}`,
       }, [
         sprite
@@ -81,6 +86,8 @@ export function createInventory(ctx) {
   /* One click, one obvious outcome. */
   function use(item) {
     if (item.action === 'torch') {
+      /* setOn() re-renders the tray itself, so the pressed state stays in
+         sync however the torch gets turned off (click, Escape, keyboard). */
       const on = ctx.torch.toggle();
       announce(on ? item.onText : item.offText);
       return;

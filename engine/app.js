@@ -83,7 +83,6 @@ function boot(series) {
   const timerNote = document.getElementById('timer-note');
   const backButton = document.getElementById('btn-back');
   const backLabel = document.getElementById('btn-back-label');
-  const torchButton = document.getElementById('btn-torch');
   const soundButton = document.getElementById('btn-sound');
   const caseLabel = document.getElementById('chrome-case');
 
@@ -114,20 +113,6 @@ function boot(series) {
   pace.subscribe(() => ctx.applyPace());
   timer.subscribe(() => {
     if (timer.isStarted()) pace.evaluate();
-  });
-
-  torchButton.addEventListener('click', () => {
-    ctx.torch.toggle();
-    announce(ctx.torch.on ? 'Torch on. Move it over a document.' : 'Torch off.');
-  });
-  torchButton.addEventListener('keydown', (event) => {
-    const step = event.shiftKey ? 60 : 24;
-    const moves = {
-      ArrowUp: [0, -step], ArrowDown: [0, step], ArrowLeft: [-step, 0], ArrowRight: [step, 0],
-    };
-    if (!moves[event.key] || !ctx.torch.on) return;
-    event.preventDefault();
-    ctx.torch.nudge(moves[event.key][0], moves[event.key][1]);
   });
 
   function syncSound() {
@@ -375,7 +360,6 @@ function boot(series) {
       backButton.hidden = false;
       backLabel.textContent = 'Menu';
       backButton.onclick = () => router.go('');
-      torchButton.hidden = true;
       scenes.renderIntro(main, ctx);
       finish();
       return;
@@ -384,7 +368,6 @@ function boot(series) {
     timer.resume();
     store.set('lastRoute', path);
     caseLabel.textContent = `Case ${content.number} · ${content.title}`;
-    torchButton.hidden = !ctx.torch.held;
 
     if (path === `${CASE_ID}/desk`) {
       backButton.hidden = false;
