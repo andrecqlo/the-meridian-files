@@ -73,11 +73,17 @@ export function mount(host, config, ctx) {
     append(host, node);
   });
 
+  /* Closing this puts you back wherever you actually came from — the desk,
+     the laptop, anywhere the tray is reachable from — rather than assuming
+     the only reason to open it was to head to the laptop next. */
   append(host, el('div', {}, el('button', {
     type: 'button',
     class: 'btn',
-    text: config.nextLabel,
-    onClick: () => ctx.router.go(config.nextRoute),
+    text: config.closeLabel || 'Put away',
+    onClick: () => {
+      announce('Put away.');
+      ctx.router.go(ctx.previousPath || 'case01/desk');
+    },
   })));
 
   announce(`${config.documents.length} documents. Sam’s customer file is above them.`);

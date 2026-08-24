@@ -320,8 +320,7 @@
               ]
             }
           ],
-          "nextLabel": "Go to the laptop",
-          "nextRoute": "case01/laptop",
+          "closeLabel": "Put away",
           "profile": {
             "title": "Customer file",
             "portrait": "PORTRAIT",

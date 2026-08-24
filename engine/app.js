@@ -318,6 +318,13 @@ function boot(series) {
 
   /* ---- routing ---- */
 
+  /* The route the player was actually looking at before this one, so a
+     scene can offer "put this away" rather than a hardcoded destination.
+     Captured before it's overwritten with the incoming path — including
+     across a gate bounce, since only the innermost, fully-rendered call's
+     value ends up sticking for the next real navigation. */
+  let previousPath = null;
+
   const router = createRouter(async (route) => {
     ctx.mounted.forEach((instance) => instance.unmount());
     ctx.mounted = [];
@@ -328,6 +335,8 @@ function boot(series) {
     clear(main);
 
     const path = route.path;
+    ctx.previousPath = previousPath;
+    previousPath = path;
     const isLanding = path === '' || path === 'index.html';
 
     chrome.hidden = isLanding;
