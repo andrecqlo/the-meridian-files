@@ -358,36 +358,20 @@
             "when": {
               "missingItem": "letter"
             },
-            "text": "Have you been through the paper tray?"
+            "text": "Have you checked the paper tray?"
           },
           {
             "when": {
               "missingItem": "stats"
             },
-            "text": "Have you checked the drawers?"
+            "text": "Have you checked the top drawer?"
           },
           {
-            "text": "Sam's PIN is a number. The papers have it."
+            "text": "The laptop wants a PIN. What is it actually asking for?"
           }
         ],
-        [
-          {
-            "when": {
-              "missingItem": "letter"
-            },
-            "text": "Have you been through the paper tray?"
-          },
-          {
-            "when": {
-              "missingItem": "stats"
-            },
-            "text": "Have you checked the drawers?"
-          },
-          {
-            "text": "Sam's PIN is a number. The papers have it."
-          }
-        ],
-        "Post only. Count them. That's the PIN."
+        "There's something smeared on the letter and the reply — worth checking under the UV light.",
+        "There's a gap between how many the survey reached and the full customer base. The letter's profile says who was left out — post only. The reference sheet in the drawer says how many."
       ],
       "shell": "tray"
     },
@@ -524,36 +508,20 @@
             "when": {
               "missingItem": "letter"
             },
-            "text": "Have you been through the paper tray?"
+            "text": "Have you checked the paper tray?"
           },
           {
             "when": {
               "missingItem": "stats"
             },
-            "text": "Have you checked the drawers?"
+            "text": "Have you checked the top drawer?"
           },
           {
-            "text": "Sam's PIN is a number. The papers have it."
+            "text": "The laptop wants a PIN. What is it actually asking for?"
           }
         ],
-        [
-          {
-            "when": {
-              "missingItem": "letter"
-            },
-            "text": "Have you been through the paper tray?"
-          },
-          {
-            "when": {
-              "missingItem": "stats"
-            },
-            "text": "Have you checked the drawers?"
-          },
-          {
-            "text": "Sam's PIN is a number. The papers have it."
-          }
-        ],
-        "Post only. Count them. That's the PIN."
+        "There's something smeared on the letter and the reply — worth checking under the UV light.",
+        "There's a gap between how many the survey reached and the full customer base. The letter's profile says who was left out — post only. The reference sheet in the drawer says how many."
       ],
       "shell": "tray"
     },
@@ -615,36 +583,20 @@
             "when": {
               "missingItem": "letter"
             },
-            "text": "Have you been through the paper tray?"
+            "text": "Have you checked the paper tray?"
           },
           {
             "when": {
               "missingItem": "stats"
             },
-            "text": "Have you checked the drawers?"
+            "text": "Have you checked the top drawer?"
           },
           {
-            "text": "Sam's PIN is a number. The papers have it."
+            "text": "The laptop wants a PIN. What is it actually asking for?"
           }
         ],
-        [
-          {
-            "when": {
-              "missingItem": "letter"
-            },
-            "text": "Have you been through the paper tray?"
-          },
-          {
-            "when": {
-              "missingItem": "stats"
-            },
-            "text": "Have you checked the drawers?"
-          },
-          {
-            "text": "Sam's PIN is a number. The papers have it."
-          }
-        ],
-        "Post only. Count them. That's the PIN."
+        "There's something smeared on the letter and the reply — worth checking under the UV light.",
+        "There's a gap between how many the survey reached and the full customer base. The letter's profile says who was left out — post only. The reference sheet in the drawer says how many."
       ],
       "shell": "laptop",
       "shellTitle": "Sam's laptop",
@@ -1468,7 +1420,7 @@
     }
   ],
   "hintNote": {
-    "closedLabel": "Hint",
+    "closedLabel": "Hint available",
     "dismissLabel": "Close",
     "arrival": "A hint is available."
   }
