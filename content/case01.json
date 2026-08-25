@@ -49,8 +49,8 @@
       "Attached: READ_BEFORE_SIGNOFF.",
       "The board meets in 15 minutes."
     ],
-    "cta": "Open Sam’s desk",
-    "timerNote": "The countdown starts when you open the desk."
+    "cta": "Go to Sam’s desk",
+    "timerNote": "The countdown starts when you go to the desk."
   },
   "torch": {
     "firstUse": "Violet light. It reveals invisible ink on the page — move it across what you're reading.",
