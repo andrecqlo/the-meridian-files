@@ -440,6 +440,28 @@
             {
               "table": {
                 "head": [
+                  "Age",
+                  "Customers"
+                ],
+                "rows": [
+                  [
+                    "18–39",
+                    "15,876 (31%)"
+                  ],
+                  [
+                    "40–59",
+                    "20,998 (41%)"
+                  ],
+                  [
+                    "60 and over",
+                    "14,340 (28%)"
+                  ]
+                ]
+              }
+            },
+            {
+              "table": {
+                "head": [
                   "Communication method",
                   "Customers"
                 ],
@@ -489,7 +511,7 @@
           "annotations": [
             {
               "id": "a-contact",
-              "after": 2,
+              "after": 3,
               "text": "The one line nothing was adjusted for."
             }
           ]

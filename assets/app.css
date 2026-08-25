@@ -1039,10 +1039,23 @@ mark.hl {
 }
 .doc--screen .doc__smear, .on-dark .doc__smear { color: var(--muted); }
 
-.doc__table { width: 100%; border-collapse: collapse; margin: 4px 0 8px; font-family: var(--mono); font-size: 0.86em; }
+.doc__table { width: 100%; border-collapse: collapse; margin: 18px 0 8px; font-family: var(--mono); font-size: 0.86em; }
 .doc__table th, .doc__table td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--paper-rule); }
-.doc__table td:last-child { text-align: right; font-variant-numeric: tabular-nums; }
+.doc__table td:last-child, .doc__table th:last-child { text-align: right; }
+.doc__table td:last-child { font-variant-numeric: tabular-nums; }
 .doc--screen .doc__table th, .doc--screen .doc__table td { border-bottom-color: var(--ink-3); }
+/* Each table is its own section — Gender, Age, Communication method — so its
+   header reads as a heading, not another row of data. Same small-caps
+   treatment as a profile field's label, the same visual language used
+   everywhere else a heading sits over a value in this game. Scoped to the
+   column headings in <thead> only — the row headings in <tbody> (Female,
+   Male, ...) are marked up as <th scope="row"> for accessibility, but they
+   are values, not section titles, and should stay full weight. */
+.doc__table thead th {
+  font-size: 0.72em; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--muted-ink); border-bottom-width: 2px;
+}
+.doc--screen .doc__table thead th { color: var(--muted); }
 
 /* ---------- cohort diagram ---------- */
 
