@@ -1,6 +1,6 @@
 # Case 02 — The Replay · facilitator notes
 
-*Someone just resigned. The record wipes at midnight.*
+*Someone just resigned. The project loses a month. The board meets in 15 minutes.*
 
 Not built. This file exists so the ground rules are written down before the
 case is, because this one needs them.
