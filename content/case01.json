@@ -370,7 +370,20 @@
             "text": "The laptop wants a PIN. What is it actually asking for?"
           }
         ],
-        "There's something smeared on the letter and the reply — worth checking under the UV light.",
+        [
+          {
+            "when": {
+              "missingRevealAny": [
+                "a-profile",
+                "a-invitations"
+              ]
+            },
+            "text": "There's something smeared on the letter and the reply — worth checking under the UV light."
+          },
+          {
+            "text": "You've seen what's smeared. Now line up post only against the reference sheet's count."
+          }
+        ],
         "There's a gap between how many the survey reached and the full customer base. The letter's profile says who was left out — post only. The reference sheet in the drawer says how many."
       ],
       "shell": "tray"
@@ -520,7 +533,20 @@
             "text": "The laptop wants a PIN. What is it actually asking for?"
           }
         ],
-        "There's something smeared on the letter and the reply — worth checking under the UV light.",
+        [
+          {
+            "when": {
+              "missingRevealAny": [
+                "a-profile",
+                "a-invitations"
+              ]
+            },
+            "text": "There's something smeared on the letter and the reply — worth checking under the UV light."
+          },
+          {
+            "text": "You've seen what's smeared. Now line up post only against the reference sheet's count."
+          }
+        ],
         "There's a gap between how many the survey reached and the full customer base. The letter's profile says who was left out — post only. The reference sheet in the drawer says how many."
       ],
       "shell": "tray"
@@ -595,7 +621,20 @@
             "text": "The laptop wants a PIN. What is it actually asking for?"
           }
         ],
-        "There's something smeared on the letter and the reply — worth checking under the UV light.",
+        [
+          {
+            "when": {
+              "missingRevealAny": [
+                "a-profile",
+                "a-invitations"
+              ]
+            },
+            "text": "There's something smeared on the letter and the reply — worth checking under the UV light."
+          },
+          {
+            "text": "You've seen what's smeared. Now line up post only against the reference sheet's count."
+          }
+        ],
         "There's a gap between how many the survey reached and the full customer base. The letter's profile says who was left out — post only. The reference sheet in the drawer says how many."
       ],
       "shell": "laptop",

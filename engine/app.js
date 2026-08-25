@@ -268,6 +268,13 @@ function boot(series) {
     const inventory = store.get('inventory', []) || [];
     if (when.missingItem) return inventory.indexOf(when.missingItem) < 0;
     if (when.hasItem) return inventory.indexOf(when.hasItem) >= 0;
+    /* Whether the torch has actually found a UV note yet — not just whether
+       the player is carrying the torch. Lets a hint stop suggesting "check
+       under UV" once that's already been done. */
+    if (when.missingRevealAny) {
+      const revealed = store.get('revealed', []) || [];
+      return when.missingRevealAny.some((id) => revealed.indexOf(id) < 0);
+    }
     return true;
   }
   function resolveHint(entry) {
