@@ -95,26 +95,6 @@ export const PINBOARD = {
   ],
 };
 
-export const CASE_FILE = {
-  w: 42, h: 22, map: MAP,
-  rows: [
-    '.....kkkkkkkkkkkk.........................',
-    '.....kllllllllllkkkkkkkkkkkkkkkkkkkkk.....',
-    '.....klmmmmmmmmmlllllllllllllllllllllk....',
-    'kkkkkklmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmk...',
-    'klllllllmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmk..',
-    'klmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmk.',
-    'klmmkkkkkkmmmkkkkkmmmkkkkkkkkkmmmmmmmmmmk',
-    'klmmkllllkmmmklllkmmmkllllllkmmmmmmmmmmmk',
-    'klmmkkkkkkmmmkkkkkmmmkkkkkkkkkmmmmmmmmmmk',
-    'klmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmk',
-    'klmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmk',
-    'kldddddddddddddddddddddddddddddddddddddddk',
-    'kkddddddddddddddddddddddddddddddddddddddkk',
-    '.kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk.',
-  ],
-};
-
 export const DRAWER = {
   w: 58, h: 24, map: MAP,
   rows: [
@@ -159,54 +139,6 @@ export const MUG = {
     '..kmddddddmkkk..',
     '..kdddddddmk....',
     '..kkkkkkkkk.....',
-  ],
-};
-
-export const LAMP = {
-  w: 32, h: 42, map: MAP,
-  rows: [
-    '.........kkkkkkkkkkkkkk.........',
-    '........klllllllllllllk.........',
-    '.......kmmmmmmmmmmmmmmmk........',
-    '......kmmmmmmmmmmmmmmmmmk.......',
-    '.....kmmmmmmmmmmmmmmmmmmmk......',
-    '....kddddddddddddddddddddddk....',
-    '....kgggggggggggggggggggggggk...',
-    '....kkkkkkkkkkkkkkkkkkkkkkkkk...',
-    '.............kkkk...............',
-    '.............kmmk...............',
-    '.............kdmk...............',
-    '.............kdmk...............',
-    '.............kdmk...............',
-    '.............kdmk...............',
-    '.............kdmk...............',
-    '.............kdmk...............',
-    '.............kdmk...............',
-    '.............kdmk...............',
-    '.............kdmk...............',
-    '........kkkkkkdmkkkkkkk.........',
-    '.......kmmmmmmmmmmmmmmmk........',
-    '.......kdddddddddddddddk........',
-    '.......kkkkkkkkkkkkkkkkk........',
-  ],
-};
-
-export const REPORT = {
-  w: 38, h: 18, map: MAP,
-  rows: [
-    '..kkkkkkkkkkkkkkkkkkkkkkkkkkkkkk......',
-    '..klllllllllllllllllllllllllllk.......',
-    '..kldddddddddddddddddddddddddlk.......',
-    '..klllllllllllllllllllllllllllkkkkkk..',
-    'kkkllllllllllllllllllllllllllllllllk..',
-    'klllllllllllllllllllllllllllllllllmk..',
-    'klmmkkkkkkkkkkkkkkkkkkkkkkkkkkmmmmmk..',
-    'klmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmk..',
-    'klmmkkkkkkkkkkkkkkkkkkkkmmmmmmmmmmmk..',
-    'klmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmk..',
-    'kldddddddddddddddddddddddddddddddddmk.',
-    'kkddddddddddddddddddddddddddddddddddk.',
-    '.kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk.',
   ],
 };
 

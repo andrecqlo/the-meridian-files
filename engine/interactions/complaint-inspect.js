@@ -82,7 +82,7 @@ export function mount(host, config, ctx) {
     text: config.closeLabel || 'Put away',
     onClick: () => {
       announce('Put away.');
-      ctx.router.go(ctx.previousPath || 'case01/desk');
+      ctx.router.go(ctx.previousPath || `${ctx.caseId}/desk`);
     },
   })));
 

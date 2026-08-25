@@ -23,7 +23,7 @@ export function mount(host, _final, ctx) {
   host.classList.add('debrief');
 
   append(host, el('header', { class: 'scene__head' }, [
-    el('p', { class: 'scene__eyebrow', text: 'Case 01 · The Evidence' }),
+    el('p', { class: 'scene__eyebrow', text: `Case ${ctx.content.number} · ${ctx.content.title}` }),
     el('h1', { text: debrief.title, 'data-autofocus': true, tabindex: '-1' }),
     el('p', { class: 'scene__sub', text: debrief.untimedNote }),
   ]));

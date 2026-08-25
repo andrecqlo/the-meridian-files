@@ -7,44 +7,23 @@
    it in-world to a direct question, so a team that never opens the drawer
    still has a way forward, and that sharpening survives a refresh. */
 
-import { el, append, clear, announce } from '../dom.js';
+import { el, append, announce } from '../dom.js';
+import { renderUnlocked, bindAnswerForm } from './answer.js';
 
 export function mount(host, config, ctx) {
   host.classList.add('card', 'lock-screen');
   const solved = () => ctx.store.get('progress', {})[config.track] === true;
-  let wrongCount = 0;
 
-  function renderUnlocked() {
-    clear(host);
-    host.classList.remove('lock-screen');
-    host.classList.add('unlock');
-    append(host, el('p', { class: 'unlock__word', text: config.successTitle }));
-    if (config.successBody) append(host, el('p', { text: config.successBody }));
-    if (config.successNote) append(host, el('p', { class: 'samnote', text: config.successNote }));
-
-    (config.reward && config.reward.cards ? config.reward.cards : []).forEach((card) => {
-      const node = el('div', { class: 'card card--paper', style: 'margin-top:14px' }, [
-        el('h4', { text: card.title }),
-      ]);
-      if (card.lines) {
-        append(node, el('ul', {}, card.lines.map((line) => el('li', { text: line }))));
-      }
-      if (card.figure) append(node, el('p', { class: 'stat__value', style: 'margin:6px 0', text: card.figure }));
-      if (card.body) append(node, el('p', { text: card.body }));
-      if (card.note) append(node, el('p', { class: 'samnote samnote--paper', text: card.note }));
-      append(host, node);
+  function showUnlocked() {
+    renderUnlocked(host, config, {
+      extraHostClass: 'lock-screen',
+      continueLabel: config.continueLabel || 'Continue',
+      onContinue: () => ctx.render(),
     });
-
-    append(host, el('div', { style: 'margin-top:18px' }, el('button', {
-      type: 'button',
-      class: 'btn btn--primary',
-      text: config.continueLabel || 'Continue',
-      onClick: () => ctx.render(),
-    })));
   }
 
   if (solved()) {
-    renderUnlocked();
+    showUnlocked();
     return { unmount() {} };
   }
 
@@ -83,54 +62,18 @@ export function mount(host, config, ctx) {
     feedback,
   ]);
 
-  form.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    const value = input.value;
-    if (!ctx.normalise(value)) return;
-
-    const result = await ctx.verify(value, config.answerDigest);
-    if (result === null) {
-      feedback.dataset.tone = 'bad';
-      feedback.textContent = ctx.checkerMessage;
-      return;
-    }
-    if (result) {
-      ctx.audio.play('unlock');
-      ctx.completeTrack(config.track);
-      if (config.finding) ctx.recordFinding(config.finding);
-      ctx.bus.emit('solved', { track: config.track, id: config.id });
-      announce(`Correct. ${config.successTitle} stamped on the file.`);
-      renderUnlocked();
-      return;
-    }
-
-    /* Near-misses that a thinking team actually types get their own answer. */
-    let reply = null;
-    for (const targeted of config.targetedResponses || []) {
-      /* eslint-disable no-await-in-loop */
-      if (await ctx.verify(value, targeted.digest)) { reply = targeted.text; break; }
-    }
-    if (!reply) {
-      const pool = config.wrongResponses || ['Not that.'];
-      reply = pool[wrongCount % pool.length];
-    }
-    wrongCount += 1;
-    ctx.audio.play('wrong');
-    ctx.hints.stumble(config.track);
-
-    /* The clue only ever sharpens once — the second wrong attempt does not
-       need to write anything new. */
-    if (!sharpMarks[config.id] && config.stickySharp) {
-      sharpMarks[config.id] = true;
-      ctx.store.set('lockSharp', sharpMarks);
-      sticky.textContent = config.stickySharp;
-      announce(config.stickySharp);
-    }
-
-    feedback.dataset.tone = 'bad';
-    clear(feedback);
-    append(feedback, [el('span', { class: 'stamp-thud', text: 'NO' }), ' ', reply]);
-    input.select();
+  bindAnswerForm(form, input, feedback, config, ctx, {
+    onSolved: showUnlocked,
+    onWrong: () => {
+      /* The clue only ever sharpens once — the second wrong attempt does not
+         need to write anything new. */
+      if (!sharpMarks[config.id] && config.stickySharp) {
+        sharpMarks[config.id] = true;
+        ctx.store.set('lockSharp', sharpMarks);
+        sticky.textContent = config.stickySharp;
+        announce(config.stickySharp);
+      }
+    },
   });
 
   append(host, pad);

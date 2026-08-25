@@ -90,7 +90,6 @@
         "label": "Laptop",
         "route": "case01/laptop",
         "track": "c1",
-        "stamps": "WHO",
         "sprite": "LAPTOP",
         "at": {
           "x": 82,
@@ -192,7 +191,6 @@
         "label": "Pinboard",
         "route": "case01/pinboard",
         "track": "c3",
-        "stamps": "MISSING",
         "sprite": "PINBOARD",
         "at": {
           "x": 100,
@@ -249,9 +247,6 @@
           "y": 74
         }
       ]
-    },
-    "fileStrip": {
-      "name": "READ_BEFORE_SIGNOFF"
     }
   },
   "scenes": [

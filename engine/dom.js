@@ -34,17 +34,6 @@ export function clear(node) {
   return node;
 }
 
-export function icon(name, extraClass) {
-  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  svg.setAttribute('class', `icon${extraClass ? ` ${extraClass}` : ''}`);
-  svg.setAttribute('aria-hidden', 'true');
-  svg.setAttribute('focusable', 'false');
-  const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
-  use.setAttribute('href', `assets/icons.svg#${name}`);
-  svg.appendChild(use);
-  return svg;
-}
-
 /* Politely announced status line, shared by every interaction. */
 export function announce(message) {
   const region = document.getElementById('live-region');
@@ -61,6 +50,27 @@ export function reducedMotion() {
 
 export function formatNumber(value) {
   return Number(value).toLocaleString('en-GB');
+}
+
+/* Arrow/Home/End roving-tabindex navigation for a role="tablist" whose tabs
+   auto-activate on focus — shared by the two workbench-style tab bars
+   (reweight-workbench, cohort-diagram). The shell's own tab bar mixes
+   navigation "link" tabs in with content tabs, where auto-activating on
+   arrow focus would be wrong (moving focus would leave the current scene),
+   so it keeps its own manual-activation keydown handler rather than this one. */
+export function bindTablistArrowKeys(tablist, { items, getActiveId, onSelect, tabs }) {
+  tablist.addEventListener('keydown', (event) => {
+    const index = items.findIndex((item) => item.id === getActiveId());
+    let next = null;
+    if (event.key === 'ArrowRight') next = (index + 1) % items.length;
+    if (event.key === 'ArrowLeft') next = (index - 1 + items.length) % items.length;
+    if (event.key === 'Home') next = 0;
+    if (event.key === 'End') next = items.length - 1;
+    if (next === null) return;
+    event.preventDefault();
+    onSelect(items[next].id);
+    tabs[next].focus();
+  });
 }
 
 export function focusFirst(container) {

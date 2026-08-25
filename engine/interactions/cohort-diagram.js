@@ -10,7 +10,7 @@
    The field is drawn on canvas at roughly one dot per fifty people, so the
    whole population is on screen without fifty thousand DOM nodes. */
 
-import { el, append, announce, formatNumber, reducedMotion } from '../dom.js';
+import { el, append, announce, formatNumber, reducedMotion, bindTablistArrowKeys } from '../dom.js';
 
 const COLUMNS = 32;
 const ROWS = 32;
@@ -88,18 +88,7 @@ export function mount(host, config, ctx) {
     append(tablist, tab);
     return tab;
   });
-  tablist.addEventListener('keydown', (event) => {
-    const index = config.dimensions.findIndex((d) => d.id === activeId);
-    let next = null;
-    if (event.key === 'ArrowRight') next = (index + 1) % config.dimensions.length;
-    if (event.key === 'ArrowLeft') next = (index - 1 + config.dimensions.length) % config.dimensions.length;
-    if (event.key === 'Home') next = 0;
-    if (event.key === 'End') next = config.dimensions.length - 1;
-    if (next === null) return;
-    event.preventDefault();
-    setDimension(config.dimensions[next].id);
-    tabs[next].focus();
-  });
+  bindTablistArrowKeys(tablist, { items: config.dimensions, getActiveId: () => activeId, onSelect: setDimension, tabs });
   append(host, tablist);
 
   /* ---- field and count ---- */

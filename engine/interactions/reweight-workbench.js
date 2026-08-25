@@ -10,7 +10,7 @@
    Watching the figure come down under your own hand is the point. No reading
    substitutes for it, so the sliders get the care. */
 
-import { el, append, clear, announce } from '../dom.js';
+import { el, append, clear, announce, bindTablistArrowKeys } from '../dom.js';
 import { renderNoteCard } from '../scenes.js';
 
 const SCALE_MIN = 40;
@@ -83,18 +83,7 @@ export function mount(host, config, ctx) {
     append(tablist, node);
     return node;
   });
-  tablist.addEventListener('keydown', (event) => {
-    const index = config.tabs.findIndex((t) => t.id === activeId);
-    let next = null;
-    if (event.key === 'ArrowRight') next = (index + 1) % config.tabs.length;
-    if (event.key === 'ArrowLeft') next = (index - 1 + config.tabs.length) % config.tabs.length;
-    if (event.key === 'Home') next = 0;
-    if (event.key === 'End') next = config.tabs.length - 1;
-    if (next === null) return;
-    event.preventDefault();
-    setTab(config.tabs[next].id);
-    tabs[next].focus();
-  });
+  bindTablistArrowKeys(tablist, { items: config.tabs, getActiveId: () => activeId, onSelect: setTab, tabs });
   append(host, tablist);
   append(host, panel);
 

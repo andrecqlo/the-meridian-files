@@ -115,7 +115,6 @@ li { margin-bottom: 0.3em; }
   outline: 3px solid var(--uv);
   outline-offset: 3px;
 }
-.on-paper :focus-visible { outline-color: var(--uv-ink); }
 
 /* Headings receive focus on scene change so screen readers land in the right
    place. That move should not paint a ring around the title. */
@@ -222,9 +221,8 @@ main:focus { outline: none; }
   gap: var(--gap);
   align-items: start;
 }
-.columns--wide { grid-template-columns: minmax(0, 1fr) minmax(300px, 420px); }
 @media (max-width: 900px) {
-  .columns, .columns--wide { grid-template-columns: minmax(0, 1fr); }
+  .columns { grid-template-columns: minmax(0, 1fr); }
 }
 .stack { display: grid; gap: var(--gap); align-content: start; }
 .stack--tight { gap: 14px; }
@@ -309,7 +307,7 @@ main:focus { outline: none; }
   opacity: 0;
   transition: opacity 160ms linear;
 }
-.doc--screen .uv-note, .on-dark .uv-note { color: var(--uv-text); }
+.doc--screen .uv-note { color: var(--uv-text); }
 
 /* The light is stepped, not feathered — four bands, like everything else in
    this world — and it masks the words themselves, so a note is read by moving
@@ -363,16 +361,6 @@ main:focus { outline: none; }
           mask-image: none;
 }
 
-.uv-flicker {
-  position: absolute; inset: 0; border-radius: var(--r-card); pointer-events: none;
-  box-shadow: inset 0 0 0 2px var(--uv); opacity: 0; transition: opacity 300ms;
-}
-.doc[data-new-note="1"] .uv-flicker { opacity: 0.7; animation: note-breathe 3s ease-in-out infinite; }
-@keyframes note-breathe { 0%,100% { opacity: 0.25; } 50% { opacity: 0.8; } }
-@media (prefers-reduced-motion: reduce) {
-  .doc[data-new-note="1"] .uv-flicker { animation: none; opacity: 0.7; }
-}
-
 /* ---------- torch ---------- */
 
 .torch-beam {
@@ -423,7 +411,6 @@ body[data-torch="on"] .doc { touch-action: none; }
   padding: clamp(14px, 1.6vw, 22px);
 }
 .card--paper { background: var(--paper); color: var(--ink); border-color: var(--paper-rule); }
-.card--manila { background: var(--manila); color: var(--ink); border-color: #C3AF7E; }
 
 .tag {
   display: inline-block;
@@ -448,8 +435,6 @@ body[data-torch="on"] .doc { touch-action: none; }
 }
 .feedback[data-tone="bad"] { color: var(--stamp-text); }
 .feedback[data-tone="ok"] { color: var(--ok-text); }
-.on-paper .feedback[data-tone="bad"] { color: var(--stamp); }
-.on-paper .feedback[data-tone="ok"] { color: var(--ok); }
 
 .stamp-thud {
   display: inline-block; font-family: var(--mono); letter-spacing: 0.2em;
@@ -474,7 +459,6 @@ body[data-torch="on"] .doc { touch-action: none; }
   font-family: var(--mono); font-size: 0.72em; letter-spacing: 0.14em;
   text-transform: uppercase; color: var(--muted);
 }
-.on-paper .code-entry__label { color: var(--muted-ink); }
 .code-entry__prompt { margin: 0; font-size: 0.95em; }
 .code-entry__row { display: flex; gap: 10px; flex-wrap: wrap; }
 .field {
@@ -483,7 +467,6 @@ body[data-torch="on"] .doc { touch-action: none; }
   border: 1px solid var(--ink-3); background: var(--ink); color: var(--paper);
   min-width: 0; flex: 1 1 160px;
 }
-.on-paper .field { background: #fff; color: var(--ink); border-color: var(--paper-rule); }
 .field--wide { flex: 1 1 320px; letter-spacing: 0.08em; }
 textarea.field { font-family: var(--ui); font-size: 1em; line-height: 1.45; resize: vertical; }
 
@@ -506,13 +489,6 @@ textarea.field { font-family: var(--ui); font-size: 1em; line-height: 1.45; resi
 .unlock__word {
   font-family: var(--mono); font-size: clamp(30px, 4vw, 54px); letter-spacing: 0.2em;
   color: var(--ok-text); margin: 0 0 6px;
-}
-
-.profiles { display: grid; gap: 12px; margin-top: 14px; }
-.profile {
-  background: var(--paper); color: var(--ink); border-radius: var(--r-card);
-  border-left: 4px solid var(--manila); padding: 14px 18px;
-  font-family: var(--serif); font-size: 0.98em;
 }
 
 /* ---------- landing ---------- */
@@ -568,18 +544,9 @@ textarea.field { font-family: var(--ui); font-size: 1em; line-height: 1.45; resi
 .desk-object .icon { width: 56px; height: 40px; color: var(--manila); }
 .desk-object__label { font-size: 1.1em; font-weight: 620; margin: 0; }
 .desk-object__caption { color: var(--muted); font-size: 0.85em; margin: 0; }
-.desk-object__state { position: absolute; top: 16px; right: 16px; }
 .desk-object[data-done="1"] { border-color: var(--ok); }
 .desk-object[data-done="1"] .icon { color: var(--ok-text); }
 
-.desk-file {
-  background: var(--manila); color: var(--ink);
-  border: 1px solid #C3AF7E; border-radius: var(--r-card);
-  padding: 22px; display: grid; gap: 14px; align-content: start;
-  min-height: 190px; text-align: left; font: inherit; width: 100%; cursor: pointer;
-}
-.desk-file__name { font-family: var(--mono); font-size: 1em; letter-spacing: 0.06em; margin: 0; }
-.desk-file__caption { font-size: 0.84em; margin: 0; color: #4A4231; }
 .slots { display: flex; gap: 10px; flex-wrap: wrap; }
 .slot {
   font-family: var(--mono); letter-spacing: 0.16em; font-size: 0.9em;
@@ -598,45 +565,12 @@ textarea.field { font-family: var(--ui); font-size: 1em; line-height: 1.45; resi
   background: transparent;
 }
 .drawer .icon { width: 48px; height: 32px; color: var(--uv-text); }
-.drawer__note { color: var(--muted); font-size: 0.85em; margin: 0; }
 
-/* ---------- funnel ---------- */
+/* ---------- drag ghost ---------- */
 
-.funnel { display: grid; gap: 16px; }
-.dotfield {
-  position: relative;
-  background: var(--ink-2); border: 1px solid var(--ink-3);
-  border-radius: var(--r-card); padding: 16px;
-  min-height: 240px;
-}
-.dotfield[data-drop="ready"] { border-color: var(--uv); box-shadow: inset 0 0 0 1px var(--uv); }
-.dotfield__grid {
-  display: grid;
-  grid-template-columns: repeat(32, 1fr);
-  gap: clamp(2px, 0.35vw, 5px);
-}
-@media (max-width: 620px) { .dotfield__grid { grid-template-columns: repeat(24, 1fr); } }
-.dot {
-  aspect-ratio: 1; border-radius: 50%;
-  background: var(--shade, #6F7686);
-  transition: opacity 500ms ease, transform 500ms ease, background 300ms ease;
-}
-.dot[data-out="1"] { opacity: 0.1; transform: scale(0.42); background: #4A4F5C; }
-@media (prefers-reduced-motion: reduce) { .dot { transition: opacity 200ms linear; } .dot[data-out="1"] { transform: none; } }
-
-.funnel__readout { display: flex; gap: clamp(16px, 3vw, 40px); flex-wrap: wrap; align-items: flex-end; }
-.criteria { display: grid; gap: 10px; }
-.criterion {
-  display: grid; gap: 4px; text-align: left; font: inherit; color: inherit; cursor: grab;
-  background: var(--paper); color: var(--ink);
-  border: 1px solid var(--paper-rule); border-radius: var(--r-card);
-  padding: 12px 16px; width: 100%;
-  touch-action: none;
-}
-.criterion__source { font-family: var(--mono); font-size: 0.68em; color: var(--muted-ink); letter-spacing: 0.08em; text-transform: uppercase; }
-.criterion[aria-pressed="true"] { border-color: var(--uv); box-shadow: 0 0 0 2px var(--uv); }
-.criterion[data-applied="1"] { opacity: 0.55; cursor: default; background: var(--paper-2); }
-.criterion[data-key="1"] { background: var(--manila); border-color: #B49B5F; }
+/* The dragged card is a clone of the source node plus this modifier — see
+   drag.js's default ghostClass. Not every drag source has its own ghost
+   styling (pinboard's doesn't), so this stays as the shared fallback. */
 .criterion--ghost {
   position: fixed; z-index: 50; pointer-events: none; width: 320px; max-width: 70vw;
   box-shadow: 0 8px 24px rgba(0,0,0,0.5); opacity: 0.94;
@@ -797,8 +731,6 @@ input[type="range"]:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 4px var(
 .board__string { stroke: var(--stamp); stroke-width: 2.5; fill: none; opacity: 0.85; }
 .board__string--weak { stroke: var(--manila); stroke-dasharray: 6 5; }
 .board__string--none { stroke: var(--stamp); stroke-dasharray: 3 6; }
-
-.verdict-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 8px; }
 
 /* ---------- fragments ---------- */
 
@@ -1037,7 +969,7 @@ mark.hl {
   font-family: var(--mono); font-size: 0.8em; font-style: italic;
   color: var(--muted-ink); margin: 0 0 10px;
 }
-.doc--screen .doc__smear, .on-dark .doc__smear { color: var(--muted); }
+.doc--screen .doc__smear { color: var(--muted); }
 
 .doc__table { width: 100%; border-collapse: collapse; margin: 18px 0 8px; font-family: var(--mono); font-size: 0.86em; }
 .doc__table th, .doc__table td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--paper-rule); }
@@ -1212,8 +1144,6 @@ mark.hl {
   color: var(--muted-ink); border-top: 1px solid var(--paper-rule); padding-top: 16px;
 }
 
-.note-dismiss { margin-top: 10px; font-size: 0.72em; padding: 6px 12px; }
-
 /* ---------- narrow screens ---------- */
 
 .stack > *, .columns > *, .board__grid > *, .interaction, .cohort__layout > * { min-width: 0; }
@@ -1250,7 +1180,7 @@ mark.hl {
 
 @media (prefers-reduced-motion: reduce) {
   .chrome__timer[data-level="pulse"] .chrome__timer-value { animation: none; opacity: 1; }
-  .desk-object, .scale__fill, .scale__pin, .chain__link, .dot { transition-duration: 200ms; }
+  .desk-object, .scale__fill, .scale__pin, .chain__link { transition-duration: 200ms; }
   .unlock, .door-open, .memo-open { animation-duration: 260ms; }
 }
 
@@ -1297,7 +1227,6 @@ mark.hl {
 .tag,
 .tab,
 .btn,
-.chip__key,
 .twist-banner__label,
 .decision__title {
   font-family: var(--pixel);
@@ -1306,7 +1235,7 @@ mark.hl {
 }
 
 .chrome__case, .scene__eyebrow, .stat__label, .cohort__count-label,
-.refcard__title, .board__head, .chip__key, .code-entry__label, .doc__stamp,
+.refcard__title, .board__head, .code-entry__label, .doc__stamp,
 .tag, .chrome__timer-note {
   font-size: var(--px-sm);
 }
@@ -1330,7 +1259,7 @@ mark.hl {
 
 /* Hard-edged chrome: square corners on interface furniture, a chunky border,
    and a hard offset instead of a soft shadow. */
-.btn, .tab, .tag, .field, .chip, .cohort__option label {
+.btn, .tab, .tag, .field, .cohort__option label {
   border-radius: 0;
 }
 .btn {
@@ -1348,7 +1277,7 @@ mark.hl {
 
 /* Documents stay warm paper — the one thing in the room with real colour
    besides the light you are carrying. */
-.doc, .card--paper, .desk-file, .refcard, .option, .segment, .claim, .chip {
+.doc, .card--paper, .refcard, .option, .segment, .claim {
   image-rendering: auto;
 }
 

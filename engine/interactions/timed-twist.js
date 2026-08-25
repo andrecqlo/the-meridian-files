@@ -113,7 +113,7 @@ export function mount(host, final, ctx) {
       sentence: box.value,
       expired,
     });
-    ctx.router.go('case01/debrief');
+    ctx.router.go(`${ctx.caseId}/debrief`);
   }
 
   function tick() {

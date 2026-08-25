@@ -30,10 +30,6 @@ const PLANNED = [
   'branch-rerun',
 ];
 
-export function isRegistered(name) {
-  return Object.prototype.hasOwnProperty.call(BUILT, name) || PLANNED.includes(name);
-}
-
 export function isBuilt(name) {
   return Object.prototype.hasOwnProperty.call(BUILT, name);
 }
@@ -48,5 +44,3 @@ export async function load(name) {
   }
   throw new Error(`Unknown interaction "${name}".`);
 }
-
-export const registered = { built: Object.keys(BUILT), planned: PLANNED.slice() };

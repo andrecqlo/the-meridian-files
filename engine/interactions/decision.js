@@ -4,7 +4,7 @@
    hyphens and case are all forgiven and the words themselves are nowhere in
    the repo. No decision option is marked correct. */
 
-import { el, append, clear, announce, reducedMotion, focusFirst } from '../dom.js';
+import { el, append, clear, announce, focusFirst } from '../dom.js';
 
 export function mount(host, final, ctx) {
   const progress = ctx.store.get('progress', {});
@@ -85,8 +85,7 @@ export function mount(host, final, ctx) {
       el('p', { class: 'doc__meta', text: final.memo.meta }),
       el('div', { class: 'doc__body' }, final.memo.paragraphs.map((line) => el('p', { text: line }))),
     ]);
-    if (animate && !reducedMotion()) memo.classList.add('door-open');
-    else if (animate) memo.classList.add('door-open');
+    if (animate) memo.classList.add('door-open');
     append(host, memo);
 
     const chosen = ctx.store.get('decision', null);
@@ -104,7 +103,7 @@ export function mount(host, final, ctx) {
       node.addEventListener('click', () => {
         ctx.store.set('decision', option.id);
         ctx.audio.play('twist');
-        ctx.router.go('case01/twist');
+        ctx.router.go(`${ctx.caseId}/twist`);
       });
       return node;
     }));

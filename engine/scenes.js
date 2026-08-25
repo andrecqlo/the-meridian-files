@@ -2,7 +2,7 @@
    engine knows about documents, annotations and interaction slots, and nothing
    about Case 01 in particular. */
 
-import { el, append, clear, icon, announce, focusFirst, formatNumber } from './dom.js';
+import { el, append, clear, announce, focusFirst, formatNumber } from './dom.js';
 import { load as loadInteraction } from './registry.js';
 import { renderDeskScene } from './deskscene.js';
 import { createShell } from './shells.js';
@@ -186,7 +186,7 @@ export function renderLanding(main, ctx) {
   const wrap = el('div', { class: 'landing' });
 
   append(wrap, el('p', { class: 'landing__brand', text: 'The Meridian Files' }));
-  append(wrap, el('h1', { text: 'Case 01: The Evidence', 'data-autofocus': true, tabindex: '-1' }));
+  append(wrap, el('h1', { text: `Case ${ctx.content.number}: ${ctx.content.title}`, 'data-autofocus': true, tabindex: '-1' }));
   append(wrap, el('p', { class: 'landing__meta', text: 'An investigation game for teams. 15 minutes. One screen.' }));
 
   const actions = el('div', { class: 'landing__actions' });
@@ -194,7 +194,7 @@ export function renderLanding(main, ctx) {
     type: 'button',
     class: 'btn btn--primary',
     text: started ? 'Resume the case' : 'Begin',
-    onClick: () => ctx.router.go(started ? ctx.store.get('lastRoute', 'case01/desk') : 'case01'),
+    onClick: () => ctx.router.go(started ? ctx.store.get('lastRoute', `${ctx.caseId}/desk`) : ctx.caseId),
   }));
   append(actions, el('button', {
     type: 'button',
@@ -214,7 +214,7 @@ export function renderLanding(main, ctx) {
     class: 'btn btn--quiet btn--danger',
     text: 'Reset case',
     onClick: () => {
-      if (!window.confirm('Reset Case 01? Progress, timer and findings will be cleared.')) return;
+      if (!window.confirm(`Reset Case ${ctx.content.number}? Progress, timer and findings will be cleared.`)) return;
       ctx.resetCase();
     },
   }));
@@ -235,7 +235,7 @@ export function renderLanding(main, ctx) {
       ]),
       el('span', { class: `tag ${open ? 'tag--uv' : ''}`, text: open ? 'Open' : 'Sealed' }),
     ]);
-    if (open) node.addEventListener('click', () => ctx.router.go(started ? ctx.store.get('lastRoute', 'case01/desk') : 'case01'));
+    if (open) node.addEventListener('click', () => ctx.router.go(started ? ctx.store.get('lastRoute', `${ctx.caseId}/desk`) : ctx.caseId));
     append(dossiers, node);
   });
   append(wrap, dossiers);
@@ -261,7 +261,7 @@ export function renderIntro(main, ctx) {
     onClick: () => {
       ctx.timer.start();
       ctx.audio.wake();
-      ctx.router.go('case01/desk');
+      ctx.router.go(`${ctx.caseId}/desk`);
     },
   }));
   append(main, wrap);
@@ -272,7 +272,7 @@ export function renderIntro(main, ctx) {
 export function renderDesk(main, ctx) {
   const desk = ctx.content.desk;
   const progress = ctx.store.get('progress', {});
-  append(main, sceneHead('Case 01 · The Evidence', desk.title, desk.subtitle));
+  append(main, sceneHead(`Case ${ctx.content.number} · ${ctx.content.title}`, desk.title, desk.subtitle));
 
   /* The room, or a plain list of objects if the canvas cannot be drawn. */
   let scene = null;
@@ -352,7 +352,7 @@ export async function renderChallenge(main, scene, ctx) {
   if (scene.grants && ctx.inventory) ctx.inventory.add(scene.grants);
 
   const locked = scene.lockedBy && ctx.store.get('progress', {})[scene.lockedBy] !== true;
-  append(main, sceneHead(`Case 01 · ${scene.title}`, scene.title, locked ? (scene.lockedSubtitle || scene.subtitle) : scene.subtitle));
+  append(main, sceneHead(`Case ${ctx.content.number} · ${scene.title}`, scene.title, locked ? (scene.lockedSubtitle || scene.subtitle) : scene.subtitle));
 
   /* Locked stands in for the whole scene: no documents, no other
      interactions, nothing to browse until the lock gives. */

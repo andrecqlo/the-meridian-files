@@ -57,7 +57,9 @@ facilitation/         notes for whoever is running the session
 
 The engine renders whatever the content JSON describes. Adding a case means
 writing a JSON file and, at most, adding a new interaction module to the
-registry in `engine/registry.js` — never editing an existing case.
+registry in `engine/registry.js` — never editing an existing case. See
+[`content/SCHEMA.md`](content/SCHEMA.md) for the field names a scene,
+interaction, or hint entry is expected to carry.
 
 Some notes on the mechanics:
 
