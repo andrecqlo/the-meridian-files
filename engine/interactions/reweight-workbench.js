@@ -160,7 +160,8 @@ export function mount(host, config, ctx) {
         el('td', { class: 'mixtable__num', 'data-label': cols.satisfaction, text: `${segment.satisfaction}%` }),
         el('td', { class: 'mixtable__num', 'data-label': cols.pilot, text: `${segment.pilotMix}%` }),
         el('td', { class: 'mixtable__num mixtable__service', 'data-label': cols.service, text: `${segment.realMix}%` }),
-        el('td', { class: 'mixcell', 'data-label': cols.adjusted }, [slider, value]),
+        el('td', { class: 'mixcell', 'data-label': cols.adjusted },
+          el('div', { class: 'mixcell__inner' }, [slider, value])),
       ]);
       rows[segment.id] = { row, slider, value };
       append(tbody, row);

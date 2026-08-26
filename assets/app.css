@@ -1150,9 +1150,15 @@ mark.hl {
 /* Outranks .doc__table th:last-child, which right-aligns the final column and
    would otherwise park this heading over the value instead of the control. */
 .mixtable thead th.mixtable__adjusted { text-align: center; }
-.mixcell {
-  min-width: 220px; padding-left: 16px;
-  display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center;
+.mixcell { min-width: 220px; padding-left: 16px; }
+/* The td itself stays a plain table cell so it stretches to the row's full
+   height like any other cell — a td with display:grid directly on it does
+   not reliably pick up that stretched height via height:100%, since the row
+   height and the grid box's own height would be circular. The inner wrapper
+   is what actually lays out the slider and value, and it can safely fill
+   the cell because the cell's height is settled by the time it measures it. */
+.mixcell__inner {
+  height: 100%; display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center;
 }
 .mixcell__value {
   font-family: var(--mono); font-size: 1.15em; color: var(--paper);
@@ -1196,6 +1202,10 @@ mark.hl {
     border-left: 0; border-top: 2px solid var(--tone-1);
     margin-top: 12px; padding: 12px 10px 6px;
   }
+  /* The wrapper only exists to give the cell's content a stretchable height on
+     the real table layout above this breakpoint; here td.mixcell is already
+     the grid placing the label, slider and value, so the wrapper steps aside. */
+  .mixtable td.mixcell .mixcell__inner { display: contents; }
   .mixtable td.mixcell::before {
     grid-column: 1; grid-row: 1; align-self: center;
     margin-bottom: 0; text-align: left;
