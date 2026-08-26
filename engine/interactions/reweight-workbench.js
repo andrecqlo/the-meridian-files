@@ -145,6 +145,11 @@ export function mount(host, config, ctx) {
         update(true);
       });
       if (tab.locked) slider.addEventListener('change', () => springBack());
+      /* Reading order runs: who they are, the satisfaction that cannot move,
+         where the pilot started, where the service actually sits, and then the
+         one number you can change — sitting directly beside the figure it has
+         to be matched against. data-label carries each heading for the stacked
+         layout on narrow screens, where the header row is gone. */
       const row = el('tr', { 'data-segment': segment.id, 'data-locked': tab.locked ? '1' : '0' }, [
         el('th', { scope: 'row' }, [
           el('span', { class: 'mixtable__group', text: segment.label }),
@@ -152,10 +157,10 @@ export function mount(host, config, ctx) {
             ? el('span', { class: 'mixtable__desc', text: segment.description })
             : null,
         ]),
-        el('td', { class: 'mixtable__num', text: `${segment.realMix}%` }),
-        el('td', { class: 'mixtable__num', text: `${segment.pilotMix}%` }),
-        el('td', { class: 'mixtable__num', text: `${segment.satisfaction}%` }),
-        el('td', { class: 'mixcell' }, el('div', { class: 'mixcell__wrap' }, [slider, value])),
+        el('td', { class: 'mixtable__num', 'data-label': cols.satisfaction, text: `${segment.satisfaction}%` }),
+        el('td', { class: 'mixtable__num', 'data-label': cols.pilot, text: `${segment.pilotMix}%` }),
+        el('td', { class: 'mixtable__num mixtable__service', 'data-label': cols.service, text: `${segment.realMix}%` }),
+        el('td', { class: 'mixcell', 'data-label': cols.adjusted }, [slider, value]),
       ]);
       rows[segment.id] = { row, slider, value };
       append(tbody, row);
@@ -163,11 +168,11 @@ export function mount(host, config, ctx) {
 
     append(panel, el('div', { class: 'table-scroll' }, el('table', { class: 'doc__table doc__table--dark mixtable' }, [
       el('thead', {}, el('tr', {}, [
-        el('th', { scope: 'col', text: cols.group }),
-        el('th', { scope: 'col', class: 'mixtable__num', text: cols.service }),
-        el('th', { scope: 'col', class: 'mixtable__num', text: cols.pilot }),
+        el('th', { scope: 'col', class: 'mixtable__head-group', text: cols.group }),
         el('th', { scope: 'col', class: 'mixtable__num', text: cols.satisfaction }),
-        el('th', { scope: 'col', class: 'mixtable__num', text: cols.adjusted }),
+        el('th', { scope: 'col', class: 'mixtable__num', text: cols.pilot }),
+        el('th', { scope: 'col', class: 'mixtable__num', text: cols.service }),
+        el('th', { scope: 'col', class: 'mixtable__adjusted', text: cols.adjusted }),
       ])),
       tbody,
     ])));

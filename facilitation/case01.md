@@ -167,7 +167,10 @@ emphasis. Watch for this in a playtest; see PLAYTEST.md.
 - **Challenge 2.** The reported pair — 76% current service, 81% digital pilot
   — sits on the evaluation summary beside the workbench. The workbench itself
   is four tabs in one table: what the service looks like, what the pilot looked
-  like, the satisfaction that is fixed, and the adjusted column you can move.
+  like, the satisfaction that is fixed, and the reweighted mix you can move —
+  which sits immediately beside the service mix, because matching those two is
+  the whole task. On a phone each group stacks into its own block rather than
+  scrolling sideways, so the slider is always in reach.
   In order: **Gender** was already reweighted to the service proportions and
   **Language** matched to begin with — both let you drag and then put the
   slider back with a line saying why, so they read as checks that came back

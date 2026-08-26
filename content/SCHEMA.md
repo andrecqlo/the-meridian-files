@@ -131,8 +131,11 @@ complaint-inspect   title, instruction, documents[], profile, closeLabel
 cohort-diagram       title, instruction, track, population, dimensions[], dimUsing,
                      tabsLabel, countLabel, clearLabel, emptyLabel
 reweight-workbench   title, instruction, headline, readoutLabel, tabsLabel, annotation,
-                     columns {group, service, pilot, satisfaction, adjusted}, tabs[]
-                     tab: id, label, kind:"reweight", fixedLabel, resetLabel, segments[], anchors[]
+                     columns {group, satisfaction, pilot, service, adjusted}, tabs[]
+                       rendered in that order, so the service mix sits directly beside the
+                       control that has to be matched to it; `adjusted` is the only editable
+                       column and is tinted and ruled off on every tab
+                     tab: id, label, kind:"reweight", resetLabel, segments[], anchors[]
                      tab.locked:"service"  the adjusted column is pinned to the service mix —
                        dragging is allowed and springs back on release with tab.lockedNote,
                        because a slider that refuses to move reads as broken. Locked tabs

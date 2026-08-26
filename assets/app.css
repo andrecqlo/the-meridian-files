@@ -1127,23 +1127,82 @@ mark.hl {
 .table-scroll { overflow-x: auto; max-width: 100%; }
 .table-scroll .doc__table { min-width: 320px; }
 
-/* The reweighting table: three columns of fact, one you can move. */
+/* The reweighting table: three columns of fact, one you can move. The service
+   mix sits immediately left of that one, because matching the two is the task. */
 .mixtable { min-width: 560px; }
 .mixtable__num { text-align: right !important; font-variant-numeric: tabular-nums; }
 .mixtable__group { display: block; font-weight: 620; }
 .mixtable__desc { display: block; font-size: 0.78em; color: var(--muted); margin-top: 2px; }
 .mixtable td, .mixtable th { vertical-align: middle; }
-.mixcell { min-width: 190px; }
-.mixcell__wrap { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; }
+/* Widths are hints, not a fixed layout: the name column was eating space the
+   slider needed, and a wider track makes the target mix easier to land on. */
+.mixtable__head-group { width: 28%; }
+.mixtable thead .mixtable__num { width: 13%; }
+.mixtable__adjusted { width: 32%; }
+
+/* The one editable column, marked as such on every tab — including the locked
+   ones, where the value still lives here and dragging is still answered. */
+.mixtable__adjusted,
+.mixcell {
+  background: rgba(139, 92, 246, 0.07);
+  border-left: 2px solid var(--tone-1);
+}
+/* Outranks .doc__table th:last-child, which right-aligns the final column and
+   would otherwise park this heading over the value instead of the control. */
+.mixtable thead th.mixtable__adjusted { text-align: center; }
+.mixcell {
+  min-width: 220px; padding-left: 16px;
+  display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center;
+}
 .mixcell__value {
   font-family: var(--mono); font-size: 1.15em; color: var(--paper);
   min-width: 3.2em; text-align: right; font-variant-numeric: tabular-nums;
 }
-.mixtable tr[data-at-real="1"] .mixcell__value { color: var(--uv-text); }
+/* Matched: the figure you moved and the figure you were matching it to. */
+.mixtable tr[data-at-real="1"] .mixcell__value,
+.mixtable tr[data-at-real="1"] .mixtable__service { color: var(--uv-text); }
 /* A locked row still moves under the hand, then goes back where it was. */
 .mixtable tr[data-locked="1"] input[type="range"] { cursor: not-allowed; }
 .mixtable tr[data-locked="1"] input[type="range"]::-webkit-slider-thumb { background: var(--tone-2); }
 .mixtable tr[data-locked="1"] input[type="range"]::-moz-range-thumb { background: var(--tone-2); }
+
+/* Narrow screens: the table rotates rather than scrolls sideways, because the
+   slider is the only interactive thing here and it must not start off-screen.
+   Each group becomes its own block — the three fixed figures three-up under
+   their own headings, then a rule, then the control full width. */
+@media (max-width: 620px) {
+  .mixtable, .mixtable tbody, .mixtable tr, .mixtable td { display: block; }
+  .mixtable thead { display: none; }
+  .mixtable { min-width: 0; }
+  .table-scroll .mixtable { min-width: 0; }
+  .mixtable tr {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px 12px;
+    /* 2px right so the tracking on the last uppercase label clears the edge. */
+    padding: 16px 2px 16px 0; border-bottom: 1px solid var(--ink-3);
+  }
+  .mixtable tbody th[scope="row"] { display: block; grid-column: 1 / -1; border: 0; padding: 0 0 10px; }
+  .mixtable td { border: 0; padding: 0; }
+  .mixtable td[data-label]::before {
+    content: attr(data-label);
+    display: block; font-family: var(--mono); font-size: 0.62em;
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+    margin-bottom: 2px;
+  }
+  /* td.mixcell, not .mixcell: the display:block above is more specific than the
+     base rule's grid and would otherwise flatten this back into source order. */
+  .mixtable td.mixcell {
+    display: grid; grid-template-columns: 1fr auto; gap: 4px 12px;
+    grid-column: 1 / -1; min-width: 0; text-align: left;
+    border-left: 0; border-top: 2px solid var(--tone-1);
+    margin-top: 12px; padding: 12px 10px 6px;
+  }
+  .mixtable td.mixcell::before {
+    grid-column: 1; grid-row: 1; align-self: center;
+    margin-bottom: 0; text-align: left;
+  }
+  .mixtable td.mixcell input[type="range"] { grid-column: 1 / -1; grid-row: 2; }
+  .mixtable td.mixcell .mixcell__value { grid-column: 2; grid-row: 1; text-align: right; }
+}
 .workbench__verdict[data-flash="1"] {
   color: var(--stamp-text); border-left: 3px solid var(--stamp); padding-left: 12px;
 }

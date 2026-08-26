@@ -745,7 +745,6 @@
               "kind": "reweight",
               "locked": "service",
               "lockedNote": "Someone has already reweighted the pilot’s gender mix to match the service proportions. There is nothing left to correct here.",
-              "fixedLabel": "Pilot satisfaction",
               "segments": [
                 {
                   "id": "g1",
@@ -784,7 +783,6 @@
               "id": "age",
               "label": "Age",
               "kind": "reweight",
-              "fixedLabel": "Pilot satisfaction",
               "resetLabel": "Reset to the pilot mix",
               "segments": [
                 {
@@ -832,7 +830,6 @@
               "kind": "reweight",
               "locked": "service",
               "lockedNote": "The pilot’s language mix already matches the service proportions. There is nothing to reweight.",
-              "fixedLabel": "Pilot satisfaction",
               "segments": [
                 {
                   "id": "l1",
@@ -879,7 +876,6 @@
               "id": "complexity",
               "label": "Case complexity",
               "kind": "reweight",
-              "fixedLabel": "Pilot satisfaction",
               "resetLabel": "Reset to the pilot mix",
               "segments": [
                 {
@@ -925,10 +921,10 @@
           ],
           "columns": {
             "group": "Group",
-            "service": "% of service",
-            "pilot": "% of pilot",
             "satisfaction": "Pilot satisfaction",
-            "adjusted": "Adjusted % of pilot"
+            "pilot": "Pilot mix",
+            "service": "Service mix",
+            "adjusted": "Reweighted mix"
           }
         }
       ],
