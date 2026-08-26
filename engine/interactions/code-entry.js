@@ -6,7 +6,7 @@
    of in-world rebuffs for everything else. */
 
 import { el, append } from '../dom.js';
-import { renderUnlocked, bindAnswerForm } from './answer.js';
+import { renderUnlocked, bindAnswerForm, constrainInput } from './answer.js';
 
 export function mount(host, config, ctx) {
   host.classList.add('card');
@@ -35,6 +35,7 @@ export function mount(host, config, ctx) {
     id: `entry-${config.id}`,
     'aria-describedby': `prompt-${config.id}`,
   });
+  constrainInput(input, config);
   const feedback = el('p', { class: 'feedback', 'data-tone': '', role: 'status', 'aria-live': 'polite' });
 
   const form = el('form', { class: 'code-entry' }, [

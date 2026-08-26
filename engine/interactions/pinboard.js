@@ -88,6 +88,17 @@ export function mount(host, config, ctx) {
       path.setAttribute('d', `M ${x1} ${y1} C ${x1 + 40} ${y1}, ${x2 - 40} ${y2}, ${x2} ${y2}`);
       path.setAttribute('class', `board__string board__string--${verdict}`);
       strings.appendChild(path);
+      /* A pin at each end, so the string reads as run between two pins rather
+         than drawn between two boxes. Same anchor points the curve already
+         uses, so nothing about the geometry moves. */
+      [[x1, y1], [x2, y2]].forEach(([cx, cy]) => {
+        const pin = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        pin.setAttribute('cx', String(cx));
+        pin.setAttribute('cy', String(cy));
+        pin.setAttribute('r', '4');
+        pin.setAttribute('class', 'board__pin');
+        strings.appendChild(pin);
+      });
     });
   }
 

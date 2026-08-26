@@ -85,9 +85,10 @@ about six, split into two screens and compare memos at the end.
 | 5 | What happened to Priya — hidden, optional | Whose challenge gets heard, and how minutes launder it |
 
 Findings 1–4 are awarded on completing the challenges. Finding 5 is only
-awarded if the team finds the workshop minutes under the torch and rebuilds
-Priya's sentence. Most teams miss it. That is deliberate: the debrief shows it
-to them as the one they missed, which lands harder than finding it would have.
+awarded if the team puts the torch over the workshop minutes on the pinboard
+and reads what is written across them. Most teams miss it. That is deliberate:
+the debrief shows it to them as the one they missed, which lands harder than
+finding it would have.
 
 ## How the room works
 
@@ -117,9 +118,11 @@ page, and a team that never takes it will miss every one of them.
 
 There is no case file sitting on the desk any more — READ_BEFORE_SIGNOFF was
 always the locked attachment on Sam's email, not a folder that happened to
-also be on her desk. The filestrip at the bottom of the desk (three word
-slots, a small envelope icon) is that attachment: it stays a status readout
-until all three words are stamped, then becomes the door in.
+also be on her desk. The filestrip at the bottom of the desk (the three words
+so far, a small envelope icon) is that attachment: it stays a status readout
+until all three words are found, then becomes the door in. The words are shown
+there in a fixed order that is deliberately *not* the password — putting them
+in order is the last thing the team does.
 
 ### The highlighter is under UV now, and it's the only mark on the page
 
@@ -147,30 +150,39 @@ emphasis. Watch for this in a playtest; see PLAYTEST.md.
   have reached them. **9,214** is the laptop's PIN. A wrong first attempt
   sharpens Sam's sticky-note clue from "the ones nobody asked" to "how many
   customers were never sent the survey?", so a team that skips the drawer
-  still has a way in. Unlocking stamps WHO.
+  still has a way in. The field takes four digits and nothing else — letters
+  and anything pasted over four characters are refused as you type. Unlocking
+  awards **WHO**, and the screen says so, along with who the 9,214 are: about
+  8 years older than the 42,000 who were invited, 2.7× more likely to be a
+  high-complexity case, and slightly more likely to have a primary language
+  other than English. The point made there is that weighting can correct a
+  sample that under-represents a group but not one that leaves them out.
 - **Challenge 2.** Region is a dead end and says so. Age is the trap: it shows
   a real population difference and reweighting it lands back on 81, because the
   survey was already weighted for age — that is a finding, not a bug. Case
   complexity is the one: drag the mix from 62/28/10 to the service's 35/40/25
-  and the figure lands on **73**, below the current service's 76. Stamps IS.
+  and the figure lands on **73**, below the current service's 76. Awards **IS**.
 - **Challenge 3.** String each claim to its evidence — support tickets, coverage
   map, the travel assumption, the vendor brochure, the assisted-service
   analysis — then flag *disabled users (removes travel)* and *non-English
-  speakers (automated translation)* as not supported. Stamps MISSING.
-- **Passphrase.** The three stamped words: **WHO IS MISSING**. Spacing, hyphens
-  and capitals are all forgiven. The challenges don't stamp the words in
-  reading order — Challenge 1 stamps "IS", Challenge 2 stamps "MISSING",
-  Challenge 3 stamps "WHO" — so the phrase only becomes legible once all
-  three are actually in, rather than being guessable after two.
+  speakers (automated translation)* as not supported. Awards **MISSING**.
+- **The password.** The three words in order: **WHO IS MISSING**. There is no
+  typing — the words arrive as tiles in a tray under the three slots, and the
+  team drags (or selects and places) each one into position, then presses
+  Unlock. The tray is shuffled per session, so a second team in the same room
+  is not handed the order by the layout. A wrong arrangement leaves the tiles
+  where they are so the team can swap two rather than start over; selecting a
+  filled slot sends that word back.
 - **The string.** In the bottom drawer, locked until Challenge 2 lands. Take
   it, then click the pinboard.
-- **The attachment.** Once all three words are stamped, the filestrip at the
-  bottom of the desk becomes clickable and opens READ_BEFORE_SIGNOFF — same
-  passphrase screen as before, now explicitly framed as Sam's locked email
-  attachment.
-- **Priya, optional.** Put the torch over the workshop minutes on the pinboard
-  after the board is complete, then reassemble: *"My concern is the people who
-  have never used the digital service — not the ones using it more."*
+- **The attachment.** Once all three words are found, the filestrip at the
+  bottom of the desk becomes clickable and opens READ_BEFORE_SIGNOFF, framed
+  as Sam's locked email attachment.
+- **Priya, optional.** Put the torch over the workshop minutes pinned above
+  the board. What is written across them names what actually happened and
+  quotes her: *"My concern is the people who have never used the digital
+  service — not the ones using it more."* Reading it is the whole of the
+  finding — there is nothing to assemble.
 
 ## Hints and pacing — you should not need to help
 

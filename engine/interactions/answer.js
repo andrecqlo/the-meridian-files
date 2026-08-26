@@ -40,6 +40,25 @@ export function renderUnlocked(host, config, { extraHostClass, continueLabel, on
   })));
 }
 
+/* Content can pin a field to a fixed shape — the laptop PIN is four digits, so
+   the field refuses anything else rather than accepting it and failing the
+   hash. Filtering on input as well as setting the attributes, because
+   maxlength does not constrain a paste and inputmode is only a keyboard hint
+   on touch: neither stops a desktop user typing letters. */
+export function constrainInput(input, config) {
+  const numeric = config.inputMode === 'numeric';
+  const max = typeof config.maxLength === 'number' ? config.maxLength : null;
+  if (max) input.setAttribute('maxlength', String(max));
+  if (numeric) input.setAttribute('pattern', '[0-9]*');
+  if (!numeric && !max) return;
+  input.addEventListener('input', () => {
+    let value = input.value;
+    if (numeric) value = value.replace(/[^0-9]/g, '');
+    if (max) value = value.slice(0, max);
+    if (value !== input.value) input.value = value;
+  });
+}
+
 export function bindAnswerForm(form, input, feedback, config, ctx, { onSolved, onWrong } = {}) {
   let wrongCount = 0;
   form.addEventListener('submit', async (event) => {

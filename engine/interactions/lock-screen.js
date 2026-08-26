@@ -8,7 +8,7 @@
    still has a way forward, and that sharpening survives a refresh. */
 
 import { el, append, announce } from '../dom.js';
-import { renderUnlocked, bindAnswerForm } from './answer.js';
+import { renderUnlocked, bindAnswerForm, constrainInput } from './answer.js';
 
 export function mount(host, config, ctx) {
   host.classList.add('card', 'lock-screen');
@@ -41,6 +41,7 @@ export function mount(host, config, ctx) {
     id: `entry-${config.id}`,
     'aria-describedby': `prompt-${config.id}`,
   });
+  constrainInput(input, config);
   const feedback = el('p', { class: 'feedback', 'data-tone': '', role: 'status', 'aria-live': 'polite' });
   const sticky = el('p', { class: 'lock-screen__sticky', text: sharpened ? config.stickySharp : config.sticky });
 

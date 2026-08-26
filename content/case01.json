@@ -213,21 +213,21 @@
     ],
     "file": {
       "name": "READ_BEFORE_SIGNOFF",
-      "locked": "Three words, stamped one at a time — the password for Sam’s locked attachment.",
-      "ready": "Three words. All stamped. Open it.",
+      "locked": "One word from each challenge — the password for Sam’s locked attachment.",
+      "ready": "All three words found. Open it and put them in order.",
       "route": "case01/file",
-      "slots": [
-        {
-          "word": "V0hP",
-          "track": "c3"
-        },
+      "words": [
         {
           "word": "SVM=",
-          "track": "c1"
+          "track": "c2"
         },
         {
           "word": "TUlTU0lORw==",
-          "track": "c2"
+          "track": "c3"
+        },
+        {
+          "word": "V0hP",
+          "track": "c1"
         }
       ]
     },
@@ -376,10 +376,10 @@
             "text": "There's something smeared on the letter and the reply — worth checking under the UV light."
           },
           {
-            "text": "You've seen what's smeared. Now line up post only against the reference sheet's count."
+            "text": "You've seen what's highlighted in UV on the complaint. Now line up post only against the reference sheet's count."
           }
         ],
-        "There's a gap between how many the survey reached and the full customer base. The letter's profile says who was left out — post only. The reference sheet in the drawer says how many."
+        "The complaint shows Mrs Wiśniewska was never sent the survey: it went out by email, and her contact preference on file is post only. How many others on the reference sheet are the same?"
       ],
       "shell": "tray"
     },
@@ -504,7 +504,7 @@
             {
               "id": "a-contact",
               "after": 3,
-              "text": "The one line nothing was adjusted for."
+              "text": "How many of these were never sent the survey?"
             }
           ]
         }
@@ -539,10 +539,10 @@
             "text": "There's something smeared on the letter and the reply — worth checking under the UV light."
           },
           {
-            "text": "You've seen what's smeared. Now line up post only against the reference sheet's count."
+            "text": "You've seen what's highlighted in UV on the complaint. Now line up post only against the reference sheet's count."
           }
         ],
-        "There's a gap between how many the survey reached and the full customer base. The letter's profile says who was left out — post only. The reference sheet in the drawer says how many."
+        "The complaint shows Mrs Wiśniewska was never sent the survey: it went out by email, and her contact preference on file is post only. How many others on the reference sheet are the same?"
       ],
       "shell": "tray"
     },
@@ -627,10 +627,10 @@
             "text": "There's something smeared on the letter and the reply — worth checking under the UV light."
           },
           {
-            "text": "You've seen what's smeared. Now line up post only against the reference sheet's count."
+            "text": "You've seen what's highlighted in UV on the complaint. Now line up post only against the reference sheet's count."
           }
         ],
-        "There's a gap between how many the survey reached and the full customer base. The letter's profile says who was left out — post only. The reference sheet in the drawer says how many."
+        "The complaint shows Mrs Wiśniewska was never sent the survey: it went out by email, and her contact preference on file is post only. How many others on the reference sheet are the same?"
       ],
       "shell": "laptop",
       "shellTitle": "Sam's laptop",
@@ -654,6 +654,7 @@
         "label": "Locked",
         "prompt": "Enter PIN",
         "inputMode": "numeric",
+        "maxLength": 4,
         "placeholder": "4 digits",
         "submitLabel": "Unlock",
         "stickyTitle": "Stuck to the screen",
@@ -688,27 +689,28 @@
           "The reply says how the survey went out. Start there."
         ],
         "successTitle": "WHO",
+        "successBody": "WHO — one of the three words that open Sam’s locked email attachment. Two more to find.",
         "successNote": "Weighting can’t reach people who were never invited.",
-        "successBody": "9,214 customers were outside the invitation before the survey started.",
         "reward": {
           "cards": [
             {
-              "title": "Who the 9,214 are",
+              "title": "Why 9,214 were never surveyed",
               "lines": [
-                "47% aged 60 or over",
-                "7% with a primary language other than English",
-                "100% outside the email frame"
+                "The survey was issued by email only.",
+                "9,214 customers have post as their contact preference on file.",
+                "They were outside the invitation before the first question was asked."
               ],
-              "body": "The exclusion correlates with age and language. It runs along neither — it runs along a contact field."
+              "body": "42,000 invitations went out. Not to them."
             },
             {
-              "title": "Case complexity profile of the 9,214",
+              "title": "How the 9,214 differ from the 42,000 who were invited",
               "lines": [
-                "Low 14%",
-                "Medium 34%",
-                "High 52%"
+                "About 8 years older on average",
+                "2.7× more likely to be a high-complexity case",
+                "7% have a primary language other than English, against 5.8% of those invited"
               ],
-              "body": "Service-wide: 35 / 40 / 25."
+              "body": "The invited group is not a smaller copy of the customer base. It is a different one — older, more complex, and reached through a channel the survey never used. Any figure drawn from it describes that group, not the customer base.",
+              "note": "Weighting can correct a sample that under-represents a group. It cannot correct one that leaves them out."
             },
             {
               "title": "Consultation feedback log",
@@ -979,9 +981,28 @@
       "title": "Pinboard",
       "subtitle": "Digital First — impact assessment",
       "track": "c3",
-      "trackSecondary": "c3b",
-      "trackSecondaryWhen": "c3",
-      "documents": [],
+      "documents": [
+        {
+          "id": "minutes",
+          "kind": "paper",
+          "title": "Digital access workshop — minutes (extract)",
+          "meta": "Item 4 · 22 Oct 2025",
+          "notesBelow": true,
+          "blocks": [
+            {
+              "p": "Item 4. Concerns regarding digital access were noted and addressed. The group agreed to proceed."
+            }
+          ],
+          "annotations": [
+            {
+              "id": "a-minutes",
+              "after": 0,
+              "finding": "priya",
+              "text": "Not what happened. P. raised it twice. Tom rephrased her point into a question she hadn’t asked, then answered that one. “Parked.” What she actually said: “My concern is the people who have never used the digital service — not the ones using it more.”"
+            }
+          ]
+        }
+      ],
       "interactions": [
         {
           "type": "pinboard",
@@ -1102,69 +1123,6 @@
           "successTitle": "MISSING",
           "successBody": "Five claims strung, two of them resting on nothing. Board pack page 11, signed off by four people.",
           "successNote": "Prevalence is not materiality."
-        },
-        {
-          "type": "fragment-assembly",
-          "id": "minutes",
-          "track": "c3b",
-          "finding": "priya",
-          "gatedBy": "c3",
-          "title": "Workshop minutes",
-          "gatedNote": "Pinned in the corner, behind the board. Finish the board first.",
-          "lockedNote": "One paragraph. Put the light on it.",
-          "instruction": "Select a fragment, then select the slot it belongs in. Select a filled slot to clear it.",
-          "document": {
-            "id": "minutes",
-            "kind": "paper",
-            "title": "Digital access workshop — minutes (extract)",
-            "meta": "Item 4 · 22 Oct 2025",
-            "blocks": [
-              {
-                "p": "Item 4. Concerns regarding digital access were noted and addressed. The group agreed to proceed."
-              }
-            ],
-            "annotations": [
-              {
-                "id": "a-minutes",
-                "after": 0,
-                "reveals": "fragments:open",
-                "text": "Not what happened. P. interrupted twice. Tom rephrased her point into a question she hadn’t asked, then answered that one. “Parked.” Her actual words, before it got tidied:"
-              }
-            ]
-          },
-          "fragments": [
-            {
-              "id": "f4",
-              "text": "— not the ones"
-            },
-            {
-              "id": "f1",
-              "text": "My concern is the people"
-            },
-            {
-              "id": "f5",
-              "text": "using it more."
-            },
-            {
-              "id": "f3",
-              "text": "the digital service"
-            },
-            {
-              "id": "f2",
-              "text": "who have never used"
-            }
-          ],
-          "submitLabel": "That’s what she said",
-          "incompleteNote": "Every slot needs a fragment.",
-          "answerDigest": "c9f7d2bf06bb449a79650b90c9a3c6e05eaddc13f868733283a536af3911eb7b",
-          "wrongResponses": [
-            "Not her words. Read it back out loud.",
-            "Close. She was talking about people who aren’t there at all.",
-            "Try again. It turns on one word: never."
-          ],
-          "sentenceDisplay": "My concern is the people who have never used the digital service — not the ones using it more.",
-          "successTitle": "Her sentence, restored",
-          "successNote": "‘Noted’ is not ‘heard’."
         }
       ],
       "hints": [
@@ -1172,29 +1130,25 @@
         "Two strings don’t reach anything. Follow the travel claim, and the translation one.",
         "Flag ‘removes travel’ and ‘automated translation’. One leads to another assumption; the other leads to a brochure."
       ],
-      "hintsSecondary": [
-        "Read the minutes again. Under the light.",
-        "",
-        ""
-      ],
       "shell": "corkboard"
     }
   ],
   "final": {
     "lock": {
       "title": "READ_BEFORE_SIGNOFF",
-      "subtitle": "Sam’s locked email attachment. Three words.",
-      "prompt": "Enter the passphrase",
-      "placeholder": "Three words",
+      "subtitle": "Sam’s locked email attachment. Three words, in the right order.",
+      "instruction": "Drag a word into a slot, or select a word and then select a slot. Select a filled slot to send that word back.",
+      "trayLabel": "Words you have found",
       "submitLabel": "Unlock",
-      "help": "Spacing, hyphens and capitals don’t matter.",
-      "incomplete": "The lock won’t turn until all three words are stamped.",
+      "help": "Three words, in the order Sam would have written them.",
+      "incomplete": "The lock won’t turn until all three words are found.",
+      "incompleteSlots": "All three slots need a word.",
       "answerDigest": "1467f6f16e424c425e577f726ef59619e382f0eed872059c2a135b1c213b5848",
       "stampWrong": "NOT YET",
       "wrongResponses": [
-        "The lock holds.",
-        "Three words. You stamped them yourself.",
-        "They’re on the front of the file."
+        "The lock holds. Read it back as a sentence.",
+        "Not that order. It is a question Sam was asking.",
+        "Three words. Try them the other way round."
       ]
     },
     "memo": {

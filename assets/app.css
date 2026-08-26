@@ -294,6 +294,8 @@ main:focus { outline: none; }
 }
 .doc__col { min-width: 0; }
 .doc__margin { min-width: 0; display: grid; gap: 10px; align-content: start; }
+/* Full-width notes, for marginalia too long to sit in the gutter. */
+.doc__notes { min-width: 0; display: grid; gap: 10px; margin-top: 14px; }
 
 .uv-note {
   display: block;
@@ -729,6 +731,8 @@ input[type="range"]:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 4px var(
 }
 .evidence[data-enlarged="1"] { border-color: var(--uv); }
 .board__string { stroke: var(--stamp); stroke-width: 2.5; fill: none; opacity: 0.85; }
+/* The pin the string is run between, drawn at the same anchor the curve uses. */
+.board__pin { fill: var(--stamp); stroke: #2A1A14; stroke-width: 1; }
 .board__string--weak { stroke: var(--manila); stroke-dasharray: 6 5; }
 .board__string--none { stroke: var(--stamp); stroke-dasharray: 3 6; }
 
@@ -769,13 +773,32 @@ input[type="range"]:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 4px var(
   max-width: 760px; margin: 0 auto;
 }
 .lockplate .icon { width: 64px; height: 64px; color: var(--manila); }
+/* .doc__meta is sized for ink on paper; on the lockplate's dark card it needs
+   the dark-surface muted tone to stay readable. */
+.lockplate .doc__meta { color: var(--muted); }
 .lockplate__slots { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+/* A slot is a button now: the words are dragged or select-placed into it, and
+   selecting a filled one sends its word back to the tray. */
 .lockplate__slot {
   font-family: var(--mono); font-size: clamp(20px, 2.6vw, 32px); letter-spacing: 0.18em;
-  border: 2px solid var(--ink-3); border-radius: 2px; padding: 10px 18px; color: var(--ink-3);
-  min-width: 130px;
+  border: 2px dashed var(--ink-3); border-radius: 2px; padding: 10px 18px; color: var(--ink-3);
+  min-width: 130px; background: transparent; touch-action: none; cursor: pointer;
 }
-.lockplate__slot[data-filled="1"] { border-color: var(--stamp); color: var(--stamp-text); }
+.lockplate__slot[data-filled="1"] {
+  border-style: solid; border-color: var(--stamp); color: var(--stamp-text);
+}
+.lockplate__slot[data-drop="ready"] { border-color: var(--uv); box-shadow: inset 0 0 0 2px var(--uv); }
+
+.wordpool { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.wordtile {
+  font-family: var(--mono); font-size: clamp(17px, 2.1vw, 24px); letter-spacing: 0.16em;
+  cursor: grab; touch-action: none;
+  background: var(--manila); color: var(--ink); border: 2px solid #C3AF7E;
+  border-radius: 2px; padding: 10px 18px; min-width: 120px;
+}
+.wordtile[aria-pressed="true"] { box-shadow: 0 0 0 3px var(--uv); }
+.wordtile[data-used="1"] { opacity: 0.25; cursor: default; }
+.wordtile--ghost { position: fixed; z-index: 50; pointer-events: none; opacity: 0.94; }
 
 .door-open { animation: door 700ms cubic-bezier(0.2, 0.8, 0.2, 1); }
 @keyframes door {

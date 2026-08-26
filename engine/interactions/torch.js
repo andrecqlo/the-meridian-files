@@ -49,6 +49,7 @@ export function createTorch(ctx) {
     seen.add(id);
     store.set('revealed', Array.from(seen));
     if (node.dataset.reveals) ctx.bus.emit('reveal', { id, reveals: node.dataset.reveals });
+    if (node.dataset.finding) ctx.recordFinding(node.dataset.finding);
     ctx.bus.emit('note-read', { id });
   }
 

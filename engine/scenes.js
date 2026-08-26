@@ -83,6 +83,13 @@ export function renderDocument(doc, ctx) {
   if (!annotations.length) {
     /* Nothing written on this one, so it does not need a margin reserved. */
     blocks.forEach((block) => append(body, renderBlock(block)));
+  } else if (doc.notesBelow) {
+    /* A note longer than a line does not fit a 230px gutter — at that width a
+       paragraph runs fifteen lines and reserves more blank page than the
+       document itself. These sit full-width under the body instead. The space
+       is still reserved, so revealing one still never reflows the page. */
+    blocks.forEach((block) => append(body, renderBlock(block)));
+    append(body, el('aside', { class: 'doc__notes' }, annotations.map(renderAnnotation)));
   } else {
     blocks.forEach((block, index) => {
       append(body, row(renderBlock(block), annotations.filter((note) => Number(note.after) === index)));
@@ -130,6 +137,9 @@ function renderAnnotation(note) {
     'data-lit': '0',
     'data-inspect': '0',
     'data-reveals': note.reveals || '',
+    /* Reading a note under the light can be the whole of a finding — the
+       torch records it the first time the beam lands on it. */
+    'data-finding': note.finding || '',
     style: `--tilt:${tiltFor(note.id).toFixed(2)}deg`,
     text: note.text,
   });
@@ -282,18 +292,20 @@ export function renderDesk(main, ctx) {
     renderDeskCards(main, ctx, desk.objects);
   }
 
-  /* The file's three word slots live under the room, where the words are
-     legible and the stamp can be announced. */
+  /* The three words live under the room, where they are legible and a newly
+     earned one can be announced. They are shown in the order content lists
+     them, which is deliberately not the order that opens the file — putting
+     them in order is the last puzzle, not something the desk gives away. */
   const seen = ctx.store.get('stampsSeen', []) || [];
-  const stamped = desk.file.slots.map((slot) => ({
-    word: ctx.decode(slot.word),
-    filled: progress[slot.track] === true,
-    fresh: progress[slot.track] === true && seen.indexOf(slot.track) < 0,
+  const stamped = desk.file.words.map((entry) => ({
+    word: ctx.decode(entry.word),
+    filled: progress[entry.track] === true,
+    fresh: progress[entry.track] === true && seen.indexOf(entry.track) < 0,
   }));
-  const allStamped = stamped.every((slot) => slot.filled);
-  const nowSeen = desk.file.slots
-    .filter((slot) => progress[slot.track] === true)
-    .map((slot) => slot.track);
+  const allStamped = stamped.every((entry) => entry.filled);
+  const nowSeen = desk.file.words
+    .filter((entry) => progress[entry.track] === true)
+    .map((entry) => entry.track);
   if (nowSeen.length !== seen.length) ctx.store.set('stampsSeen', nowSeen);
 
   /* It was an email attachment before it was anything else — the icon and

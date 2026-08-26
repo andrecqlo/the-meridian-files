@@ -49,9 +49,15 @@ Watch a real team, not the screen. Record answers as yes/no plus one line.
 - [ ] Does the "smeared paper" caption on the profile card and the reply
       actually send people to the torch, or does it read as decorative and
       get ignored?
-- [ ] Once all three words are stamped, does the filestrip at the bottom of
+- [ ] Once all three words are found, does the filestrip at the bottom of
       the desk get noticed as the way in, or does the team keep looking for a
       folder or icon on the desk itself?
+- [ ] On the attachment screen, is it obvious the words in the tray have to be
+      *ordered*, not just placed? Watch for a team pressing Unlock with the
+      tray order copied straight across, and whether the wrong-answer lines
+      ("read it back as a sentence") get them to rearrange.
+- [ ] Does anyone try to drag on a touchscreen and fail? Select-then-place is
+      the equivalent path — does anyone discover it without being told?
 
 ### The interactions
 
@@ -84,7 +90,10 @@ Watch a real team, not the screen. Record answers as yes/no plus one line.
       It is the closing beat of Challenge 1.
 - [ ] Does anyone find Priya unaided? Most teams will not. That is by design —
       but if *nobody* across several sessions reaches the minutes, check that
-      the pinboard's completion is leaving enough clock behind it.
+      the pinboard's completion is leaving enough clock behind it. The minutes
+      are now pinned above the board and readable from the moment the scene
+      opens, so a team with the torch in hand can find them early — watch
+      whether that makes it too easy rather than too hard.
 - [ ] Does any team work out 9,214 but hesitate to type it for want of
       confirmation? If so, sharpen the sticky note's wording, not the PIN
       field itself.

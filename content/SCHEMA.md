@@ -92,6 +92,26 @@ either:
 { missingRevealAny: ["id"] }  true if none of the given UV-note ids has been revealed yet
 ```
 
+## Documents and annotations
+
+A `documents[]` entry carries `id`, `kind`, `title`, `meta`, optional `stamp`,
+and `blocks[]`. Annotations are the marginalia the UV torch reveals:
+
+```
+annotations[].id         the reveal id, also used by hints' missingRevealAny
+annotations[].after      index of the block it sits beside
+annotations[].text       what the torch reveals
+annotations[].finding    optional — records this finding the first time the beam
+                         lands on it, so reading a note can BE the whole of a
+                         finding with nothing to solve (see the workshop minutes)
+annotations[].reveals    optional — fires a `reveal` bus event other interactions listen for
+doc.notesBelow           optional — render annotations full-width under the body
+                         instead of in the margin gutter. The gutter is ~230px, so
+                         anything longer than a line reserves more blank page than
+                         the document itself; this keeps the reserved-space (no
+                         reflow on reveal) property at a readable width.
+```
+
 `hintNote` (top level) only carries the tab's own chrome copy — label,
 dismiss label, arrival announcement — not hint text itself.
 
@@ -122,6 +142,17 @@ code-entry           id, track, label, prompt, placeholder, inputMode, submitLab
 lock-screen          same shape as code-entry, plus device, sticky, stickyTitle,
                      stickySharp, continueLabel
 ```
+
+`code-entry` and `lock-screen` also accept `maxLength` alongside
+`inputMode: "numeric"`; together they hard-constrain the field (digits only,
+capped length, enforced on paste as well as typing) rather than letting a
+malformed answer through to fail the hash.
+
+`decision` reads `desk.file.words` — one `{ word, track }` per challenge, the
+word base64-encoded. Order in that array is display order on the desk and is
+deliberately *not* the password: no position is stored anywhere, and the
+arrangement the player builds is joined and hashed against
+`final.lock.answerDigest`, so the answer order exists only as that hash.
 
 `torch`, `memo`, `decision`, `timed-twist`, and `debrief` are not configured
 per-scene the same way — they read fixed sections of `content` (`torch`,
