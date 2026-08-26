@@ -214,6 +214,13 @@ function boot(series) {
     const responses = object.responses || {};
     const state = ctx.deskState(object);
     if (state.kind === 'blocked' || state.kind === 'empty') {
+      /* Some locks are a puzzle rather than a "come back later": the drawer's
+         dial is the way through it, so a blocked object can send you to the
+         lock itself instead of only saying no. */
+      if (state.kind === 'blocked' && object.lockedRoute) {
+        router.go(object.lockedRoute);
+        return;
+      }
       say(state.response);
       return;
     }

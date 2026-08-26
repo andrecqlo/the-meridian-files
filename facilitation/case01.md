@@ -102,7 +102,7 @@ objects open in sequence rather than all at once:
 | Top drawer | from the start — a single printed reference sheet |
 | Laptop | always clickable, but shows a PIN lock until Challenge 1 is solved |
 | Pilot data — a folder on the laptop | once the laptop is unlocked |
-| Bottom drawer | Challenge 2 is solved — it yields a ball of string |
+| Bottom drawer | always clickable — a two-digit dial, and Challenge 2's answer opens it. It then yields a ball of string |
 | Pinboard | the team is carrying the string |
 
 Clicking something that will not open yet is not a dead end: it puts a line in
@@ -157,11 +157,22 @@ emphasis. Watch for this in a playtest; see PLAYTEST.md.
   high-complexity case, and slightly more likely to have a primary language
   other than English. The point made there is that weighting can correct a
   sample that under-represents a group but not one that leaves them out.
-- **Challenge 2.** Region is a dead end and says so. Age is the trap: it shows
-  a real population difference and reweighting it lands back on 81, because the
-  survey was already weighted for age — that is a finding, not a bug. Case
-  complexity is the one: drag the mix from 62/28/10 to the service's 35/40/25
-  and the figure lands on **73**, below the current service's 76. Awards **IS**.
+- **Challenge 2.** Four tabs, all the same table: what the service looks like,
+  what the pilot looked like, the satisfaction that is fixed, and the adjusted
+  column you can move. **Gender** was already reweighted to the service
+  proportions and **Language** matched to begin with — both let you drag and
+  then put the slider back with a line saying why, so they read as checks that
+  came back clean rather than as broken controls. **Age** is the trap: a real
+  population difference that lands back on 81, because the survey was already
+  weighted for age — a finding, not a bug. **Case complexity** is the one: drag
+  the mix from 62/28/10 to the service's 35/40/25 and the figure lands on
+  **73**, below the current service's 76.
+  The figure is then typed into the **bottom drawer's two-digit dial** back at
+  the desk, which awards **IS** and yields the string. Note the split: the dial
+  opens the drawer, but the *finding* is credited by actually reaching the
+  service mix on the workbench. A team that guesses two digits gets the word
+  and the string, and the debrief still lists the aggregation as one they
+  missed — which is the honest outcome.
 - **Challenge 3.** String each claim to its evidence — support tickets, coverage
   map, the travel assumption, the vendor brochure, the assisted-service
   analysis — then flag *disabled users (removes travel)* and *non-English
@@ -173,8 +184,8 @@ emphasis. Watch for this in a playtest; see PLAYTEST.md.
   is not handed the order by the layout. A wrong arrangement leaves the tiles
   where they are so the team can swap two rather than start over; selecting a
   filled slot sends that word back.
-- **The string.** In the bottom drawer, locked until Challenge 2 lands. Take
-  it, then click the pinboard.
+- **The string.** In the bottom drawer, behind the dial. Once it is open, click
+  the drawer to take the string, then click the pinboard.
 - **The attachment.** Once all three words are found, the filestrip at the
   bottom of the desk becomes clickable and opens READ_BEFORE_SIGNOFF, framed
   as Sam's locked email attachment.

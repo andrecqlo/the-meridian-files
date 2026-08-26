@@ -181,10 +181,11 @@
         "gives": "string",
         "responses": {
           "look": "The lock has given. Something inside rolls when you pull it.",
-          "locked": "Locked. A proper lock, not a stiff runner — something in here mattered to somebody.",
+          "locked": "Locked. A combination dial on the front — two digits.",
           "taken": "The lock has been sprung. Pens, a stapler, and a ball of string.",
           "empty": "Pens and a stapler. Nothing else you need."
-        }
+        },
+        "lockedRoute": "case01/drawer"
       },
       {
         "id": "pinboard",
@@ -553,50 +554,7 @@
       "title": "Laptop",
       "subtitle": "Research dashboard and the pilot data folder",
       "track": "c1",
-      "documents": [
-        {
-          "id": "dashboard",
-          "kind": "screen",
-          "title": "Digital First — service user research",
-          "meta": "Fieldwork 14 Jan 2026 – 08 Feb 2026 · Prepared for the board",
-          "blocks": [
-            {
-              "stats": [
-                {
-                  "value": "42,000",
-                  "label": "invitations distributed"
-                },
-                {
-                  "value": "4,812",
-                  "label": "responses (11.5%)"
-                },
-                {
-                  "value": "±1.4%",
-                  "label": "margin of error, 95% confidence"
-                }
-              ]
-            },
-            {
-              "list": [
-                "Responses weighted for gender, age, geography and service usage",
-                "Questionnaire available in six languages",
-                "Telephone completion available on request"
-              ]
-            },
-            {
-              "p": "Conclusion: service users are ready for a digital-first model."
-            }
-          ],
-          "annotations": [
-            {
-              "id": "a-weighting",
-              "after": 1,
-              "text": "You can’t weight your way back to people you never invited."
-            }
-          ],
-          "openLabel": "Research.doc"
-        }
-      ],
+      "documents": [],
       "interactions": [],
       "hints": [
         [
@@ -741,18 +699,6 @@
           "stamp": "EVIDENCE",
           "blocks": [
             {
-              "stats": [
-                {
-                  "value": "76%",
-                  "label": "current service satisfaction"
-                },
-                {
-                  "value": "81%",
-                  "label": "digital pilot satisfaction"
-                }
-              ]
-            },
-            {
               "p": "Recommendation: proceed to national rollout on the strength of the pilot result."
             },
             {
@@ -762,7 +708,7 @@
           "annotations": [
             {
               "id": "a-optin",
-              "after": 2,
+              "after": 1,
               "text": "Two filters. The door they weren’t shown, and the door they didn’t walk through."
             }
           ]
@@ -791,36 +737,45 @@
           },
           "tabs": [
             {
-              "id": "region",
-              "label": "Region",
-              "kind": "static",
-              "columns": [
-                "Region",
-                "Pilot mix",
-                "Service mix",
-                "Pilot satisfaction"
+              "id": "gender",
+              "label": "Gender",
+              "kind": "reweight",
+              "locked": "service",
+              "lockedNote": "Someone has already reweighted the pilot’s gender mix to match the service proportions. There is nothing left to correct here.",
+              "fixedLabel": "Pilot satisfaction",
+              "segments": [
+                {
+                  "id": "g1",
+                  "label": "Female",
+                  "description": "",
+                  "satisfaction": 82,
+                  "pilotMix": 49,
+                  "realMix": 57
+                },
+                {
+                  "id": "g2",
+                  "label": "Male",
+                  "description": "",
+                  "satisfaction": 80,
+                  "pilotMix": 50,
+                  "realMix": 42
+                },
+                {
+                  "id": "g3",
+                  "label": "Other or not recorded",
+                  "description": "",
+                  "satisfaction": 79,
+                  "pilotMix": 1,
+                  "realMix": 1
+                }
               ],
-              "rows": [
-                [
-                  "North",
-                  "33%",
-                  "32%",
-                  "81%"
-                ],
-                [
-                  "Central",
-                  "44%",
-                  "45%",
-                  "82%"
-                ],
-                [
-                  "South",
-                  "23%",
-                  "23%",
-                  "80%"
-                ]
-              ],
-              "note": "No imbalance to correct."
+              "anchors": [
+                {
+                  "id": "gender-real",
+                  "at": "real",
+                  "value": 81
+                }
+              ]
             },
             {
               "id": "age",
@@ -854,14 +809,6 @@
                   "realMix": 28
                 }
               ],
-              "reference": {
-                "title": "Service mix",
-                "source": "Registered users, operational profile"
-              },
-              "pilotReference": {
-                "title": "Pilot mix",
-                "source": "Pilot cohort, n = 612"
-              },
               "anchors": [
                 {
                   "id": "age-pilot",
@@ -908,14 +855,6 @@
                   "realMix": 25
                 }
               ],
-              "reference": {
-                "title": "Service mix",
-                "source": "Registered users, operational profile"
-              },
-              "pilotReference": {
-                "title": "Pilot mix",
-                "source": "Pilot cohort, n = 612"
-              },
               "anchors": [
                 {
                   "id": "cx-pilot",
@@ -930,39 +869,64 @@
                   "note": "Now you know why the pilot looked easy. The invitation did the sampling."
                 }
               ]
-            }
-          ]
-        },
-        {
-          "type": "code-entry",
-          "id": "c2-code",
-          "track": "c2",
-          "finding": "aggregation",
-          "label": "Data pack — margin note",
-          "device": "paper",
-          "prompt": "Write the recomputed figure in the margin.",
-          "inputMode": "numeric",
-          "placeholder": "Figure",
-          "submitLabel": "Write it",
-          "answerDigest": "96061e92f58e4bdcdee73df36183fe3ac64747c81c26f6c83aada8d2aabb1864",
-          "targetedResponses": [
-            {
-              "digest": "5316ca1c5ddca8e6ceccfce58f3b8540e540ee22f6180fb89492904051b3d531",
-              "text": "That’s their number. Move the mix."
             },
             {
-              "digest": "f74efabef12ea619e30b79bddef89cffa9dda494761681ca862cff2871a85980",
-              "text": "That’s what we have now. I want what we’d get."
+              "id": "language",
+              "label": "Language",
+              "kind": "reweight",
+              "locked": "service",
+              "lockedNote": "The pilot’s language mix already matches the service proportions. There is nothing to reweight.",
+              "fixedLabel": "Pilot satisfaction",
+              "segments": [
+                {
+                  "id": "l1",
+                  "label": "English",
+                  "description": "",
+                  "satisfaction": 81,
+                  "pilotMix": 94,
+                  "realMix": 94
+                },
+                {
+                  "id": "l2",
+                  "label": "Polish",
+                  "description": "",
+                  "satisfaction": 79,
+                  "pilotMix": 3,
+                  "realMix": 3
+                },
+                {
+                  "id": "l3",
+                  "label": "French",
+                  "description": "",
+                  "satisfaction": 80,
+                  "pilotMix": 1,
+                  "realMix": 1
+                },
+                {
+                  "id": "l4",
+                  "label": "Other",
+                  "description": "",
+                  "satisfaction": 80,
+                  "pilotMix": 2,
+                  "realMix": 2
+                }
+              ],
+              "anchors": [
+                {
+                  "id": "language-real",
+                  "at": "real",
+                  "value": 81
+                }
+              ]
             }
           ],
-          "wrongResponses": [
-            "You’re still averaging their world, not ours.",
-            "Not that. Match the service mix and read the big figure.",
-            "Three tabs. Only one of them moves the number."
-          ],
-          "successTitle": "IS",
-          "successNote": "81 is true. It’s just not about our customers.",
-          "successBody": "Same pilot, same satisfaction per group. Our mix of people, and the figure lands under the service it was going to replace."
+          "columns": {
+            "group": "Group",
+            "service": "% of service",
+            "pilot": "% of pilot",
+            "satisfaction": "Pilot satisfaction",
+            "adjusted": "Adjusted % of pilot"
+          }
         }
       ],
       "hints": [
@@ -973,6 +937,59 @@
       "shell": "tray",
       "unlockedBy": "c1",
       "unlockedByMessage": "Numbers about a pilot. Nothing to weigh them against yet."
+    },
+    {
+      "id": "drawer",
+      "route": "case01/drawer",
+      "kind": "challenge",
+      "title": "Bottom drawer",
+      "subtitle": "The lock has given. Pens, a stapler, and a ball of string.",
+      "lockedSubtitle": "Locked. A combination dial, two digits.",
+      "track": "c2",
+      "lockedBy": "c2",
+      "documents": [],
+      "interactions": [],
+      "hints": [
+        "The pilot’s 81% isn’t wrong. Ask who was in the pilot.",
+        "Three dimensions. Two of them are already handled — check what the survey said it weighted for.",
+        "Case complexity. Drag the mix to the service reference and read the big figure."
+      ],
+      "shell": "tray",
+      "lockScreen": {
+        "id": "c2-lock",
+        "track": "c2",
+        "device": "Bottom drawer",
+        "label": "Locked",
+        "prompt": "Enter the two-digit code",
+        "inputMode": "numeric",
+        "maxLength": 2,
+        "placeholder": "2 digits",
+        "submitLabel": "Turn the dial",
+        "stickyTitle": "Taped inside the handle",
+        "sticky": "The true satisfaction rate from our pilot.",
+        "stickySharp": "Not the reported figure. The one you get when the pilot’s mix matches the service’s.",
+        "answerDigest": "96061e92f58e4bdcdee73df36183fe3ac64747c81c26f6c83aada8d2aabb1864",
+        "targetedResponses": [
+          {
+            "digest": "5316ca1c5ddca8e6ceccfce58f3b8540e540ee22f6180fb89492904051b3d531",
+            "text": "That’s their number. Move the mix."
+          },
+          {
+            "digest": "f74efabef12ea619e30b79bddef89cffa9dda494761681ca862cff2871a85980",
+            "text": "That’s what we have now. I want what we’d get."
+          }
+        ],
+        "wrongResponses": [
+          "You’re still averaging their world, not ours.",
+          "Not that. Match the service mix and read the big figure.",
+          "Three tabs. Only one of them moves the number."
+        ],
+        "successTitle": "IS",
+        "successBody": "Same pilot, same satisfaction per group. Our mix of people, and the figure lands under the service it was going to replace.",
+        "successNote": "81 is true. It’s just not about our customers.",
+        "continueLabel": "Open the drawer",
+        "continueRoute": "case01/desk"
+      }
     },
     {
       "id": "pinboard",

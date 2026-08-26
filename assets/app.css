@@ -630,27 +630,6 @@ textarea.field { font-family: var(--ui); font-size: 1em; line-height: 1.45; resi
   .scale__fill, .scale__pin { transition: none; }
 }
 
-.segments { display: grid; gap: 14px; }
-.segment {
-  background: var(--paper); color: var(--ink);
-  border: 1px solid var(--paper-rule); border-radius: var(--r-card);
-  padding: 14px 18px;
-  display: grid; grid-template-columns: 1fr auto; gap: 6px 16px; align-items: baseline;
-}
-.segment__label { font-weight: 620; margin: 0; }
-.segment__desc { grid-column: 1 / -1; font-size: 0.8em; color: var(--muted-ink); margin: 0; }
-.segment__fixed {
-  font-family: var(--mono); font-size: 0.8em; color: var(--muted-ink);
-  white-space: nowrap;
-}
-.segment__fixed b { color: var(--ink); font-size: 1.25em; }
-.segment__slider { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr auto; gap: 14px; align-items: center; }
-.segment__value {
-  font-family: var(--mono); font-size: 1.5em; font-variant-numeric: tabular-nums;
-  min-width: 3.2em; text-align: right;
-}
-.segment__value::after { content: "%"; font-size: 0.6em; opacity: 0.6; margin-left: 1px; }
-.segment[data-at-real="1"] { border-color: var(--uv); box-shadow: inset 3px 0 0 var(--uv); }
 
 input[type="range"] {
   -webkit-appearance: none; appearance: none;
@@ -662,32 +641,20 @@ input[type="range"]::-webkit-slider-runnable-track {
 input[type="range"]::-moz-range-track {
   height: 8px; border-radius: 4px; background: var(--paper-2); border: 1px solid var(--paper-rule);
 }
+/* Square, not round — the grip is a block like everything else in this world. */
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none; appearance: none;
-  width: 30px; height: 30px; border-radius: 50%;
-  background: var(--uv); border: 3px solid var(--paper); margin-top: -12px;
+  width: 26px; height: 26px; border-radius: 0;
+  background: var(--uv); border: 3px solid var(--paper); margin-top: -10px;
 }
 input[type="range"]::-moz-range-thumb {
-  width: 26px; height: 26px; border-radius: 50%;
+  width: 24px; height: 24px; border-radius: 0;
   background: var(--uv); border: 3px solid var(--paper);
 }
 input[type="range"]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px var(--uv-ink); }
 input[type="range"]:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 4px var(--uv-ink); }
 
-.mixbar { display: flex; height: 26px; border-radius: 4px; overflow: hidden; border: 1px solid var(--ink-3); }
-.mixbar__part { display: grid; place-items: center; font-family: var(--mono); font-size: 16px; color: var(--ink); transition: flex-grow 220ms ease; }
-.mixbar__part:nth-child(1) { background: #C9BFAA; }
-.mixbar__part:nth-child(2) { background: var(--manila); }
-.mixbar__part:nth-child(3) { background: #B49B5F; }
 
-.refcard {
-  background: var(--manila); color: var(--ink);
-  border-radius: var(--r-card); padding: 16px 20px;
-  border: 1px solid #C3AF7E;
-}
-.refcard__title { font-family: var(--mono); font-size: 0.68em; letter-spacing: 0.16em; text-transform: uppercase; margin: 0 0 6px; }
-.refcard__mix { font-family: var(--mono); font-size: clamp(24px, 2.4vw, 34px); margin: 0; letter-spacing: 0.06em; }
-.refcard__source { font-size: 0.76em; margin: 6px 0 0; color: #4A4231; }
 
 /* ---------- pinboard ---------- */
 
@@ -730,9 +697,11 @@ input[type="range"]:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 4px var(
   padding: 5px 10px; border-radius: var(--r-btn); cursor: pointer;
 }
 .evidence[data-enlarged="1"] { border-color: var(--uv); }
-.board__string { stroke: var(--stamp); stroke-width: 2.5; fill: none; opacity: 0.85; }
-/* The pin the string is run between, drawn at the same anchor the curve uses. */
-.board__pin { fill: var(--stamp); stroke: #2A1A14; stroke-width: 1; }
+/* crispEdges keeps the stepped run from being smoothed back into a curve. */
+.board__string {
+  stroke: var(--stamp); stroke-width: 3; fill: none; opacity: 0.9;
+  shape-rendering: crispEdges; stroke-linecap: butt; stroke-linejoin: miter;
+}
 .board__string--weak { stroke: var(--manila); stroke-dasharray: 6 5; }
 .board__string--none { stroke: var(--stamp); stroke-dasharray: 3 6; }
 
@@ -1099,12 +1068,6 @@ mark.hl {
 }
 .doc__table--dark { color: var(--paper); }
 .doc__table--dark th, .doc__table--dark td { border-bottom-color: var(--ink-3); }
-.refcards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 20px; }
-.refcard--quiet {
-  background: transparent; color: var(--muted);
-  border: 1px dashed var(--ink-3);
-}
-.refcard--quiet .refcard__source, .refcard--quiet .refcard__title { color: var(--muted); }
 
 .doc--note-card { padding: 14px 18px; }
 .doc--note-card .doc__title {
@@ -1173,6 +1136,30 @@ mark.hl {
 .table-scroll { overflow-x: auto; max-width: 100%; }
 .table-scroll .doc__table { min-width: 320px; }
 
+/* The reweighting table: three columns of fact, one you can move. */
+.mixtable { min-width: 560px; }
+.mixtable__num { text-align: right !important; font-variant-numeric: tabular-nums; }
+.mixtable__group { display: block; font-weight: 620; }
+.mixtable__desc { display: block; font-size: 0.78em; color: var(--muted); margin-top: 2px; }
+.mixtable td, .mixtable th { vertical-align: middle; }
+.mixcell { min-width: 190px; }
+.mixcell__wrap { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; }
+.mixcell__value {
+  font-family: var(--mono); font-size: 1.15em; color: var(--paper);
+  min-width: 3.2em; text-align: right; font-variant-numeric: tabular-nums;
+}
+.mixtable tr[data-at-real="1"] .mixcell__value { color: var(--uv-text); }
+/* A locked row still moves under the hand, then goes back where it was. */
+.mixtable tr[data-locked="1"] input[type="range"] { cursor: not-allowed; }
+.mixtable tr[data-locked="1"] input[type="range"]::-webkit-slider-thumb { background: var(--tone-2); }
+.mixtable tr[data-locked="1"] input[type="range"]::-moz-range-thumb { background: var(--tone-2); }
+.workbench__verdict[data-flash="1"] {
+  color: var(--stamp-text); border-left: 3px solid var(--stamp); padding-left: 12px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .workbench__verdict { transition: color 160ms linear, padding-left 160ms linear; }
+}
+
 @media (max-width: 700px) {
   :root { --chrome-h: 56px; }
   .chrome { gap: 8px; padding: 6px 10px; grid-template-columns: auto 1fr auto; }
@@ -1190,8 +1177,6 @@ mark.hl {
   .headline { gap: 18px; }
   .doc, .card { padding: 16px; }
   .doc--letter { padding: 20px; }
-  .segment { grid-template-columns: 1fr; }
-  .segment__fixed { justify-self: start; }
   .cohort__side { position: static; }
   main { padding: 16px 12px 60px; }
 }
@@ -1244,7 +1229,6 @@ mark.hl {
 .code-entry__label,
 .stat__label,
 .cohort__count-label,
-.refcard__title,
 .board__head,
 .doc__stamp,
 .tag,
@@ -1258,7 +1242,7 @@ mark.hl {
 }
 
 .chrome__case, .scene__eyebrow, .stat__label, .cohort__count-label,
-.refcard__title, .board__head, .code-entry__label, .doc__stamp,
+.board__head, .code-entry__label, .doc__stamp,
 .tag, .chrome__timer-note {
   font-size: var(--px-sm);
 }
@@ -1275,8 +1259,8 @@ mark.hl {
 .chrome__timer[data-level="over"] .chrome__timer-value { font-size: var(--px-xl); }
 
 .tally__score, .cohort__count, .readout__figure, .subclock,
-.stat__value, .headline__value, .segment__value, .unlock__word,
-.lockplate__slot, .slot, .option__id, .refcard__mix {
+.stat__value, .headline__value, .unlock__word,
+.lockplate__slot, .slot, .option__id, .mixcell__value {
   font-family: var(--mono);
 }
 
@@ -1300,7 +1284,7 @@ mark.hl {
 
 /* Documents stay warm paper — the one thing in the room with real colour
    besides the light you are carrying. */
-.doc, .card--paper, .refcard, .option, .segment, .claim {
+.doc, .card--paper, .option, .claim {
   image-rendering: auto;
 }
 

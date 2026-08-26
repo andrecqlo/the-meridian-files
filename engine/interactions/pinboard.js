@@ -8,6 +8,43 @@
 import { el, append, clear, announce } from '../dom.js';
 import { createDnD } from './drag.js';
 
+/* Everything else in this world is drawn on a grid one chunky pixel at a time,
+   so the string is too: a curve sampled, snapped to that grid, and walked in
+   right angles between the samples. Rendered with crispEdges, it stair-steps
+   the way the sprites do instead of anti-aliasing into a smooth arc. */
+const STRING_STEP = 5;
+
+function pixelRun(x1, y1, x2, y2) {
+  const lift = Math.min(46, 18 + Math.abs(x2 - x1) * 0.12);
+  const cx1 = x1 + (x2 - x1) * 0.3;
+  const cx2 = x1 + (x2 - x1) * 0.7;
+  const cy1 = y1 - lift;
+  const cy2 = y2 - lift;
+  const snapped = [];
+  const SAMPLES = 64;
+  for (let i = 0; i <= SAMPLES; i += 1) {
+    const t = i / SAMPLES;
+    const m = 1 - t;
+    const x = (m * m * m * x1) + (3 * m * m * t * cx1) + (3 * m * t * t * cx2) + (t * t * t * x2);
+    const y = (m * m * m * y1) + (3 * m * m * t * cy1) + (3 * m * t * t * cy2) + (t * t * t * y2);
+    const qx = Math.round(x / STRING_STEP) * STRING_STEP;
+    const qy = Math.round(y / STRING_STEP) * STRING_STEP;
+    const last = snapped[snapped.length - 1];
+    if (!last || last[0] !== qx || last[1] !== qy) snapped.push([qx, qy]);
+  }
+  if (!snapped.length) return `${x1},${y1} ${x2},${y2}`;
+  const out = [snapped[0]];
+  for (let i = 1; i < snapped.length; i += 1) {
+    const [px, py] = out[out.length - 1];
+    const [x, y] = snapped[i];
+    /* A diagonal step becomes an across-then-down pair, so every segment is
+       axis-aligned and the run reads as pixels rather than a sloped line. */
+    if (px !== x && py !== y) out.push([x, py]);
+    out.push([x, y]);
+  }
+  return out.map((p) => p.join(',')).join(' ');
+}
+
 export function mount(host, config, ctx) {
   host.classList.add('card');
 
@@ -79,26 +116,17 @@ export function mount(host, config, ctx) {
       if (!claim || !target) return;
       const a = claim.getBoundingClientRect();
       const b = target.getBoundingClientRect();
-      const x1 = a.right - frame.left;
-      const y1 = a.top + a.height / 2 - frame.top;
-      const x2 = b.left - frame.left;
-      const y2 = b.top + b.height / 2 - frame.top;
-      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      /* Run between the pins each card already has, at its top centre — the
+         string ties to the pin rather than to an arbitrary edge. */
+      const x1 = a.left + a.width / 2 - frame.left;
+      const y1 = a.top - frame.top;
+      const x2 = b.left + b.width / 2 - frame.left;
+      const y2 = b.top - frame.top;
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
       const verdict = (config.claims.find((c) => c.id === claimId) || {}).verdict;
-      path.setAttribute('d', `M ${x1} ${y1} C ${x1 + 40} ${y1}, ${x2 - 40} ${y2}, ${x2} ${y2}`);
-      path.setAttribute('class', `board__string board__string--${verdict}`);
-      strings.appendChild(path);
-      /* A pin at each end, so the string reads as run between two pins rather
-         than drawn between two boxes. Same anchor points the curve already
-         uses, so nothing about the geometry moves. */
-      [[x1, y1], [x2, y2]].forEach(([cx, cy]) => {
-        const pin = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-        pin.setAttribute('cx', String(cx));
-        pin.setAttribute('cy', String(cy));
-        pin.setAttribute('r', '4');
-        pin.setAttribute('class', 'board__pin');
-        strings.appendChild(pin);
-      });
+      line.setAttribute('points', pixelRun(x1, y1, x2, y2));
+      line.setAttribute('class', `board__string board__string--${verdict}`);
+      strings.appendChild(line);
     });
   }
 

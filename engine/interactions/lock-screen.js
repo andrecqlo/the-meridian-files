@@ -18,7 +18,9 @@ export function mount(host, config, ctx) {
     renderUnlocked(host, config, {
       extraHostClass: 'lock-screen',
       continueLabel: config.continueLabel || 'Continue',
-      onContinue: () => ctx.render(),
+      /* Most locks reveal what they were guarding in place; the drawer's dial
+         is guarding something back in the room, so content can send you there. */
+      onContinue: () => (config.continueRoute ? ctx.router.go(config.continueRoute) : ctx.render()),
     });
   }
 

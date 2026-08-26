@@ -35,8 +35,16 @@ Watch a real team, not the screen. Record answers as yes/no plus one line.
       light in the way?
 - [ ] Clicking a locked object gives a clue in the status bar. Does anyone miss
       it because they were looking at the object rather than the bar?
-- [ ] Does the bottom drawer unlocking after Challenge 2 get noticed, or does
-      the team hunt for the string?
+- [ ] Does the team connect the workbench figure to the bottom drawer's dial,
+      or do they finish the reweighting and then stall with nowhere to put it?
+- [ ] **Does anyone brute-force the two-digit dial?** It is only 100
+      combinations and 76/81 are on screen, so it is guessable. That is
+      deliberately not blocked — but check the debrief afterwards lists the
+      aggregation as *missed* for that team, because the finding is credited by
+      reaching the service mix, not by opening the drawer.
+- [ ] On Gender and Language, does the slider springing back read as the system
+      answering, or as a bug? The note under the table states it before anyone
+      drags; watch whether anyone drags first and reads second.
 - [ ] Do the hints that arrive top-right read as helpful, or as a nag? Does
       anyone fail to notice one arrive?
 - [ ] Is the bottom drawer's padlock (on the handle) read as "locked, come

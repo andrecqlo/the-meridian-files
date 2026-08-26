@@ -35,6 +35,9 @@ sprite, at, hit        which sprite to draw and where (at = draw position, hit =
 responses              { look, taken, locked, empty, done, ... } — status-line text per state
 emptyWhen              { item, sprite } — swap to a different sprite once an item has been taken from it
 unlockedBy             see "Gating fields" below
+lockedRoute            optional — where clicking this object goes while it is still blocked.
+                       Without it a blocked object only says why; with it the lock itself is
+                       a place you can go and work (the bottom drawer's dial)
 lockAt                 { x, y } sprite-local override for where the padlock overlay draws (only
                        meaningful alongside unlockedBy — see deskscene.js)
 altSprite              a sprite swap for one particular state (e.g. the laptop's locked screen)
@@ -127,7 +130,15 @@ its *design intent*; the config fields it actually reads are:
 complaint-inspect   title, instruction, documents[], profile, closeLabel
 cohort-diagram       title, instruction, track, population, dimensions[], dimUsing,
                      tabsLabel, countLabel, clearLabel, emptyLabel
-reweight-workbench   title, instruction, headline, readoutLabel, tabsLabel, tabs[], annotation
+reweight-workbench   title, instruction, headline, readoutLabel, tabsLabel, annotation,
+                     columns {group, service, pilot, satisfaction, adjusted}, tabs[]
+                     tab: id, label, kind:"reweight", fixedLabel, resetLabel, segments[], anchors[]
+                     tab.locked:"service"  the adjusted column is pinned to the service mix —
+                       dragging is allowed and springs back on release with tab.lockedNote,
+                       because a slider that refuses to move reads as broken. Locked tabs
+                       open at realMix, skip the reset button, and never fire the
+                       "you found it" beat that anchors otherwise trigger.
+                     segment: id, label, description, satisfaction, pilotMix, realMix
 pinboard             id, title, instruction, track, claims[], evidence[], verdicts,
                      claimsLabel, evidenceLabel, unstrungLabel, moreLabel, lessLabel,
                      flagLabel, flaggedLabel, flagPromptResponse, flagWrongResponse,
@@ -146,7 +157,15 @@ lock-screen          same shape as code-entry, plus device, sticky, stickyTitle,
 `code-entry` and `lock-screen` also accept `maxLength` alongside
 `inputMode: "numeric"`; together they hard-constrain the field (digits only,
 capped length, enforced on paste as well as typing) rather than letting a
-malformed answer through to fail the hash.
+malformed answer through to fail the hash. `lock-screen` additionally accepts
+`continueRoute`, for a lock that guards something back in the room rather than
+revealing it in place.
+
+A lock and the finding it relates to are deliberately separable: give the
+`finding` to whichever interaction represents actually doing the reasoning (an
+anchor on the workbench), not to the field where the answer is typed. Then a
+team that guesses the code still gets through, and the debrief still reports
+the finding as missed — which is the truthful outcome rather than a locked door.
 
 `decision` reads `desk.file.words` — one `{ word, track }` per challenge, the
 word base64-encoded. Order in that array is display order on the desk and is

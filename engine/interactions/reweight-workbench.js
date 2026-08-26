@@ -1,11 +1,17 @@
 /* Reweighting workbench.
 
-   Three dimensions on which the pilot population differs — or does not — from
-   the service population. Region is a thirty-second elimination. Age looks like
-   the answer and is not: reweighting it lands back on the reported figure,
+   Four dimensions on which the pilot population differs — or does not — from
+   the service population, all in the same shape: what the service looks like,
+   what the pilot looked like, the satisfaction that is fixed, and the one
+   number you can move.
+
+   Two of them have nothing to give. Gender was already reweighted to the
+   service proportions; language matched to begin with. Both let you drag and
+   then put the slider back, because a control that refuses to move reads as
+   broken while one that returns reads as an answer. Age is the trap: the mix
+   genuinely differs, and correcting it lands back on the reported figure,
    because age was already on the weighting list. Complexity is the one that
-   moves, and the only thing the player can change on any tab is the mix of
-   people: the per-group satisfaction is fixed.
+   moves.
 
    Watching the figure come down under your own hand is the point. No reading
    substitutes for it, so the sliders get the care. */
@@ -33,9 +39,12 @@ export function mount(host, config, ctx) {
     const saved = (state.mixes || {})[tab.id];
     mixes[tab.id] = {};
     tab.segments.forEach((segment) => {
+      /* A locked tab opens already at the service mix — that is the whole of
+         what it has to say. Everything else opens at the pilot's own mix. */
+      const start = tab.locked === 'service' ? segment.realMix : segment.pilotMix;
       mixes[tab.id][segment.id] = saved && typeof saved[segment.id] === 'number'
         ? saved[segment.id]
-        : segment.pilotMix;
+        : start;
     });
   });
 
@@ -105,17 +114,15 @@ export function mount(host, config, ctx) {
     clear(panel);
     const tab = config.tabs.find((t) => t.id === activeId);
     panel.setAttribute('aria-labelledby', `wtab-${tab.id}`);
-    if (tab.kind === 'static') renderStatic(tab);
-    else renderReweight(tab);
+    renderReweight(tab);
   }
 
-  function renderStatic(tab) {
-    append(panel, el('div', { class: 'table-scroll' }, el('table', { class: 'doc__table doc__table--dark' }, [
-      el('thead', {}, el('tr', {}, tab.columns.map((c) => el('th', { scope: 'col', text: c })))),
-      el('tbody', {}, tab.rows.map((row) => el('tr', {}, row.map((cell, i) =>
-        el(i === 0 ? 'th' : 'td', i === 0 ? { scope: 'row', text: cell } : { text: cell }))))),
-    ])));
-    append(panel, el('p', { class: 'workbench__verdict', text: tab.note }));
+  /* Where a locked tab's adjusted column is pinned: at the service mix, either
+     because the methodology already corrected for it or because the pilot
+     already matched. Dragging is allowed and then springs back — a slider that
+     refuses to move reads as broken, one that returns reads as an answer. */
+  function lockedTarget(tab, segment) {
+    return tab.locked === 'service' ? segment.realMix : segment.pilotMix;
   }
 
   function renderReweight(tab) {
@@ -136,66 +143,93 @@ export function mount(host, config, ctx) {
     ]);
     append(panel, readout);
 
-    const mixbar = el('div', { class: 'mixbar', 'aria-hidden': 'true' }, tab.segments.map((segment) =>
-      el('span', { class: 'mixbar__part', 'data-part': segment.id })));
-    append(panel, el('div', { style: 'margin:18px 0 6px' }, mixbar));
-    const totalNote = el('p', { class: 'doc__meta', style: 'margin:6px 0 18px', 'data-role': 'total' });
-    append(panel, totalNote);
-
+    /* One row per group: what the service looks like, what the pilot looked
+       like, the satisfaction that is fixed, and the only editable number. */
     const rows = {};
-    const list = el('div', { class: 'segments' });
+    const cols = config.columns;
+    const tbody = el('tbody', {});
     tab.segments.forEach((segment) => {
-      const value = el('span', { class: 'segment__value', 'data-role': 'value' });
+      const value = el('span', { class: 'mixcell__value', 'data-role': 'value' });
       const slider = el('input', {
         type: 'range', min: '0', max: '100', step: '1',
         value: String(mix[segment.id]),
         id: `mix-${tab.id}-${segment.id}`,
-        'aria-describedby': `desc-${tab.id}-${segment.id}`,
+        'aria-label': `${segment.label} — ${cols.adjusted}`,
       });
       slider.addEventListener('input', () => {
         mix[segment.id] = Number(slider.value);
         update(true);
       });
-      const row = el('div', { class: 'segment', 'data-segment': segment.id }, [
-        el('label', { class: 'segment__label', for: `mix-${tab.id}-${segment.id}`, text: segment.label }),
-        el('span', { class: 'segment__fixed' }, [tab.fixedLabel + ' ', el('b', { text: `${segment.satisfaction}%` })]),
-        segment.description
-          ? el('p', { class: 'segment__desc', id: `desc-${tab.id}-${segment.id}`, text: segment.description })
-          : el('p', { class: 'segment__desc', id: `desc-${tab.id}-${segment.id}`, text: '' }),
-        el('div', { class: 'segment__slider' }, [slider, value]),
+      if (tab.locked) slider.addEventListener('change', () => springBack());
+      const row = el('tr', { 'data-segment': segment.id, 'data-locked': tab.locked ? '1' : '0' }, [
+        el('th', { scope: 'row' }, [
+          el('span', { class: 'mixtable__group', text: segment.label }),
+          segment.description
+            ? el('span', { class: 'mixtable__desc', text: segment.description })
+            : null,
+        ]),
+        el('td', { class: 'mixtable__num', text: `${segment.realMix}%` }),
+        el('td', { class: 'mixtable__num', text: `${segment.pilotMix}%` }),
+        el('td', { class: 'mixtable__num', text: `${segment.satisfaction}%` }),
+        el('td', { class: 'mixcell' }, el('div', { class: 'mixcell__wrap' }, [slider, value])),
       ]);
       rows[segment.id] = { row, slider, value };
-      append(list, row);
+      append(tbody, row);
     });
-    append(panel, list);
 
-    append(panel, el('div', { class: 'refcards' }, [
-      el('div', { class: 'refcard' }, [
-        el('p', { class: 'refcard__title', text: tab.reference.title }),
-        el('p', { class: 'refcard__mix', text: tab.segments.map((s) => s.realMix).join(' / ') }),
-        el('p', { class: 'refcard__source', text: tab.reference.source }),
-      ]),
-      el('div', { class: 'refcard refcard--quiet' }, [
-        el('p', { class: 'refcard__title', text: tab.pilotReference.title }),
-        el('p', { class: 'refcard__mix', text: tab.segments.map((s) => s.pilotMix).join(' / ') }),
-        el('p', { class: 'refcard__source', text: tab.pilotReference.source }),
-      ]),
-    ]));
+    append(panel, el('div', { class: 'table-scroll' }, el('table', { class: 'doc__table doc__table--dark mixtable' }, [
+      el('thead', {}, el('tr', {}, [
+        el('th', { scope: 'col', text: cols.group }),
+        el('th', { scope: 'col', class: 'mixtable__num', text: cols.service }),
+        el('th', { scope: 'col', class: 'mixtable__num', text: cols.pilot }),
+        el('th', { scope: 'col', class: 'mixtable__num', text: cols.satisfaction }),
+        el('th', { scope: 'col', class: 'mixtable__num', text: cols.adjusted }),
+      ])),
+      tbody,
+    ])));
 
-    append(panel, el('button', {
-      type: 'button', class: 'btn btn--quiet', style: 'margin-top:14px',
-      text: tab.resetLabel,
-      onClick: () => {
-        tab.segments.forEach((segment) => {
-          mix[segment.id] = segment.pilotMix;
-          rows[segment.id].slider.value = String(segment.pilotMix);
-        });
-        update(true);
-      },
-    }));
+    const totalNote = el('p', { class: 'doc__meta', style: 'margin:8px 0 0', 'data-role': 'total' });
+    append(panel, totalNote);
+
+    /* Stated up front as well as on the attempt, so a locked tab is signposted
+       before anyone drags rather than only answering after. */
+    const lockNote = tab.locked
+      ? el('p', { class: 'workbench__verdict', 'data-flash': '0', text: tab.lockedNote })
+      : null;
+    if (lockNote) append(panel, lockNote);
+
+    if (!tab.locked) {
+      append(panel, el('button', {
+        type: 'button', class: 'btn btn--quiet', style: 'margin-top:14px',
+        text: tab.resetLabel,
+        onClick: () => {
+          tab.segments.forEach((segment) => {
+            mix[segment.id] = segment.pilotMix;
+            rows[segment.id].slider.value = String(segment.pilotMix);
+          });
+          update(true);
+        },
+      }));
+    }
 
     const anchorNote = el('div', { 'data-role': 'anchor-note' });
     append(panel, anchorNote);
+
+    let flashHandle = null;
+    function springBack() {
+      tab.segments.forEach((segment) => {
+        const target = lockedTarget(tab, segment);
+        mix[segment.id] = target;
+        rows[segment.id].slider.value = String(target);
+      });
+      update(true);
+      if (lockNote) {
+        lockNote.dataset.flash = '1';
+        window.clearTimeout(flashHandle);
+        flashHandle = window.setTimeout(() => { lockNote.dataset.flash = '0'; }, 1400);
+      }
+      announce(tab.lockedNote);
+    }
 
     let announceHandle = null;
     let lastAnchor = null;
@@ -250,13 +284,10 @@ export function mount(host, config, ctx) {
 
       tab.segments.forEach((segment) => {
         const row = rows[segment.id];
-        row.value.textContent = String(mix[segment.id]);
+        row.value.textContent = `${mix[segment.id]}%`;
         row.slider.value = String(mix[segment.id]);
         row.slider.setAttribute('aria-valuetext', `${mix[segment.id]} per cent of the mix`);
         row.row.dataset.atReal = mix[segment.id] === segment.realMix ? '1' : '0';
-        const part = mixbar.querySelector(`[data-part="${segment.id}"]`);
-        part.style.flexGrow = String(Math.max(mix[segment.id], 0.001));
-        part.textContent = mix[segment.id] >= 8 ? String(mix[segment.id]) : '';
       });
 
       figureValue.textContent = shown === null ? '—' : String(shown);
@@ -281,7 +312,9 @@ export function mount(host, config, ctx) {
         append(anchorNote, el('p', { class: 'samnote', text: anchor.note }));
       }
 
-      if (anchor && anchor.at === 'real' && anchor.id !== lastAnchor) {
+      /* A locked tab sits on its anchor from the moment it opens, so it must
+         not fire the "you found it" beat every time it is looked at. */
+      if (!tab.locked && anchor && anchor.at === 'real' && anchor.id !== lastAnchor) {
         lastAnchor = anchor.id;
         ctx.store.patch('workbenchSeen', { [anchor.id]: true });
         ctx.audio.play('twist');
