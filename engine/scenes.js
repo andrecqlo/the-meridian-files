@@ -364,7 +364,12 @@ export async function renderChallenge(main, scene, ctx) {
   if (scene.grants && ctx.inventory) ctx.inventory.add(scene.grants);
 
   const locked = scene.lockedBy && ctx.store.get('progress', {})[scene.lockedBy] !== true;
-  append(main, sceneHead(`Case ${ctx.content.number} · ${scene.title}`, scene.title, locked ? (scene.lockedSubtitle || scene.subtitle) : scene.subtitle));
+  const head = sceneHead(`Case ${ctx.content.number} · ${scene.title}`, scene.title, locked ? (scene.lockedSubtitle || scene.subtitle) : scene.subtitle);
+  /* A locked scene is nothing but its lock, and the lock names itself. The
+     full-height heading here pushes the input below the fold on a 768px
+     laptop, so it gives way to the thing the player actually has to reach. */
+  if (locked) head.classList.add('scene__head--compact');
+  append(main, head);
 
   /* Locked stands in for the whole scene: no documents, no other
      interactions, nothing to browse until the lock gives. */
