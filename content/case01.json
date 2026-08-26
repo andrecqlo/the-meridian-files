@@ -663,8 +663,8 @@
               "title": "How the 9,214 differ from the 42,000 who were invited",
               "lines": [
                 "About 8 years older on average",
-                "2.7× more likely to be a high-complexity case",
-                "7% have a primary language other than English, against 5.8% of those invited"
+                "64% female, against 55% of those invited",
+                "2.7× more likely to be a high-complexity case"
               ],
               "body": "The invited group is not a smaller copy of the customer base. It is a different one — older, more complex, and reached through a channel the survey never used. Any figure drawn from it describes that group, not the customer base.",
               "note": "Weighting can correct a sample that under-represents a group. It cannot correct one that leaves them out."
@@ -698,6 +698,18 @@
           "stamp": "EVIDENCE",
           "blocks": [
             {
+              "stats": [
+                {
+                  "value": "76%",
+                  "label": "current service satisfaction"
+                },
+                {
+                  "value": "81%",
+                  "label": "digital pilot satisfaction"
+                }
+              ]
+            },
+            {
               "p": "Recommendation: proceed to national rollout on the strength of the pilot result."
             },
             {
@@ -707,7 +719,7 @@
           "annotations": [
             {
               "id": "a-optin",
-              "after": 1,
+              "after": 2,
               "text": "Two filters. The door they weren’t shown, and the door they didn’t walk through."
             }
           ]
@@ -724,15 +736,7 @@
           "readoutLabel": "Recomputed pilot satisfaction",
           "headline": {
             "current": 76,
-            "currentLabel": "Current service",
-            "pilot": 81,
-            "pilotLabel": "Digital pilot"
-          },
-          "annotation": {
-            "id": "a-workbench",
-            "text": "You already know which one. The 9,214 told you.",
-            "title": "Workbench — margin",
-            "retireOn": "cx-real"
+            "currentLabel": "Current service"
           },
           "tabs": [
             {
@@ -823,53 +827,6 @@
               ]
             },
             {
-              "id": "complexity",
-              "label": "Case complexity",
-              "kind": "reweight",
-              "fixedLabel": "Pilot satisfaction",
-              "resetLabel": "Reset to the pilot mix",
-              "segments": [
-                {
-                  "id": "low",
-                  "label": "Low complexity",
-                  "description": "One straightforward transaction. No support needed.",
-                  "satisfaction": 88,
-                  "pilotMix": 62,
-                  "realMix": 35
-                },
-                {
-                  "id": "medium",
-                  "label": "Medium complexity",
-                  "description": "Several interactions. Occasional support.",
-                  "satisfaction": 73,
-                  "pilotMix": 28,
-                  "realMix": 40
-                },
-                {
-                  "id": "high",
-                  "label": "High complexity",
-                  "description": "Multiple interacting needs. Support expected.",
-                  "satisfaction": 51,
-                  "pilotMix": 10,
-                  "realMix": 25
-                }
-              ],
-              "anchors": [
-                {
-                  "id": "cx-pilot",
-                  "at": "pilot",
-                  "value": 81
-                },
-                {
-                  "id": "cx-real",
-                  "at": "real",
-                  "value": 73,
-                  "finding": "aggregation",
-                  "note": "Now you know why the pilot looked easy. The invitation did the sampling."
-                }
-              ]
-            },
-            {
               "id": "language",
               "label": "Language",
               "kind": "reweight",
@@ -915,6 +872,53 @@
                   "id": "language-real",
                   "at": "real",
                   "value": 81
+                }
+              ]
+            },
+            {
+              "id": "complexity",
+              "label": "Case complexity",
+              "kind": "reweight",
+              "fixedLabel": "Pilot satisfaction",
+              "resetLabel": "Reset to the pilot mix",
+              "segments": [
+                {
+                  "id": "low",
+                  "label": "Low complexity",
+                  "description": "One straightforward transaction. No support needed.",
+                  "satisfaction": 88,
+                  "pilotMix": 62,
+                  "realMix": 35
+                },
+                {
+                  "id": "medium",
+                  "label": "Medium complexity",
+                  "description": "Several interactions. Occasional support.",
+                  "satisfaction": 73,
+                  "pilotMix": 28,
+                  "realMix": 40
+                },
+                {
+                  "id": "high",
+                  "label": "High complexity",
+                  "description": "Multiple interacting needs. Support expected.",
+                  "satisfaction": 51,
+                  "pilotMix": 10,
+                  "realMix": 25
+                }
+              ],
+              "anchors": [
+                {
+                  "id": "cx-pilot",
+                  "at": "pilot",
+                  "value": 81
+                },
+                {
+                  "id": "cx-real",
+                  "at": "real",
+                  "value": 73,
+                  "finding": "aggregation",
+                  "note": "Now you know why the pilot looked easy. The invitation did the sampling."
                 }
               ]
             }

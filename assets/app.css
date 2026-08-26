@@ -1050,20 +1050,6 @@ mark.hl {
 
 /* ---------- reweighting workbench ---------- */
 
-.headline {
-  display: flex; align-items: center; gap: clamp(18px, 4vw, 48px);
-  flex-wrap: wrap; margin: 18px 0 6px;
-}
-.headline__pair { display: grid; }
-.headline__value {
-  font-family: var(--mono); font-size: clamp(30px, 3.4vw, 44px); line-height: 1;
-  font-variant-numeric: tabular-nums;
-}
-.headline__label {
-  font-family: var(--mono); font-size: 0.66em; letter-spacing: 0.12em;
-  text-transform: uppercase; color: var(--muted); margin-top: 6px;
-}
-.headline__vs { color: var(--muted); font-family: var(--mono); }
 
 .workbench__panel { padding-top: 20px; }
 .workbench__panel:focus-visible { outline-offset: 6px; }
@@ -1179,7 +1165,6 @@ mark.hl {
   #btn-sound { font-size: 0.8em; }
   .readout { grid-template-columns: 1fr; }
   .readout__figure { font-size: clamp(56px, 22vw, 96px); }
-  .headline { gap: 18px; }
   .doc, .card { padding: 16px; }
   .doc--letter { padding: 20px; }
   .cohort__side { position: static; }
@@ -1264,7 +1249,7 @@ mark.hl {
 .chrome__timer[data-level="over"] .chrome__timer-value { font-size: var(--px-xl); }
 
 .tally__score, .cohort__count, .readout__figure, .subclock,
-.stat__value, .headline__value, .unlock__word,
+.stat__value, .unlock__word,
 .lockplate__slot, .slot, .option__id, .mixcell__value {
   font-family: var(--mono);
 }

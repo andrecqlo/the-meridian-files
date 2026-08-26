@@ -153,19 +153,28 @@ emphasis. Watch for this in a playtest; see PLAYTEST.md.
   still has a way in. The field takes four digits and nothing else — letters
   and anything pasted over four characters are refused as you type. Unlocking
   awards **WHO**, and the screen says so, along with who the 9,214 are: about
-  8 years older than the 42,000 who were invited, 2.7× more likely to be a
-  high-complexity case, and slightly more likely to have a primary language
-  other than English. The point made there is that weighting can correct a
-  sample that under-represents a group but not one that leaves them out.
-- **Challenge 2.** Four tabs, all the same table: what the service looks like,
-  what the pilot looked like, the satisfaction that is fixed, and the adjusted
-  column you can move. **Gender** was already reweighted to the service
-  proportions and **Language** matched to begin with — both let you drag and
-  then put the slider back with a line saying why, so they read as checks that
-  came back clean rather than as broken controls. **Age** is the trap: a real
-  population difference that lands back on 81, because the survey was already
-  weighted for age — a finding, not a bug. **Case complexity** is the one: drag
-  the mix from 62/28/10 to the service's 35/40/25 and the figure lands on
+  8 years older than the 42,000 who were invited, 64% female against 55%, and
+  2.7× more likely to be a high-complexity case. The point made there is that
+  weighting can correct a sample that under-represents a group but not one
+  that leaves them out.
+  Worth knowing if a team raises it: the gender gap here and the "nothing to
+  correct" gender tab in Challenge 2 are not in conflict, and the distinction
+  is the interesting bit. Those who *were* surveyed are gender-representative
+  — the methodology saw to that. The people never asked at all still skew
+  female, because the contact field correlates with age and age correlates
+  with gender. A sample can be representative of everyone it reached and still
+  be missing a lopsided group entirely.
+- **Challenge 2.** The reported pair — 76% current service, 81% digital pilot
+  — sits on the evaluation summary beside the workbench. The workbench itself
+  is four tabs in one table: what the service looks like, what the pilot looked
+  like, the satisfaction that is fixed, and the adjusted column you can move.
+  In order: **Gender** was already reweighted to the service proportions and
+  **Language** matched to begin with — both let you drag and then put the
+  slider back with a line saying why, so they read as checks that came back
+  clean rather than as broken controls. **Age** is the trap: a real population
+  difference that lands back on 81, because the survey was already weighted for
+  age — a finding, not a bug. **Case complexity** comes last and is the one:
+  drag the mix from 62/28/10 to the service's 35/40/25 and the figure lands on
   **73**, below the current service's 76.
   The figure is then typed into the **bottom drawer's two-digit dial** back at
   the desk, which awards **IS** and yields the string. Note the split: the dial

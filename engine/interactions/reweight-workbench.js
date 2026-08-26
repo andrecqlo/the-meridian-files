@@ -17,7 +17,6 @@
    substitutes for it, so the sliders get the care. */
 
 import { el, append, clear, announce, bindTablistArrowKeys } from '../dom.js';
-import { renderNoteCard } from '../scenes.js';
 
 const SCALE_MIN = 40;
 const SCALE_MAX = 100;
@@ -57,24 +56,9 @@ export function mount(host, config, ctx) {
   append(host, el('h3', { text: config.title }));
   append(host, el('p', { class: 'scene__sub', text: config.instruction }));
 
-  append(host, el('div', { class: 'headline' }, [
-    el('div', { class: 'headline__pair' }, [
-      el('span', { class: 'headline__value', text: `${config.headline.current}%` }),
-      el('span', { class: 'headline__label', text: config.headline.currentLabel }),
-    ]),
-    el('span', { class: 'headline__vs', 'aria-hidden': 'true', text: 'vs' }),
-    el('div', { class: 'headline__pair' }, [
-      el('span', { class: 'headline__value', text: `${config.headline.pilot}%` }),
-      el('span', { class: 'headline__label', text: config.headline.pilotLabel }),
-    ]),
-  ]));
-
-  /* A nudge towards the dimension that matters. Once the team has found it,
-     the note has done its job and comes down. */
-  const diagnosed = (ctx.store.get('workbenchSeen', {}) || {})[config.annotation && config.annotation.retireOn];
-  if (config.annotation && !diagnosed) {
-    append(host, renderNoteCard(config.annotation.title, [config.annotation], ctx));
-  }
+  /* The reported pair belongs on the evaluation summary beside it, not
+     restated here; config.headline still supplies the benchmark the scale
+     marks and the verdict reads against. */
 
   /* ---- tabs ---- */
 
@@ -316,7 +300,6 @@ export function mount(host, config, ctx) {
          not fire the "you found it" beat every time it is looked at. */
       if (!tab.locked && anchor && anchor.at === 'real' && anchor.id !== lastAnchor) {
         lastAnchor = anchor.id;
-        ctx.store.patch('workbenchSeen', { [anchor.id]: true });
         ctx.audio.play('twist');
         announce(`${config.readoutLabel} ${shown} per cent. ${anchor.note || ''}`);
         if (anchor.finding) ctx.recordFinding(anchor.finding);
