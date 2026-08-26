@@ -178,11 +178,12 @@
           "x": 24,
           "y": 3
         },
-        "gives": "string",
+        "emptyWhen": {
+          "item": "string"
+        },
         "responses": {
           "look": "The lock has given. Something inside rolls when you pull it.",
           "locked": "Locked. A combination dial on the front — two digits.",
-          "taken": "The lock has been sprung. Pens, a stapler, and a ball of string.",
           "empty": "Pens and a stapler. Nothing else you need."
         },
         "lockedRoute": "case01/drawer"
@@ -930,7 +931,7 @@
       ],
       "hints": [
         "The pilot’s 81% isn’t wrong. Ask who was in the pilot.",
-        "Three dimensions. Two of them are already handled — check what the survey said it weighted for.",
+        "Four dimensions. Three of them are already handled — check what the survey said it weighted for.",
         "Case complexity. Drag the mix to the service reference and read the big figure."
       ],
       "shell": "tray",
@@ -950,7 +951,7 @@
       "interactions": [],
       "hints": [
         "The pilot’s 81% isn’t wrong. Ask who was in the pilot.",
-        "Three dimensions. Two of them are already handled — check what the survey said it weighted for.",
+        "Four dimensions. Three of them are already handled — check what the survey said it weighted for.",
         "Case complexity. Drag the mix to the service reference and read the big figure."
       ],
       "shell": "tray",
@@ -981,13 +982,15 @@
         "wrongResponses": [
           "You’re still averaging their world, not ours.",
           "Not that. Match the service mix and read the big figure.",
-          "Three tabs. Only one of them moves the number."
+          "Four tabs. Only one of them moves the number."
         ],
         "successTitle": "IS",
         "successBody": "Same pilot, same satisfaction per group. Our mix of people, and the figure lands under the service it was going to replace.",
         "successNote": "81 is true. It’s just not about our customers.",
         "continueLabel": "Open the drawer",
-        "continueRoute": "case01/desk"
+        "continueRoute": "case01/desk",
+        "gives": "string",
+        "givesNote": "The drawer swings open: pens, a stapler, and a ball of string. You take the string."
       }
     },
     {

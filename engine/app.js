@@ -12,7 +12,7 @@ import { createInventory } from './inventory.js';
 import { createHintStack } from './hintnote.js';
 import { audio } from './audio.js';
 import { verify, normalise, decode, checkerAvailable, CHECKER_UNAVAILABLE } from './verify.js';
-import { el, append, clear, announce, focusFirst } from './dom.js';
+import { el, append, clear, announce, focusFirst, loadingNode } from './dom.js';
 import * as scenes from './scenes.js';
 
 const CASE_ID = 'case01';
@@ -74,7 +74,6 @@ function boot(series) {
   ctx.inventory.mount(tray);
   ctx.hintStack = createHintStack(ctx);
   ctx.pace = pace;
-  hints.setPace(() => pace.factor());
 
   /* ---- chrome ---- */
 
@@ -107,7 +106,6 @@ function boot(series) {
     const level = pace.level;
     document.body.dataset.paceLevel = String(level);
     if (level >= 2) hints.forceNextTier();
-    if (level >= 3) ctx.hintStack.openLatest();
     if (level > 0) store.patch('paceSeen', { [`level${level}`]: true });
   };
   pace.subscribe(() => ctx.applyPace());
@@ -473,9 +471,11 @@ async function renderSpecial(path, main, ctx) {
   };
   const type = map[path];
   if (!type) return false;
+  append(main, loadingNode());
   const { isBuilt, load } = await import('./registry.js');
   if (!isBuilt(type)) return false;
   const mod = await load(type);
+  clear(main);
   const host = el('div', { 'data-interaction': type });
   append(main, host);
   ctx.track(mod.mount(host, ctx.content.final || {}, ctx));

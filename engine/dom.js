@@ -73,6 +73,17 @@ export function bindTablistArrowKeys(tablist, { items, getActiveId, onSelect, ta
   });
 }
 
+/* Shown wherever a dynamic import or a fetch leaves a gap the player could
+   read as a freeze — a locked-and-loading challenge, the boot screen before
+   the first route renders. Callers clear it themselves once the real content
+   is ready to take its place. */
+export function loadingNode(label) {
+  return el('div', { class: 'loading', role: 'status' }, [
+    el('span', { class: 'loading__marks', 'aria-hidden': 'true' }, [el('span'), el('span'), el('span')]),
+    label || 'Loading…',
+  ]);
+}
+
 export function focusFirst(container) {
   const target = container.querySelector('[data-autofocus]')
     || container.querySelector('h1, h2, [tabindex="-1"]');

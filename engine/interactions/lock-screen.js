@@ -19,8 +19,19 @@ export function mount(host, config, ctx) {
       extraHostClass: 'lock-screen',
       continueLabel: config.continueLabel || 'Continue',
       /* Most locks reveal what they were guarding in place; the drawer's dial
-         is guarding something back in the room, so content can send you there. */
-      onContinue: () => (config.continueRoute ? ctx.router.go(config.continueRoute) : ctx.render()),
+         is guarding something back in the room, so content can send you there.
+         Where opening it hands over an item, that happens right here — on the
+         click that opens it — rather than making the player go back and find
+         it themselves; config.givesNote is what tells them so. */
+      onContinue: () => {
+        if (config.gives && !ctx.inventory.has(config.gives)) {
+          ctx.inventory.add(config.gives);
+          ctx.audio.play('unlock');
+          ctx.pendingStatus = config.givesNote || null;
+        }
+        if (config.continueRoute) ctx.router.go(config.continueRoute);
+        else ctx.render();
+      },
     });
   }
 

@@ -47,8 +47,6 @@ export function createPace(store, timer, milestones) {
   return {
     behindBy,
     get level() { return level; },
-    /* 1 on schedule, 0.5 once the team is more than a minute behind. */
-    factor() { return level >= 1 ? 0.5 : 1; },
     evaluate,
     subscribe(fn) {
       listeners.add(fn);

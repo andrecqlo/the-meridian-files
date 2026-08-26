@@ -2,10 +2,9 @@
 
    Distinct from the room's status bar, which answers something you just did.
    These arrive because time is passing: a folded note in the top corner,
-   closed and pulsing until you open it. Only a team well behind the pace line
-   ever has one open itself, and even then it can be put back. Not attributed
-   to Sam — a live-feeling notification that escalates on a schedule doesn't
-   read as something she left behind before resigning. */
+   closed and pulsing until the player opens it — never opened for them. Not
+   attributed to Sam — a live-feeling notification that escalates on a
+   schedule doesn't read as something she left behind before resigning. */
 
 import { el, append, clear, announce, reducedMotion } from './dom.js';
 
@@ -62,14 +61,6 @@ export function createHintStack(ctx) {
       notes.push(entry);
       if (reducedMotion()) node.dataset.fresh = '1';
       announce(ctx.content.hintNote.arrival);
-    },
-
-    /* Used once, and only when a team is a long way behind the line. */
-    openLatest() {
-      const entry = notes[notes.length - 1];
-      if (!entry || entry.autoOpened) return;
-      entry.autoOpened = true;
-      open(entry);
     },
 
     /* A track that has just been solved takes its notes with it — nothing

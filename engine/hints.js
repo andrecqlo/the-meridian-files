@@ -1,14 +1,15 @@
-/* Adaptive hints. There is no hint menu and no penalty: tiers surface on their
-   own when a challenge stops moving. T1 at 90s of no meaningful progress,
-   then one tier per further 60s, so a stuck player holds T3 by 3:30. Nobody
-   is hard-stuck — the 17-minute ceiling depends on it. */
-
-const FIRST_MS = 90000;
-const STEP_MS = 60000;
+/* Adaptive hints. There is no hint menu and no penalty: a tier only ever
+   surfaces because the case clock says the team is running out of time to
+   reach the 15-minute sign-off — see pace.js, which compares the timer's
+   remaining seconds against the case's own schedule and calls
+   forceNextTier() once a team falls far enough behind it. Nothing here
+   measures how long a team has sat on any one challenge: two teams who
+   enter the same puzzle at different points on the clock get different
+   treatment, which is the point — a team with time to spare should be able
+   to sit and think without a hint arriving uninvited. */
 
 export function createHints(store) {
   const tracks = new Map();
-  let paceFactor = () => 1;
 
   function stored() {
     return store.get('hints', {}) || {};
@@ -27,71 +28,38 @@ export function createHints(store) {
     if (track && track.onTier) track.onTier(tier);
   }
 
-  function schedule(trackId) {
-    const track = tracks.get(trackId);
-    if (!track) return;
-    window.clearTimeout(track.handle);
-    const current = tierOf(trackId);
-    if (current >= 3) return;
-    const wait = (current === 0 ? FIRST_MS : STEP_MS) * paceFactor();
-    track.handle = window.setTimeout(() => {
-      setTier(trackId, tierOf(trackId) + 1);
-      schedule(trackId);
-    }, wait);
-  }
-
   return {
-    /* Pacing can halve the intervals; it can never skip a step for the player. */
-    setPace(factor) { paceFactor = factor; },
-    /* Bring the next tier forward now, for a team well behind the line. */
+    /* progress() and stumble() are called throughout the interactions to mark
+       a meaningful move or a wrong answer. Neither advances a tier any more
+       — that job belongs to the case clock alone — but the calls stay, both
+       because callers still needing them is harmless and because they remain
+       the honest place to hook a future clock-independent signal back in. */
+    progress() {},
+    stumble() {},
+    /* Bring the next tier forward now, for a team well behind the line. The
+       only way any tier above 0 is ever reached. */
     forceNextTier() {
       tracks.forEach((track, trackId) => {
         const current = tierOf(trackId);
         if (current >= 3) return;
         setTier(trackId, current + 1);
-        schedule(trackId);
       });
     },
     /* Called on entering a challenge. Replays any tier already earned, so a
        refresh does not take a hint away again. */
     begin(trackId, onTier) {
-      const existing = tracks.get(trackId);
-      if (existing) window.clearTimeout(existing.handle);
-      tracks.set(trackId, { handle: null, onTier });
+      tracks.set(trackId, { onTier });
       const current = tierOf(trackId);
       for (let t = 1; t <= current; t += 1) onTier(t, { replay: true });
-      schedule(trackId);
-    },
-    /* Meaningful progress restarts the clock. Idle fidgeting does not. */
-    progress(trackId) {
-      const track = tracks.get(trackId);
-      if (!track) return;
-      schedule(trackId);
-    },
-    /* A wrong answer is progress of a sort: it should not reset the clock, but
-       it should not be ignored either — nudge one tier closer. */
-    stumble(trackId) {
-      const track = tracks.get(trackId);
-      if (!track) return;
-      window.clearTimeout(track.handle);
-      track.handle = window.setTimeout(() => {
-        setTier(trackId, tierOf(trackId) + 1);
-        schedule(trackId);
-      }, 20000);
     },
     tier: tierOf,
     solved(trackId) {
-      const track = tracks.get(trackId);
-      if (track) window.clearTimeout(track.handle);
       tracks.delete(trackId);
     },
     end(trackId) {
-      const track = tracks.get(trackId);
-      if (track) window.clearTimeout(track.handle);
       tracks.delete(trackId);
     },
     endAll() {
-      tracks.forEach((track) => window.clearTimeout(track.handle));
       tracks.clear();
     },
   };

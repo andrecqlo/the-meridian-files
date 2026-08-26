@@ -2,7 +2,7 @@
    engine knows about documents, annotations and interaction slots, and nothing
    about Case 01 in particular. */
 
-import { el, append, clear, announce, focusFirst, formatNumber } from './dom.js';
+import { el, append, clear, announce, focusFirst, formatNumber, loadingNode } from './dom.js';
 import { load as loadInteraction } from './registry.js';
 import { renderDeskScene } from './deskscene.js';
 import { createShell } from './shells.js';
@@ -378,7 +378,9 @@ export async function renderChallenge(main, scene, ctx) {
     const host = el('div', { class: 'interaction', 'data-interaction': 'lock-screen' });
     if (shell) shell.add(scene.lockScreen.id, scene.lockScreen.label || 'Locked', host);
     else append(main, host);
+    append(host, loadingNode());
     const mod = await loadInteraction('lock-screen');
+    clear(host);
     ctx.track(mod.mount(host, scene.lockScreen, Object.assign({}, ctx, { scene, host })));
     ctx.mountHints(scene);
     ctx.torch.refresh();
@@ -415,8 +417,10 @@ export async function renderChallenge(main, scene, ctx) {
       });
     }
     else append(work, host);
+    append(host, loadingNode());
     /* eslint-disable no-await-in-loop */
     const mod = await loadInteraction(config.type);
+    clear(host);
     ctx.track(mod.mount(host, config, Object.assign({}, ctx, { scene, host })));
   }
 

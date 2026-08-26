@@ -209,22 +209,22 @@ emphasis. Watch for this in a playtest; see PLAYTEST.md.
 
 ## Hints and pacing — you should not need to help
 
-There is no hint menu and no penalty. Hints surface on their own: tier 1 after
-90 seconds without meaningful progress, one tier per further 60 seconds, so a
-stuck team holds the near-explicit tier by 3:30. These are not attributed to
-Sam — she resigned before the game starts, and a note that arrives on a
-schedule reacting to how stuck the team is reads as her watching in real
-time, which contradicts that. Sam still narrates the things she actually left
-behind (the letter, the memo, the UV ink, the highlighter); this adaptive
-layer is just the game surfacing help, plainly labelled as a hint.
+There is no hint menu and no penalty. Hints never surface because a team has
+sat on one puzzle for a while — a team with time to spare can sit and think
+without one arriving uninvited. They surface only against an invisible pace
+line: letter opened by 13:30, Challenge 1 by 11:00, Challenge 2 by 7:30,
+pinboard by 5:00, passphrase by 4:00, decision by 1:30. Once a team falls a
+minute behind whichever of those is next, the current challenge's tier 1
+lands in the corner; two minutes behind, tier 2. These are not attributed to
+Sam — she resigned before the game starts, and a note that arrives reacting
+to the clock reads as her watching in real time, which contradicts that. Sam
+still narrates the things she actually left behind (the letter, the memo, the
+UV ink, the highlighter); this adaptive layer is just the game surfacing
+help, plainly labelled as a hint.
 
-Behind that sits an invisible pace line — letter opened by 13:30, Challenge 1
-by 11:00, Challenge 2 by 7:30, pinboard by 5:00, passphrase by 4:00, decision
-by 1:30. A team more than a minute behind gets hints twice as fast; more than
-two minutes behind, the next hint surfaces in the corner, pulsing, unopened;
-more than three minutes behind, it opens itself once and can be put back.
-Pacing never completes a step: the selection, the slider and the sentence are
-always the team's own work.
+Every hint note arrives closed and pulsing — never opened for the team, even
+far behind the line. Someone has to click it. Pacing never completes a step:
+the selection, the slider and the sentence are always the team's own work.
 
 So: let them struggle. If you must intervene, read the hint aloud rather than
 explaining it yourself.
